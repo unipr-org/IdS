@@ -23,3 +23,8 @@ Vi ricordo che gli appunti presenti in questa cartella sono forniti a titolo inf
 Buono studio!
 
 > Altri appunti: _[merendamattia.com/uni](https://www.merendamattia.com/uni.html)_
+
+
+# Link utili
+
+[Repository Ingegneria del Software DennisTurco](https://github.com/DennisTurco/Ingegneria-del-Software)

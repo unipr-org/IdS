@@ -44,7 +44,7 @@ La semantica della logica proposizionale e' intesa come la ragione sulla verita'
 Un'interpretazione e' una funzione che assegna un valore di verita' per ogni simbolo in P. Si dice *totale* se calcola ogni valore del dominio.
 Esempio: $\;I : P \to B, \;\;B = \{ \;F, \;T \;\}$
 
-Data un'interpretazione $I$ su $P$, l'interpretazione $G_I$ di un'arbitraria proposizione in Prop[p] puo' essere calcolata come segue: 
+Data un'interpretazione $I$ su $P$, l'interpretazione $G_I$ di un'arbitraria proposizione in $Prop[\;p\;]$ puo' essere calcolata come segue: 
 
 ![[IdS/teoria/images/1.png]]
 
@@ -80,7 +80,7 @@ Per tutte le proposizioni $A$ e $B$, le seguenti proposizioni sono tautologie:
 ---
 
 ### Contraddizioni
-Una proposizione $A$ e' una contraddizionhe (proposizione insoddisfabile) se e soltanto se nessuna interpretazione e' modello per $A$. Esempio: $\neg \;( \;p\to ( \;p \vee q \;))$
+Una proposizione $A$ e' una contraddizione (proposizione insoddisfabile) se e soltanto se nessuna interpretazione e' modello per $A$. Esempio: $\neg \;( \;p\to ( \;p \vee q \;))$
 
 Una proposizione $A$ e'
 - una tautologia se e soltanto se $\neg A$ e' una contraddizione
@@ -173,4 +173,128 @@ Esistono due modelli per esprimere il tempo:
 ---
 
 ### Logica temporale lineare (LTL)
-slide 44
+La logica temporale lineare ha una relazione di accessibilità che descrive un modello lineare e discreto del tempo isomorfo ai numeri naturali.
+
+![[11.png]]
+
+Dato un software che ci assicura che:
+- G(requested $\to$ F received)
+- G(received $\to$ X processed)
+- G(processed $\to$ FG done)
+Se abbiamo fatto bene queste 3 cose, allora la seguente affermazione sara' sempre falsa: G requested $\wedge$ G $\neg$ done.
+
+[_Torna all'indice_](#Ingegneria%20del%20Software)
+
+---
+ 
+### Sintassi e Semantica
+La sintassi della LTL e' una semplice estensione della sintassi delle logiche proposizionali. I connettivi binari sono associativi a sinistra. 
+La precedenza dei connettivi e operatori segue il seguente ordine: 
+$$\neg, \;G, \;F, \;X, \;U, \;\wedge, \;\vee, \;\to, \;\equiv$$
+
+La semantica delle proposizioni LTL e' basata su:
+- Ogni momento del tempo e' rappresentato da un numero naturale.
+- Per ogni momento del tempo, un mondo e' rappresentato da un insieme di rappresentazioni LTL che sono vere.
+
+La funzione di interpretazione
+$$I : P \;\times \; ℕ \to B$$
+dove $B = \{ F, T\}$, mappa ogni simbolo proposizionale a un valore di B per ogni momento nel tempo.
+> Nel caso in cui ℕ sia 0, indichiamo il momento "adesso".
+> O e' vera o e' falsa, non esiste il "forse".
+
+Data una interpretazione $I$ su $P$, l'interpretazione $$G_I : LTL[\;P\;] \;\times \; ℕ \to B$$ di un'arbitraria proposizione LTL in $LTL[\;P\;]$ puo' essere calcolata come segue: 
+![[12.png]]
+![[13.png]]
+
+#### Semantica degli operatori temporali
+![[14.png]]
+
+[_Torna all'indice_](#Ingegneria%20del%20Software)
+
+---
+
+### Soddisfacibilita' e Tautologie
+Data una interpretazione $M$, un momento nel tempo $i \in ℕ$, e una proposizione LTL $A$:
+- $<M,i> \;\models\; A$ ($M$ soddisfa $A$ in $i$) se e solo se $G_M(A,i)=T$
+- $<M,i> \;\nvDash\; A$ ($M$ non soddisfa $A$ in $i$) se e solo se $G_M(A,i)=F$
+
+Un'interpretazione $M$ e' un modello per una proposizione $A$ se e solo se esiste qualche $i \in ℕ$ tale che $<M,i> \;\models\; A$ .
+
+Una proposizione LTL $A$ e':
+- Soddisfabile se e solo se esiste un modello per A
+- Una tautologia ($\models A$) se e solo se per ogni interpretazione $M$ e ogni momento nel tempo $i \in ℕ$, $<M,i> \;\models\; A$.
+
+---
+
+### Modelli
+Data una interpretazione $M$ definita su un insieme di simboli proposizionali $P$, le seguenti regole possono essere usate per vericare se $<M,i> \;\models\; A$  ($M$ soddisfa $A$ in $i$): 
+![[15.png]]![[16.png]]
+
+[_Torna all'indice_](#Ingegneria%20del%20Software)
+
+---
+
+### Equivalenze logiche
+Due proposizioni LTL $A$ e $B$ sono equivalenti logiche ($A \Leftrightarrow B$) se e solo se $\models(A \equiv B).$
+> Per ogni interpretazione $M$ e in ogni momento del tempo $i \in ℕ$, $<M,i> \;\models\; A$ se e solo se $<M,i> \;\models\; B$.
+
+Altre equivalenze logiche: ![[17.png]] ![[18.png]]
+
+[_Torna all'indice_](#Ingegneria%20del%20Software)
+
+---
+
+### Tableaux LTL
+I tableaux LTL sono grafi diretti (non alberi) usati per verificare la soddisfacibilita' di un insieme di proposizioni LTL. 
+Un tableaux LTL e' un grafo etichettato, il quale non contiene nodi con la stessa etichetta. Un nuovo nodo non viene aggiunto al grafo se la sua etichetta appare in un altro nodo.
+> $\{A,B\} = \{A,B,B,A,B,B\}$ stessi insiemi.
+
+#### Forma negata LTL
+Come prima cosa dobbiamo trasformare le proposizioni LTL in forma negata usando le seguenti equivalenze logiche: ![[19.png]]
+
+#### Forme congiuntive e disgiuntive LTL
+Come per il tableaux proposizionale, anche qui valgono le regole delle forme congiuntive e disgiuntive: ![[20.png]]
+
+#### Regole temporali (temporal rules)
+Una volta che ho portato le proposizioni LTL in forma negata, devo applicare dalla radice le regole temporali per trasformare gli operatori temporali in "next" ($X$): ![[21.png]]
+
+#### Regola del loop (loop rule)
+La loop rule e' l'ultima regola che deve essere applicata se nessun'altra regola precedente e' applicabile: 
+![[22.png]]
+
+> Nota bene: il controllo del loop e' sufficiente per assicurare la terminazione della costruzione del tableaux.
+
+#### Esempio 
+![[23.png]]
+
+[_Torna all'indice_](#Ingegneria%20del%20Software)
+
+---
+
+### LTL Soddisfacibilita' 
+Una eventualita' $E$ e' una proposizione LTL strutturata come F$E$ o AU$E$.
+> "Alla fine di una questione succedera' qualcosa".
+
+Una eventualita' F$E$ o AU$E$ e' soddisfatta in un nodo $n$ se esiste un percorso che parte da $n$ la cui etichetta contiene $E$.
+
+Dato un tableau completo, un nodo puo' essere cancellato se:
+- Il nodo e' contradditorio.
+- L'etichetta di un nodo contiene una eventualita' che non e' soddisfatta nel nodo.
+- Tutti i figli di un nodo sono marcati come cancellati.
+
+Un tableau completo e' detto chiuso se e solo se la sua radice puo' essere cancellata.
+Un insieme di proposizioni LTL che etichetta la radice di un tableau completo e' unsatisfiable se e solo se il tableau e' chiuso.
+
+> Dato un tableau competo, se non e' chiuso e' aperto.
+
+I percorsi che partono dalla radice in un tableau aperto forniscono informazioni sui modelli dell'insieme di proposizioni LTL che etichettano la radice del tableau.
+
+#### Esempi
+![[24.png]]![[25.png]]
+
+[_Torna all'indice_](#Ingegneria%20del%20Software)
+
+---
+
+## Sistemi reattivi concorrenti asincroni
+slide 69

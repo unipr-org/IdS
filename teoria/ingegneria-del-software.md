@@ -297,4 +297,75 @@ I percorsi che partono dalla radice in un tableau aperto forniscono informazioni
 ---
 
 ## Sistemi reattivi concorrenti asincroni
-slide 69
+Le logiche temporali sono utili per i sistemi reattivi concorrenti asincroni.
+Un sistema reattivo e' un sistema che interagisce con l'ambiente che (spesso) non termina mai.
+> Questi sistemi sono anche chiamati agenti.
+
+Un sistema concorrente consiste in un insieme di parti che vengono eseguiti concorrentemente.
+
+La modellazione di un sistema ha lo scopo di costruire una specifica (possibilmente formale) del sistema per eliminare dettagli irrilevanti.
+La specifica e' descritta in termini di:
+- Stato di un sistema, il quale e' uno snapshot dei valori dei parametri che caratterizzano il sistema.
+- Transizioni del sistema, che descrivono come lo stato di un sistema cambi nel tempo a seguito di azioni ed eventi.
+- Computazione del sistema, che e' la sequenza (possibilmente infinita) degli stati attivati dalle transizioni.
+
+### Strutture Kripke
+Sono diagrammi di transizione che descrivono l'ambiente dinamico di un sistema reattivo.
+Una struttura Kripke consiste in:
+- Un insieme non vuoto di stati.
+- Un insieme non vuoto di transizioni attraverso gli stati.
+- Un insieme non vuoto di proposizioni che etichettano gli stati.
+
+Un percorso in una struttura Kripke rappresenta una possibile computazione del sistema descritto (una struttura descrive un processo).
+> Piu' strutture rappresentano un programma.
+
+Formalmente, una struttura Kripke e' una 5-upla $K=\;<S,I,R,P,L>$, in cui
+- $S$ e' un insieme non vuoto di stati,
+- $I\subseteq S$ e' un insieme non vuoto di stati iniziali,
+- $R \subseteq S\times S$ e' una relazione di accessibilita', un insieme non vuoto di transizioni tale che $R$ sia left-total $$\forall \; s \subseteq S, \exists \; s' \subseteq S : (s,s') \subseteq R$$
+- $P$ sia un insieme numerabile di simboli proposizionali usati per costruire $Prop[\;P\;]$,
+- $L : S \to 2^{Prop[P]}$ è una funzione di etichettatura ($2^{Prop[P]}$ rappresenta l'insieme delle proposizioni).
+
+Un percorso $\pi$ in una struttura Kripke $K$ da uno stato $s_0\subseteq S$ e' una sequenza infinita di stati $$\pi = s_0 \; s_1 \; s_2 ...$$ tale che $(s,s') \subseteq R$ per tutti $i \subseteq ℕ$ (perche' $R$ e' left-total).
+
+[_Torna all'indice_](#Ingegneria%20del%20Software)
+
+---
+
+### Strutture Kripke complesse
+Le strutture Kripke complesse le otteniamo da una composizione di strutture Kripke semplici.
+
+Le strutture Kripke possono essere combinate usando composizioni:
+- Sincrone: ![[26.png]]
+- Asincrone: ![[27.png]]
+
+[_Torna all'indice_](#Ingegneria%20del%20Software)
+
+---
+
+## Safety, Liveness, Fairness
+Gran parte della popolarità della logica temporale è stata raggiunta perché diversi concetti relativi ai sistemi software concorrenti possono essere formalmente espressi e studiati.
+Di solito, le proprietà dei software concorrenti che vengono studiate usano logiche temporali e sono suddivise in 3 categorie:
+- Proprieta' safety (affidabilita')
+- Proprieta' liveness
+- Proprieta' fairness
+
+Le proprieta' safety sono richieste per assicurare che qualcosa di brutto non avvenga mai.
+$$G\; \neg \;(\text{ temperature} > 100 \;)$$
+Le proprieta' liveness sono richieste per assicurare che qualcosa di buono succedera'.
+$$G\;(\text{started} \to F\; \text{terminated})$$
+le proprieta' fairness (forti) sono richieste per assicurare che se qualcosa viene richiesto infinitamente spesso, allora verrà servito infinitamente spesso.
+$$GF\text{ ready} \to GF\text{ execute}$$
+
+### Esempi proprieta' con la mutua esclusione
+1. Safety ![[28.png]]
+
+2. Liveness ![[29.png]] ![[30.png]]
+
+3. Fairness ![[31.png]]
+
+4. Fairness forte (strong) ![[32.png]]
+
+[_Torna all'indice_](#Ingegneria%20del%20Software)
+
+---

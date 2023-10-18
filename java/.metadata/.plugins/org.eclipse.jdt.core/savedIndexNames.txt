@@ -1,4 +1,0 @@
-INDEX VERSION 1.134+/Users/mere/Documents/Work/Dev/Uni/IdS/java/.metadata/.plugins/org.eclipse.jdt.core
-1865797976.index
-3453539238.index
-2421418329.index

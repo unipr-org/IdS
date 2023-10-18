@@ -1,5 +1,0 @@
-package it.unipr.informatica.examples;
-
-public class ThreadA extends Thread {
-	
-}

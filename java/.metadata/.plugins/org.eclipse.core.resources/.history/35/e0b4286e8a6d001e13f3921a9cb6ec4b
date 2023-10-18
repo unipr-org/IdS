@@ -1,7 +1,7 @@
 package it.unipr.informatica.examples;
 
 public class Example00 {
-	public static void go() {
+	public void go() {
 		for(int j = 0; j < 5; ++j) {
 			Thread a = new ThreadA(j);
 			a.start();
@@ -19,7 +19,7 @@ public class Example00 {
 	
 	public static void main(String[] args) {
 		// System.out.println("Partito");
-		Example00.go();
+		(new Example00()).go();
 	}
 	
 	// Classe Inner
@@ -32,14 +32,15 @@ public class Example00 {
 	// istanziare un oggetto della classe esterna. 
 	//
 	// Se non metto `static` alla classe inner devo usare `Example00.this.id`
-	private static class ThreadC extends Thread {
+	private class ThreadC extends Thread {
 		private int id;
 		
 		private ThreadC(int id) {
 			if(id < 0)
 				throw new IllegalArgumentException("id");
 			
-			this.id = id;
+			Example00.this.id = id;
+			
 		}
 		
 		@Override

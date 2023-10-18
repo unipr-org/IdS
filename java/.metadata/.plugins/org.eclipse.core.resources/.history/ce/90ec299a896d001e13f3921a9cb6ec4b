@@ -18,21 +18,14 @@ public class Example00 {
 	}
 	
 	public static void main(String[] args) {
+		
 		// System.out.println("Partito");
+		
 		Example00.go();
 	}
 	
 	// Classe Inner
-	// Una classe interna statica non ha accesso diretto ai membri 
-	// non statici della classe esterna, ma può accedere solo a membri 
-	// statici della classe esterna, se presenti.
-	//
-	// Se dichiaro le classi interne come statiche, posso istanziarle 
-	// direttamente all'interno del metodo `go` o `main` senza dover 
-	// istanziare un oggetto della classe esterna. 
-	//
-	// Se non metto `static` alla classe inner devo usare `Example00.this.id`
-	private static class ThreadC extends Thread {
+	private class ThreadC extends Thread {
 		private int id;
 		
 		private ThreadC(int id) {
@@ -40,6 +33,7 @@ public class Example00 {
 				throw new IllegalArgumentException("id");
 			
 			this.id = id;
+			// Se non metto `static` alla classe inner devo usare `Example00.this.id`
 		}
 		
 		@Override
@@ -49,7 +43,7 @@ public class Example00 {
 		}
 	}
 	
-	private static class ThreadD implements Runnable {
+	private class ThreadD implements Runnable {
 		private int id;
 		
 		public ThreadD(int id) {

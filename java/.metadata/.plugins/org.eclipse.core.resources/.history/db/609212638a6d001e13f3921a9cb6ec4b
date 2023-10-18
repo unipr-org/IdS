@@ -40,6 +40,7 @@ public class Example00 {
 				throw new IllegalArgumentException("id");
 			
 			this.id = id;
+			
 		}
 		
 		@Override

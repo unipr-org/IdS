@@ -1,0 +1,13 @@
+package it.unipr.informatica.examples;
+
+public class Example00 {
+	public static void main(String[] args) {
+		
+		// System.out.println("Partito");
+		
+		for(int j = 0; j < 5; ++j) {
+			Thread a = new ThreadA();
+			a.start();
+		}
+	}
+}

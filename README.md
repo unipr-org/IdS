@@ -3,6 +3,12 @@ Corso _"Ingegneria del Software"_ presso l'Università degli Studi di Parma (9 C
 
 ```
 Guida directroty:
+.
+├── esami
+├── esempi-anni-passati
+├── java
+├── slides
+└── teoria
 ```
 
 # Appunti di Ingegneria del Software

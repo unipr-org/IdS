@@ -1,5 +1,5 @@
-# Ingegneria del Software
-```toc
+# Indice
+```table-of-contents
 ```
 ---
 
@@ -21,7 +21,7 @@ I linguaggi logici si dividono in due categorie:
 	- Logiche epistemiche
 	- Logiche temporali
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -48,7 +48,7 @@ Data un'interpretazione $I$ su $P$, l'interpretazione $G_I$ di un'arbitraria pro
 
 ![[IdS/teoria/images/1.png]]
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -64,7 +64,7 @@ Data una interpretazione $I$ e una proposizione $A$, le seguenti regole possono 
 
 ![[IdS/teoria/images/2.png]]
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -86,7 +86,7 @@ Una proposizione $A$ e'
 - una tautologia se e soltanto se $\neg A$ e' una contraddizione
 - una contraddizione se e soltanto se $\neg A$ e' una tautologia
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -105,7 +105,7 @@ La proposizione $A$ e' una conseguenza logica di un insieme di proposizioni $S \
 
 ![[6.png]]
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -129,7 +129,7 @@ Dato un insieme di proposizioni $S$ e una proposizione $A$, per verificare che $
 
 ![[9.png]]
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -147,7 +147,7 @@ Una proposizione e':
 
 Qualsiasi proposizione puo' essere trasformata in una equivalente proposizione in forma congiuntiva o disgiuntiva usando le [equivalenze logiche](#Equivalenze%20logiche).
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -168,7 +168,7 @@ Esistono due modelli per esprimere il tempo:
 
 ![[10.png]]
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -183,7 +183,7 @@ Dato un software che ci assicura che:
 - G(processed $\to$ FG done)
 Se abbiamo fatto bene queste 3 cose, allora la seguente affermazione sara' sempre falsa: G requested $\wedge$ G $\neg$ done.
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
  
@@ -209,7 +209,7 @@ Data una interpretazione $I$ su $P$, l'interpretazione $$G_I : LTL[\;P\;] \;\tim
 #### Semantica degli operatori temporali
 ![[14.png]]
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -230,7 +230,7 @@ Una proposizione LTL $A$ e':
 Data una interpretazione $M$ definita su un insieme di simboli proposizionali $P$, le seguenti regole possono essere usate per vericare se $<M,i> \;\models\; A$  ($M$ soddisfa $A$ in $i$): 
 ![[15.png]]![[16.png]]
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -240,7 +240,7 @@ Due proposizioni LTL $A$ e $B$ sono equivalenti logiche ($A \Leftrightarrow B$) 
 
 Altre equivalenze logiche: ![[17.png]] ![[18.png]]
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -267,7 +267,7 @@ La loop rule e' l'ultima regola che deve essere applicata se nessun'altra regola
 #### Esempio 
 ![[23.png]]
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -292,7 +292,7 @@ I percorsi che partono dalla radice in un tableau aperto forniscono informazioni
 #### Esempi
 ![[24.png]]![[25.png]]
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -328,7 +328,7 @@ Formalmente, una struttura Kripke e' una 5-upla $K=\;<S,I,R,P,L>$, in cui
 
 Un percorso $\pi$ in una struttura Kripke $K$ da uno stato $s_0\subseteq S$ e' una sequenza infinita di stati $$\pi = s_0 \; s_1 \; s_2 ...$$ tale che $(s,s') \subseteq R$ per tutti $i \subseteq ℕ$ (perche' $R$ e' left-total).
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -339,7 +339,7 @@ Le strutture Kripke possono essere combinate usando composizioni:
 - Sincrone: ![[26.png]]
 - Asincrone: ![[27.png]]
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---
 
@@ -366,6 +366,6 @@ $$GF\text{ ready} \to GF\text{ execute}$$
 
 4. Fairness forte (strong) ![[32.png]]
 
-[_Torna all'indice_](#Ingegneria%20del%20Software)
+[_Torna all'indice_](#Indice)
 
 ---

@@ -4,7 +4,7 @@ public class Exercise03 {
 	public static void main(String[] args) {
 		// numTasks= 1 se si vuole capire il funzionamento 
 		// numTasks= 10 esercizio completo 
-		int numTasks = 3;
+		int numTasks = 4;
 		
 		Task[] tasks = new Task[numTasks];
 		
@@ -18,6 +18,7 @@ public class Exercise03 {
 				System.out.println("Thread figlio " + id + " - Task " + id + " iniziata");
 				
 				System.out.println("Thread figlio " + id + " attende mutexes[" + id + "]");
+				
 				
 				synchronized (mutex) {
 					System.out.println("Thread figlio " + id + " acquisisce mutexes[" + id + "]");

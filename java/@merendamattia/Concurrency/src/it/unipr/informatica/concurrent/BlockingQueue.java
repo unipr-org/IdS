@@ -6,6 +6,7 @@ public interface BlockingQueue<T> {
 	public void clear();
 	public int remainingCapacity();
 	public boolean isEmpty();
+	public void printQueue();
 }
 
 // Non e' una queue perche' non c'e' `extends Queue`

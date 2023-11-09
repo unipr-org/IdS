@@ -42,7 +42,7 @@ public class AtomicReference<T> {
 		}
 	}
 	
-	public T UpdateAndGet(UnaryOperator<T> update) {
+	public T updateAndGet(UnaryOperator<T> update) {
 		synchronized (lock) {
 			T result = update.apply(value);
 			this.value = result;

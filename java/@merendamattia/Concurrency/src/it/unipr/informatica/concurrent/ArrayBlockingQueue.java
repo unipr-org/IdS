@@ -19,16 +19,14 @@ public class ArrayBlockingQueue<T> implements BlockingQueue<T> {
 		if (size < 1)
 			throw new IllegalArgumentException("size < 1");
 
-		this.size = size;
-
 		this.queue = new Object[size];
 
 		this.in = 0;
-
 		this.out = 0;
 
 		this.count = 0;
-
+		this.size = size;
+		
 		this.lock = new ReentrantLock();
 
 		this.isNotEmpty = lock.newCondition();
@@ -45,15 +43,15 @@ public class ArrayBlockingQueue<T> implements BlockingQueue<T> {
 			lock.lock();
 
 			while (count == size)
-				isNotFull.await();
+				isNotFull.await(); // Se la coda e' piena, mi metto in attesa della condizione
 
 			queue[in] = object;
 
 			++count;
 
-			in = (in + 1) % size;
+			in = (in + 1) % size; // Sfrutto l'effetto di coda circolare
 
-			isNotEmpty.signal();
+			isNotEmpty.signal(); // Segnalo che la coda non e' vuota
 		} finally {
 			lock.unlock();
 		}
@@ -65,9 +63,13 @@ public class ArrayBlockingQueue<T> implements BlockingQueue<T> {
 			lock.lock();
 
 			while (count == 0)
-				isNotEmpty.await();
+				isNotEmpty.await(); // Se la coda e' vuota aspetto
 
 			@SuppressWarnings("unchecked")
+			// è un'annotazione in Java che indica al compilatore di ignorare gli avvisi 
+			// relativi all'uso non sicuro di operazioni di tipo generico all'interno 
+			// di un determinato blocco di codice o metodo.
+			
 			T result = (T) queue[out];
 
 			queue[out] = null;

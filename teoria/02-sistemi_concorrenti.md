@@ -332,6 +332,56 @@ Un lock e' normalmente associato con importanti condizioni:
 - Quando un thread segnala una condizione, deve esplicitamente rilasciare il lock della condizione.
 
 > Lock rientrante: consente di acquisire piu' volte lo stesso lock $\to$ e' consentito acquisirlo di nuovo senza che si verifichi un deadlock.
+> Un esempio di lock rientrante:
+``` java
+public class ReentrantLockExample {
+    private Lock lock = new ReentrantLock();
+    private int lockCount = 0;
+
+    public void performTask() {
+        lock.lock(); // Acquisizione del lock
+        ++lockCount;
+
+        try {
+            // Blocco critico - codice che richiede accesso sincronizzato
+            System.out.println("Task in corso...");
+
+            // Chiamata ricorsiva
+            performSubTask();
+        } finally {
+            --lockCount;
+            if (lockCount == 0) {
+                lock.unlock(); 
+                // Rilascio del lock solo se è stato acquisito una sola volta
+            }
+        }
+    }
+
+    public void performSubTask() {
+        lock.lock(); 
+        // Acquisizione del lock anche se è già stato acquisito nel chiamante
+        
+        ++lockCount;
+
+        try {
+            // Blocco critico della sotto-operazione
+            System.out.println("Sotto-task in corso...");
+        } finally {
+            --lockCount;
+            if (lockCount == 0) {
+                lock.unlock(); 
+                // Rilascio del lock solo se è stato acquisito una sola volta
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        ReentrantLockExample example = new ReentrantLockExample();
+        example.performTask();
+    }
+}
+
+```
 
 ### Atomic references
 Un riferimento atomico incapsula un riferimento a un oggetto e lo gestisce in mutua esclusione.

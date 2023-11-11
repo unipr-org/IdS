@@ -383,8 +383,23 @@ public class ReentrantLockExample {
 
 ```
 
+---
+
 ### Atomic references
 Un riferimento atomico incapsula un riferimento a un oggetto e lo gestisce in mutua esclusione.
+
+Esempio:
+```java
+UnaryOperator<Integer> operator = new UnaryOperator<Integer>() {
+	@Override
+	public Integer apply(Integer value) {
+		return value + 1;
+	}
+};
+```
+
+Viene creato un oggetto `UnaryOperator<Integer>` utilizzando una classe anonima. `UnaryOperator` è una funzione che accetta un argomento dello stesso tipo e restituisce un risultato dello stesso tipo.
+L'oggetto `operator` è una funzione che, quando applicata a un numero intero, restituisce il numero successivo incrementato di 1. <u>Questo è un esempio di programmazione funzionale</u> in Java, in cui le funzioni sono trattate come oggetti e possono essere passate come argomenti o assegnate a variabili.
 
 [_Torna all'indice_](#indice)
 

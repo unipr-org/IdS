@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>Esercizio_02</name>
+	<name>Esercizio_01</name>
 	<comment></comment>
 	<projects>
-		<project>Concurrency</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

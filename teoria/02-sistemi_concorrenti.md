@@ -277,3 +277,162 @@ Alcuni di questi problemi lo sono:
 - Deadlock, che è una situazione in cui due o più thread sono bloccati per sempre, in attesa l'uno dell'altro.
 - Livelock, che è una situazione in cui due thread reagiscono continuamente agli eventi che ciascuno notifica all'altro.
 - Starvation, ovvero una situazione in cui un thread non è in grado di ottenere un accesso regolare a una risorsa condivisa e, quindi, non è in grado di realizzare i progressi attesi.
+
+---
+
+## Astrazione ad alto livello per la concorrenza
+Java offre meccanismi basici per la gestione della concorrenza e dei relativi problemi.
+L'astrazione ad alto livello per la gestione dei problemi relativi alla concorrenza e' necessaria per:
+- Migliorare la manutenzionalita' dei sistemi concorrenti.
+- Migliorare la riusabilita' delle soluzioni dei problemi concorrenti.
+- Migliorare il livello di comprensione delle caratteristiche non funzionali delle soluzioni (es: livello di parallelismo, tipi di controllo, problemi di liveness).
+
+[_Torna all'indice_](#indice)
+
+---
+
+### Blocking Queues
+Una queue (coda) e' una sequenza di elementi che cambiano dinamicamente e seguono una politica FIFO (First In First Out). Le azioni basiche delle code sono: creazione, distruzione, is empty test, is full test, enqueue (add item), dequeue (remove item).
+
+Una blocking queue (coda bloccante) e' una coda utilizzata per l'uso concorrente.
+Le operazioni vengono bloccate se non possono essere eseguite immediatamente:
+- Enqueue puo' bloccare se la coda e' piena.
+- Dequeue puo' bloccare se la coda e' vuota.
+
+Le code bloccanti sono un'astrazione che possono essere usate per cordinare le attivita' senza un sistema concorrente.
+
+> Nota bene: 
+> 1. Tutte le code bloccanti possono possono bloccarsi sulla dequeue se sono vuote.
+> 2. Solo le code bloccanti con capacita' limitata possono bloccarsi sulla enqueue se sono piene.
+
+[_Torna all'indice_](#indice)
+
+---
+
+### Locks and Conditions
+Un lock (esplicito) e' un'astrazione che puo' essere usata per assicurare la mutua esclusione.
+> Svincoliamo l'idea della sezione critica.
+
+Caratteristiche dei lock:
+- Puo' essere esplicitamente locked (acquisito) o unlocked (rilasciato).
+- Solo un thread alla volta puo' possedere il lock.
+- Un thread puo' bloccarsi nel tentativo di acquisire un lock se e' gia' posseduto da un altro thread.
+- Un thread bloccato nel tentativo di acquisire un lock verra' risvegliato quando il lock potra' essere di nuovo riacquisito.
+
+> Corrispondono ai lock della PTHREAD Library.
+
+Una condizione e' una astrazione che puo' essere usata per attendere e segnalare eventi:
+- Un thread puo' segnalare che una condizione e' diventata vera.
+- Un thread si puo' bloccare e ascpettare che una condizione venga segnalata.
+- Un lock e' sempre necessario come guardia di una condizione.
+
+Un lock e' normalmente associato con importanti condizioni:
+- L'attesa e la segnalazione di condizioni e' possibile solo per i thread che possiedono i lock delle condizioni.
+- Quando un thread aspetta che una condizione venga segnalata, rilascia il lock della condizione.
+- Quando un thread segnala una condizione, deve esplicitamente rilasciare il lock della condizione.
+
+> Lock rientrante: consente di acquisire piu' volte lo stesso lock $\to$ e' consentito acquisirlo di nuovo senza che si verifichi un deadlock.
+> Un esempio di lock rientrante:
+``` java
+public class ReentrantLockExample {
+    private Lock lock = new ReentrantLock();
+    private int lockCount = 0;
+
+    public void performTask() {
+        lock.lock(); // Acquisizione del lock
+        ++lockCount;
+
+        try {
+            // Blocco critico - codice che richiede accesso sincronizzato
+            System.out.println("Task in corso...");
+
+            // Chiamata ricorsiva
+            performSubTask();
+        } finally {
+            --lockCount;
+            if (lockCount == 0) {
+                lock.unlock(); 
+                // Rilascio del lock solo se è stato acquisito una sola volta
+            }
+        }
+    }
+
+    public void performSubTask() {
+        lock.lock(); 
+        // Acquisizione del lock anche se è già stato acquisito nel chiamante
+        
+        ++lockCount;
+
+        try {
+            // Blocco critico della sotto-operazione
+            System.out.println("Sotto-task in corso...");
+        } finally {
+            --lockCount;
+            if (lockCount == 0) {
+                lock.unlock(); 
+                // Rilascio del lock solo se è stato acquisito una sola volta
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        ReentrantLockExample example = new ReentrantLockExample();
+        example.performTask();
+    }
+}
+
+```
+
+---
+
+### Atomic references
+Un riferimento atomico incapsula un riferimento a un oggetto e lo gestisce in mutua esclusione.
+
+Esempio:
+```java
+UnaryOperator<Integer> operator = new UnaryOperator<Integer>() {
+	@Override
+	public Integer apply(Integer value) {
+		return value + 1;
+	}
+};
+```
+
+Viene creato un oggetto `UnaryOperator<Integer>` utilizzando una classe anonima. `UnaryOperator` è una funzione che accetta un argomento dello stesso tipo e restituisce un risultato dello stesso tipo.
+L'oggetto `operator` è una funzione che, quando applicata a un numero intero, restituisce il numero successivo incrementato di 1. <u>Questo è un esempio di programmazione funzionale</u> in Java, in cui le funzioni sono trattate come oggetti e possono essere passate come argomenti o assegnate a variabili.
+
+[_Torna all'indice_](#indice)
+
+---
+
+### Pools di Risorse
+I problemi di concorrenza sono spesso causati dalle risorse condivise.
+- La corretta gestione degli accessi alle risorse condivise e' uno dei piu' classici problemi di concorrenza.
+
+Un gruppo di risorse identiche e' chiamato pool (piscina) di risorse.
+- Quando una pool e' creata/distrutta, tutte le risorse sono anche acquisite/rilasciate.
+- Le risorse vengono assegnate per l'utilizzo su richiesta al pool.
+- L'accesso controllato delle risorse e' garantito dalla pool.
+
+Le pools di risorse sono normalmente usate per controllare l'ammontare delle risorse usate da un sistema concorrente:
+- Per assicurare che un numero sufficiente di risorse sia disponibile.
+- Per assicurare che le risorse siano usate in modo efficiente.
+
+#### Thread Pools
+I thread sono virtualmente le risorse piu' rileventai in un sistema concorrente.
+La costruzione, distruzione, e l'accesso ai thread sono spesso controllati usando i thread pools.
+
+Quando viene creata, una thread pool crea e attiva tutti i thread nella pool. Questo per assicurarsi che i thread siano immediatamente disponibili quando si avra' la necessita di usarli e per assicurarsi che il livello della concorrenza sia controllato.
+
+[_Torna all'indice_](#indice)
+
+---
+
+### Executors
+Un (semplice) executor e' un'astrazione che puo' essere usato per gestire tasks concorrenti:
+- E' associato con una thread pool usata per eseguire tasks.
+- Accoda le tasks che non possono essere avviate immediatamente.
+- Fornisce modi per restituire i risultati delle tasks (se presenti).
+- Fornisce modi per restituire le eccezioni che hanno causato l'errore della cessazione delle tasks (se presenti).
+- Permette di interrompere le tasks e di terminare tutti i thread nella pool.
+- (A volte) Fornisce una serie di politiche di scheduling.

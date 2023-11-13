@@ -3,7 +3,6 @@
 	<name>Esercizio_02</name>
 	<comment></comment>
 	<projects>
-		<project>Concurrency</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

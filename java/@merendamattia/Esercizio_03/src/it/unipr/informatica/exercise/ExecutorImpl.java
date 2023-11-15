@@ -56,6 +56,14 @@ public class ExecutorImpl implements Executor {
 						synchronized (startedMutex) {
 							System.out.println("Thread " + id + " acquisisce startedMutex");
 							
+							try {
+								if (id!=0)
+									Thread.sleep(6000);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
 							counter.value--;
 							System.out.println("Thread " + id + " decrementa counter.value [old-value=" + (counter.value + 1) + ", new-value="+ (counter.value) + "]");
 							
@@ -69,13 +77,24 @@ public class ExecutorImpl implements Executor {
 
 				new Thread(runnable).start();
 			}
-
+			
+			int c=0;
+			
 			while (counter.value > 0) {
+				
+				try {
+					if (c!=0)
+						Thread.sleep(10000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				try {
 					System.out.println("Thread main rilascia e attende evento su startedMutex [counter.value=" + counter.value + "]");
 					// Il thread principale si mette in attesa che i thread figli decrementino 
 					// il mutex principale
 					startedMutex.wait();
+					++c;
 					System.out.println("Thread main notificato su startedMutex [counter.value=" + counter.value + "]");
 				} catch (InterruptedException e) {
 					return;

@@ -436,3 +436,83 @@ Un (semplice) executor e' un'astrazione che puo' essere usato per gestire tasks 
 - Fornisce modi per restituire le eccezioni che hanno causato l'errore della cessazione delle tasks (se presenti).
 - Permette di interrompere le tasks e di terminare tutti i thread nella pool.
 - (A volte) Fornisce una serie di politiche di scheduling.
+
+Un executor offre tre possibili opzioni per eseguire le tasks:
+1. _One way execution_: per il quale l'esecutore non fornisce un mezzo per sapere se l'attività è stata effettivamente eseguita e per leggere il risultato dell'attività (se presente).
+2. _Execution with callback_: per il quale l'esecutore consente a un'attività di callback di utilizzare il risultato dell'attività (se presente), spesso nel thread che ha eseguito l'attività richiesta.
+3. _Execution with future_: per il quale l'esecutore fornisce un futuro (una promessa) che gestisce il risultato dell'attività richiesta (se presente) quando diventa disponibile.
+
+> Gli esecutori prevedono attività asincrone.
+
+#### Callbacks
+Una callback task e' una task che viene eseguita quando un executor conclude una task richiesta.
+- La callback task riceve il risultato dell'attività richiesta (se presente).
+- La callback task riceve l'eccezione che ha causato la terminazione dell'attività richiesta (se presente).
+- (A volte) la callback task viene eseguita nello stesso thread che ha eseguito l'attività richiesta.
+
+Le callback task vengono implementate come oggetti associati a una richiesta di esecuzione di una task.
+
+#### Futures
+Un future (o promessa) è un mezzo per gestire:
+- Il risultato di un'attività asincrona (se presente).
+- L'eccezione che ha causato la conclusione dell'attività asincrona (se presente).
+
+I futures sono implementati come oggetti associati a una richiesta di esecuzione di un'attività:
+- Sono associati dinamicamente al risultato dell'attività richiesta (se presente) quando diventa disponibile.
+- Sono associati dinamicamente all'eccezione che ha causato la terminazione dell'attività richiesta (se presente) quando diventa disponibile.
+
+Un future blocca il thread che tenta di accedere al suo valore incorporato (un risultato o un'eccezione) se il valore non è ancora disponibile:
+- Il thread viene ripreso quando il risultato diventa disponibile (se presente) e il risultato viene restituito.
+- Il thread viene ripreso quando diventa disponibile un'eccezione (se presente) e l'eccezione viene generata.
+
+> Nota bene: un future non si blocca se il suo valore è già disponibile al momento della richiesta.
+
+[_Torna all'indice_](#indice)
+
+---
+
+## Java Reflection
+Java e Java Virtual Machine (JVM) forniscono un mezzo, il `pacchetto java.lang.reflect`, per rinviare alcune decisioni in fase di esecuzione.
+Java rimane un linguaggio tipizzato staticamente, ma fornisce un mezzo puramente orientato agli oggetti per supportare:
+- Collegamento dinamico delle classi
+- Introspezione (dinamica) (degli oggetti)
+- Creazione dinamica di oggetti
+- Accesso dinamico ai campi
+- Invocazione dinamica di metodi
+
+Si noti che i seguenti fatti sono veri in Java
+- Ogni oggetto è associato alla classe che è stata utilizzata per crearlo, la cosiddetta classe factory.
+- Ogni classe/interfaccia è rappresentata in fase di runtime da un oggetto, il cosiddetto oggetto classe (o descrittore di classe).
+
+Data la classe/interfaccia `C`, la JVM fornisce un oggetto della classe `java.lang.reflect.Class<C>`.
+Data la classe/interfaccia `C`, l'oggetto che rappresenta la classe/interfaccia può essere referenziato da `C.class`.
+
+Ogni oggetto di classe è associato a un caricatore di classe, che è l'oggetto utilizzato per caricare il bytecode della classe.
+Gli oggetti di classe sono il punto di ingresso della Java Reflection.
+
+---
+
+## Class Objects
+Di seguito sono riportati alcuni modi per ottenere un oggetto di classe:
+- Dato un oggetto `o`, `o.getClass()` restituisce l'oggetto classe associato a `o`.
+- Data una stringa `n` contenente il nome completo di una classe, `Class.forName(n)` restituisce l'oggetto classe corretto.
+- Dato un caricatore di classi `l` e una stringa `n` contenente il nome completo di una classe, `l.loadClass(n)` restituisce l'oggetto classe corretto.
+
+> Nota che è possibile accedere agli oggetti della classe per nome anche se non sono disponibili oggetti della classe. Potrebbe essere lanciata un'eccezione `ClassNotFoundException`.
+
+Oltre alle funzionalità legate alla riflessione Java dinamica, un oggetto `c` della classe `Class<C>` può:
+- Eseguire un cast di tipo dell'oggetto `o` sulla classe rappresentata, con `c.cast(o)`, che è equivalente a `(C)o`.
+- Controlla se l'oggetto `o` è un'istanza della classe rappresentata, con `c.isInstance(o)`, che è equivalente a `o` istanza di `C`.
+- Controlla se la classe/interfaccia di riferimento è la stessa o è una superclasse/superinterfaccia di una classe rappresentata da `k`, con `c.isAssignableFrom(k)`.
+
+---
+
+## Introspection
+Dato un oggetto c della classe `Class<C>`, è possibile ispezionare la struttura di `C` e, ad esempio:
+- È possibile elencare i descrittori di campo dei campi visibili di `C`.
+- È possibile elencare i descrittori dei costruttori visibili di `C`.
+- È possibile elencare i descrittori di metodo dei metodi visibili di `C`.
+- È possibile ottenere un riferimento alla classe oggetto della classe base (o superclasse) di `C`.
+- È possibile ottenere riferimenti agli oggetti classe delle interfacce implementate dal `C`.
+
+La parola introspezione si riferisce alla possibilità di un oggetto di ispezionare la sua classe.

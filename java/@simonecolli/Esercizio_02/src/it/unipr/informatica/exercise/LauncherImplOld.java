@@ -1,24 +1,22 @@
 package it.unipr.informatica.exercise;
 
-public class LauncherImpl implements Launcher {
-	
+public class LauncherImplOld implements Launcher {
+		
 //	due launcher causano attesa
 //	private boolean flag_ = false;
 	
-	private boolean flag_ = true;
-	
 	@Override
 	public void start(Task[] tasks) {
-
-		System.out.println("************************* LauncherImpl *************************");
 		
 //		flag_ = false;
+		System.out.println("************************* LauncherImplOld *************************");
+		
 		if (tasks == null)
 			throw new IllegalArgumentException("tasks");
 		
 		
 		Object mutex = new Object();
-		Object flagMutex = new Object();
+		
 		
 		
 		
@@ -34,19 +32,10 @@ public class LauncherImpl implements Launcher {
 					public void run() {
 						
 						tasks[tmp].perform();
-						
-						synchronized (flagMutex) {
-							System.out.println("Task " + tmp +  " enter flagMutex");
-							
-							if(flag_) {
-								System.out.println("Task " + tmp +  " has enter if");
 								
-								synchronized (mutex) {
-									System.out.println("---- Task " + tmp + " notify ----");
-									mutex.notifyAll();
-								}
-								flag_ = false;
-							}
+						synchronized (mutex) {
+							System.out.println("---- Task " + tmp + " notify ----");
+							mutex.notifyAll();
 						}
 	
 					}

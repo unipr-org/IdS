@@ -18,10 +18,16 @@ public class LauncherImpl implements Launcher {
 				public void run() {
 					tasks[id].perform();
 					
+					System.out.println("Thread " + id + " prova ad acquisire mutex");
 					synchronized (mutex) {
+						
+						System.out.println("Thread " + id + " acquisisce mutex");
+						
 						flag.notifyDone = true;
 						
 						mutex.notifyAll();
+						
+						System.out.println("Thread " + id + " rilascia mutex");
 					}
 				}
 			};
@@ -29,10 +35,23 @@ public class LauncherImpl implements Launcher {
 			new Thread(runnable).start();
 		}
 		
+		System.out.println("Thread Main prova ad acquisire mutex");
+		
 		synchronized (mutex) {
+			
+			System.out.println("Thread Main acquisisce mutex");
+			
 			try {
-				if(!flag.notifyDone)
+				
+				if(!flag.notifyDone) {
+					
+					System.out.println("Thread Main si mette in attesa, flag=false");
+					
 					mutex.wait();
+					
+					System.out.println("Thread Main risvegliato, flag=true");
+				}
+					
 			} catch (InterruptedException e) {
 				return;
 			}

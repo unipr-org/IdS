@@ -34,9 +34,11 @@ public final class DownloadManager {
 	}
 
 	private ResourceContent downloadResourceContent(String url) throws IOException {
-		try (InputStream inputStream = new URL(url).openStream();
+		try (
+				InputStream inputStream = new URL(url).openStream();
 				BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-				ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream()
+						) {
 			byte[] buffer = new byte[BUFFER_SIZE];
 
 			int read = bufferedInputStream.read(buffer);

@@ -17,7 +17,7 @@ public final class DownloadManager {
 		if (connections < 1)
 			throw new IllegalArgumentException("connections < 1");
 
-		this.executorService = Executors.newFixedThreadPool(connections);
+		this.executorService = Executors.newFixedThreadPool(connections); // connections = numero thread
 	}
 
 	public void shutdown() {
@@ -32,9 +32,15 @@ public final class DownloadManager {
 	}
 
 	private void downloadAndPrint(String url) {
-		try (InputStream inputStream = new URL(url).openStream();
+		/*
+			Il costrutto `try-with-resources` in Java è una forma di try statement che dichiara uno 
+			o più oggetti che devono essere chiusi alla fine del blocco try. 
+		 */
+		try (
+				InputStream inputStream = new URL(url).openStream();
 				BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-				ByteArrayOutputStream outputStream = new ByteArrayOutputStream()) {
+				ByteArrayOutputStream outputStream = new ByteArrayOutputStream()
+						) {
 			byte[] buffer = new byte[BUFFER_SIZE];
 
 			int read = bufferedInputStream.read(buffer);

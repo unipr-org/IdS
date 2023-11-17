@@ -3,10 +3,12 @@ package it.unipr.informatica.concurrent;
 class SimpleThreadPoolExecutorService implements ExecutorService {
 	private Thread[] workers;
 
+	// Utilizzo una coda bloccante in cui salvare tutti i comandi da far eseguire ai thread
 	private LinkedBlockingQueue<Runnable> tasks;
 
 	private boolean shutdown;
 
+	// count = numero di thread
 	SimpleThreadPoolExecutorService(int count) {
 		if (count < 1)
 			throw new IllegalArgumentException("count < 1");
@@ -65,6 +67,7 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 		});
 	}
 
+	// Utilizzo i future
 	@Override
 	public <T> Future<T> submit(Callable<T> task) {
 		if (task == null)
@@ -85,6 +88,7 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 		return future;
 	}
 
+	// Utilizzo i callback
 	@Override
 	public <T> void submit(Callable<T> task, Callback<T> callback) {
 		if (task == null)
@@ -104,6 +108,7 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 		});
 	}
 
+	// Inserisce il comando nella coda bloccante
 	@Override
 	public void execute(Runnable command) {
 		if (command == null)
@@ -117,6 +122,7 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 		}
 	}
 
+	// Spegne tutti i thread
 	@Override
 	public void shutdown() {
 		synchronized (tasks) {
@@ -129,9 +135,13 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 		}
 	}
 
+	// Classe worker che estende Thread
 	private class Worker extends Thread {
+		
+		// I thread girano all'infinito finche' non vengono spenti e le tasks sono finite
 		@Override
 		public void run() {
+			// `for (;;)` equivale a scrivere `while(true)`
 			for (;;) {
 				synchronized (tasks) {
 					if (shutdown && tasks.isEmpty())

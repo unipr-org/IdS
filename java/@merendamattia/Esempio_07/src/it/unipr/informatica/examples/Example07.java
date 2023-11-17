@@ -8,6 +8,10 @@ public class Example07 {
 	private void go() {
 		DownloadManager downloadManager = new DownloadManager(4);
 
+		/* 
+		 * Con `this::process`, creo con una lambda function quello che mi serve
+		 * Crea un callable ma fa tutto in background il compilatore utilizzando classi anonime
+		 */
 		downloadManager.download("https://www.google.it", this::process);
 		downloadManager.download("https://www.youtube.it", this::process);
 		downloadManager.download("https://www.amazon.it", this::process);

@@ -490,6 +490,8 @@ Data la classe/interfaccia `C`, l'oggetto che rappresenta la classe/interfaccia 
 Ogni oggetto di classe è associato a un caricatore di classe, che è l'oggetto utilizzato per caricare il bytecode della classe.
 Gli oggetti di classe sono il punto di ingresso della Java Reflection.
 
+[_Torna all'indice_](#indice)
+
 ---
 
 ## Class Objects
@@ -505,6 +507,11 @@ Oltre alle funzionalità legate alla riflessione Java dinamica, un oggetto `c` d
 - Controlla se l'oggetto `o` è un'istanza della classe rappresentata, con `c.isInstance(o)`, che è equivalente a `o` istanza di `C`.
 - Controlla se la classe/interfaccia di riferimento è la stessa o è una superclasse/superinterfaccia di una classe rappresentata da `k`, con `c.isAssignableFrom(k)`.
 
+Un "class descriptor" è una rappresentazione testuale di una classe che viene utilizzata in vari contesti, come il caricamento delle classi, la riflessione e la firma delle classi.
+> La classe `java.lang.String` ha il class descriptor `Ljava/lang/String;`.
+
+[_Torna all'indice_](#indice)
+
 ---
 
 ## Introspection
@@ -516,3 +523,41 @@ Dato un oggetto c della classe `Class<C>`, è possibile ispezionare la struttura
 - È possibile ottenere riferimenti agli oggetti classe delle interfacce implementate dal `C`.
 
 La parola introspezione si riferisce alla possibilità di un oggetto di ispezionare la sua classe.
+
+[_Torna all'indice_](#indice)
+
+---
+
+## Creazione dinamica degli oggetti
+Dato un oggetto `c` della classe `Class<C>`, e' possibile creare oggetti di classe `C`:
+- Utilizzando `c.newInstance()`, anche se deprecato.
+- Utilizzando `c` per accedere a uno dei costruttori descrittori di `c` e invocare il costruttore con qualche argomenti.
+
+> Nota che, se `C` e' conosciuto, allora la creazione dinamica dell'oggetto non necessita' di un cast esplicito.
+
+```java
+// Creazione stringa vuota
+String s = String.class.newInstance();
+```
+
+### Accesso dinamico ai campi
+Dato un oggetto `c` della classe `Class<C>`, e' possibile accedere al descrittore del campo del campo visibile di `c`.
+Oltre a descrivere i campi, i descrittori di campo possono essere utilizzati per ottenere o impostare il valore del campo per alcuni oggetti.
+
+Dato un oggetto `c` della classe `Class<C>`, un descrittore di campo `f` ottenuto da `c`, e un oggetto `o` di classe `C`, e' possibile:
+1. Usare `f.get(o)` per leggere il valore corrente del campo per `o`.
+2. Usare `f.set(o, v)` per impostare il valore corrente del campo su `v` per `o`.
+
+> La classe `java.lang.reflect.Field` non e' generica, e fino a prova contraria, non fornisce al compilatore il tipo del campo descritto.
+
+### Invocazione dinamica dei metodi
+Dato un oggetto `c` della classe `Class<C>`, e' possibile accedere al descrittore del metodo dei metodi visibili di `c`.
+Oltre a descrivere i metodi, i descrittori di metodo possono essere utilizzati per invocare il metodo descritto con argomenti adeguati.
+
+Dato un oggetto `c` di classe `Class<C>`, un descrittore di metodo `m` ottenuto da `c`, un oggetto `o` di classe `C` e un array di oggetti `a`, è possibile utilizzare `m.invoke(o, a)` per invocare il metodo descritto da `m` sull'oggetto `o` con argomenti `a`.
+
+> La classe `java.lang.reflect.Method` non è generica e pertanto non fornisce al compilatore (ad esempio) il tipo restituito del metodo descritto.
+
+[_Torna all'indice_](#indice)
+
+---

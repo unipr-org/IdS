@@ -1,4 +1,7 @@
-package it.unipr.informatica.concurrent;
+package it.unipr.informatica.concurrent.pool;
+
+import it.unipr.informatica.concurrent.LinkedBlockingQueue;
+import it.unipr.informatica.concurrent.pool.exception.RejectedExecutionException;
 
 class SimpleThreadPoolExecutorService implements ExecutorService {
 	private Thread[] workers;

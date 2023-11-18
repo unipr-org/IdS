@@ -5,8 +5,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 
-import it.unipr.informatica.concurrent.ExecutorService;
-import it.unipr.informatica.concurrent.Executors;
+import it.unipr.informatica.concurrent.pool.ExecutorService;
+import it.unipr.informatica.concurrent.pool.Executors;
 
 public final class DownloadManager {
 	private static final int BUFFER_SIZE = 1024;

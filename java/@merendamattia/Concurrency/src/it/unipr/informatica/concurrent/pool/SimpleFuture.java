@@ -1,4 +1,6 @@
-package it.unipr.informatica.concurrent;
+package it.unipr.informatica.concurrent.pool;
+
+import it.unipr.informatica.concurrent.pool.exception.ExecutionException;
 
 class SimpleFuture<T> implements Future<T> {
 	private Object mutex;

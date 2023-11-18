@@ -1,7 +1,7 @@
 package it.unipr.informatica.examples;
 
-import it.unipr.informatica.concurrent.ExecutionException;
-import it.unipr.informatica.concurrent.Future;
+import it.unipr.informatica.concurrent.pool.Future;
+import it.unipr.informatica.concurrent.pool.exception.ExecutionException;
 
 public class Example06 {
 	private void process(Future<ResourceContent> future) {

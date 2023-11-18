@@ -472,7 +472,7 @@ Un future blocca il thread che tenta di accedere al suo valore incorporato (un r
 ---
 
 ## Java Reflection
-Java e Java Virtual Machine (JVM) forniscono un mezzo, il `pacchetto java.lang.reflect`, per rinviare alcune decisioni in fase di esecuzione.
+Java e Java Virtual Machine (JVM) forniscono un mezzo, il pacchetto `java.lang.reflect`, per rinviare alcune decisioni in fase di esecuzione.
 Java rimane un linguaggio tipizzato staticamente, ma fornisce un mezzo puramente orientato agli oggetti per supportare:
 - Collegamento dinamico delle classi
 - Introspezione (dinamica) (degli oggetti)
@@ -480,7 +480,7 @@ Java rimane un linguaggio tipizzato staticamente, ma fornisce un mezzo puramente
 - Accesso dinamico ai campi
 - Invocazione dinamica di metodi
 
-Si noti che i seguenti fatti sono veri in Java
+Si noti che i seguenti fatti sono veri in Java:
 - Ogni oggetto è associato alla classe che è stata utilizzata per crearlo, la cosiddetta classe factory.
 - Ogni classe/interfaccia è rappresentata in fase di runtime da un oggetto, il cosiddetto oggetto classe (o descrittore di classe).
 
@@ -489,6 +489,30 @@ Data la classe/interfaccia `C`, l'oggetto che rappresenta la classe/interfaccia 
 
 Ogni oggetto di classe è associato a un caricatore di classe, che è l'oggetto utilizzato per caricare il bytecode della classe.
 Gli oggetti di classe sono il punto di ingresso della Java Reflection.
+
+### Esempio riflessione
+La sintassi `Class<?>` in Java fa parte del sistema di riflessione ed è utilizzata per rappresentare l'oggetto `Class` di una classe sconosciuta o non specificata.
+
+-   `Class`: `Class` è una classe in Java che rappresenta metadati sulla classe di un oggetto, inclusi i dettagli sulla sua struttura, campi, metodi e altro ancora. È parte del sistema di riflessione di Java.
+    
+-   `<T>`: È un parametro generico che indica un tipo. Quando si utilizza `<T>` dopo `Class`, si sta dicendo a Java di lavorare con un oggetto `Class` che rappresenta il tipo specifico di classe. Ad esempio, `Class<String>` rappresenta l'oggetto `Class` di una classe di tipo `String`.
+    
+-   `<?>`: Questa è una wildcard (`?`) che indica "qualsiasi tipo". Quando combinata con `Class`, `Class<?>` significa un oggetto `Class` di una classe di tipo sconosciuto. Può essere qualsiasi classe.
+    
+
+In altre parole, `Class<?>` è un modo di indicare che stiamo lavorando con un oggetto `Class` di una classe, ma non stiamo specificando il tipo esatto di quella classe. Questo è utile in situazioni in cui il tipo della classe non è noto a compile time o è un parametro generico.
+
+Ad esempio, se stai scrivendo una funzione che accetta un oggetto `Class` come argomento, ma non sai quale sarà la classe specifica, puoi dichiarare il parametro come `Class<?>`.
+
+```java
+public void esempio(Class<?> classe) {
+    // ...
+}
+```
+
+Questa dichiarazione consente di passare qualsiasi tipo di classe all'interno della funzione. L'utilizzo di `Class<?>` è comune quando si lavora con il sistema di riflessione e si desidera scrivere codice che possa gestire classi di tipo sconosciuto in modo generico.
+
+> Guarda Esempio08 in Java.
 
 [_Torna all'indice_](#indice)
 

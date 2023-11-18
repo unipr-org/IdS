@@ -1,6 +1,6 @@
 package it.unipr.informatica.concurrent;
 
-public class TestFeatures {
+public class Test {
 	public static void main(String[] args) {
 		LinkedBlockingQueue<Integer> queue = new LinkedBlockingQueue<>();
 		

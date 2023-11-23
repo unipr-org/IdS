@@ -584,4 +584,201 @@ Dato un oggetto `c` di classe `Class<C>`, un descrittore di metodo `m` ottenuto 
 
 [_Torna all'indice_](#indice)
 
+### Dynamic Proxies
+Dato un array `a` di oggetti di classe associati alle interfacce, un proxy dinamico è un oggetto che implementa le interfacce in `a` e richiama il codice utente dopo le invocazioni dei metodi.
+> E' un oggetto che funge da rappresentante di un altro oggetto.
+
+I proxies sono creati usando `java.lang.reflect.proxy.Proxy.newInstance`.
+Il codice utente richiamato durante l'invocazione del metodo è arbitrario ed è un'implementazione dell'interfaccia funzionale `java.lang.reflect.InvocationHandler`.
+Al codice utente viene fornito il descrittore del metodo richiamato.
+Il codice utente può restituire un valore, che viene utilizzato come valore di ritorno dell'invocazione che ha attivato l'attivazione del codice utente.
+
+I proxy dinamici possono essere utilizzati per una varietà di scopi, tra cui:
+-   **Autenticazione e autorizzazione:** I proxy dinamici possono essere utilizzati per autenticare e autorizzare gli utenti prima di consentirgli di accedere a un oggetto reale.
+-   **Logging:** I proxy dinamici possono essere utilizzati per registrare le interazioni di metodo con un oggetto reale.
+-   **Profilatura:** I proxy dinamici possono essere utilizzati per profilare le prestazioni di un oggetto reale.
+-   **Decoupling:** I proxy dinamici possono essere utilizzati per decouple un client da un oggetto reale.
+
+Ecco un esempio di come utilizzare un proxy dinamico per l'autenticazione:
+```java
+public class AuthenticationProxy implements MyInterface {
+
+    private MyObject realObject;
+    private AuthenticationService authenticationService;
+
+    public AuthenticationProxy(
+			    MyObject realObject, 
+			    AuthenticationService authenticationService) {
+			    
+        this.realObject = realObject;
+        this.authenticationService = authenticationService;
+    }
+
+    @Override
+    public void doSomething() {
+        // Verifica l'autenticazione dell'utente
+        if (!authenticationService.isAuthenticated()) {
+            throw new AuthenticationException("Utente non autenticato");
+        }
+
+        // Invia la richiesta all'oggetto reale
+        realObject.doSomething();
+    }
+}
+```
+
+In questo esempio, il proxy dinamico verifica l'autenticazione dell'utente prima di consentire all'utente di chiamare il metodo `doSomething()` sull'oggetto reale. Se l'utente non è autenticato, viene lanciata un'eccezione.
+
+I proxy dinamici sono un potente strumento che può essere utilizzato per una varietà di scopi. Sono facili da usare e possono essere utilizzati per migliorare la sicurezza, la funzionalità e le prestazioni delle applicazioni.
+
+[_Torna all'indice_](#indice)
+
+---
+
+## Aspect-Oriented Programming (AOP)
+L'AOP è un paradigma di programmazione che consente di aggiungere funzionalità aggiuntive, chiamate **aspetti**, al codice esistente. Gli aspetti possono essere utilizzati per aggiungere funzionalità come la registrazione, la profilatura, la sicurezza e l'autenticazione.
+
+L'AOP è stato proposto come il passo successivo alla programmazione orientata agli oggetti (OOP) sin dai primi anni 2000. L'AOP è principalmente inteso per promuovere il riutilizzo del codice.
+
+Nell'ambito dell'OOP (quasi) puro sostenuto da Java, l'AOP può essere drasticamente semplificato:
+- Gli aspetti sono caratteristiche degli oggetti che non sono prontamente fornite dalle loro classi.
+- Un fornitore di aspetti è un oggetto che può collegare/scollegare un aspetto da un oggetto o che può creare un oggetto con un aspetto richiesto.
+
+Gli aspetti sono caratteristiche di oggetti che non sono prontamente fornite dalle loro classi. Ad esempio, un aspetto potrebbe aggiungere la funzionalità di registrazione a un oggetto che non fornisce tale funzionalità per impostazione predefinita.
+
+Gli aspetti dovrebbero essere:
+-   **Indipendente dalle caratteristiche degli oggetti a cui sono collegati**. Ciò significa che gli aspetti dovrebbero essere in grado di funzionare con qualsiasi oggetto, indipendentemente dalle sue classi o interfacce.
+-   **Liberamente componibili**. Ciò significa che un oggetto può essere collegato a più aspetti, ottenendo così più funzionalità.
+-   **Ortogonali**. Ciò significa che la composizione di aspetti fornisce la somma di funzionalità indipendenti.
+
+Il paradigma AOP può essere implementato in Java utilizzando proxy dinamici. I proxy dinamici sono oggetti che fungono da intermediari tra un client e un oggetto reale.
+> Dato un oggetto `o`, un *fornitore di aspetti* associa l'aspetto a `o` tramite un proxy dinamico che intercetta tutte le invocazioni ai metodi pubblici di `o`.
+
+Ecco un esempio di come utilizzare l'AOP per aggiungere la funzionalità di registrazione a un oggetto:
+```java
+public class MyObject {
+    public void doSomething() {
+        // Fai qualcosa
+    }
+}
+
+@Aspect
+public class LoggingAspect {
+
+    @Around("execution(* doSomething(..))")
+    public void logMethodCall(ProceedingJoinPoint joinPoint) throws Throwable {
+        // Registra la chiamata al metodo
+        System.out.println("Chiamata al metodo doSomething");
+
+        // Prosegui con la chiamata al metodo reale
+        joinPoint.proceed();
+    }
+}
+```
+
+In questo esempio, l'aspetto `LoggingAspect` viene utilizzato per registrare la chiamata al metodo `doSomething()`. L'aspetto utilizza l'annotazione `@Around` per definire un advice che verrà eseguito prima e dopo la chiamata al metodo reale.
+
+Quando viene chiamato il metodo `doSomething()`, l'aspetto `LoggingAspect` registra la chiamata al metodo. Quindi, l'aspetto procede con la chiamata al metodo reale.
+
+Alcuni aspetti generali che vengono spesso considerati quando si implementa l'AOP:
+-   **Condivisione:** Gli aspetti di condivisione sono utilizzati per garantire che gli oggetti condivisi siano utilizzati in modo sicuro. Ad esempio, un aspetto di condivisione potrebbe implementare un mutex per garantire che un oggetto condiviso non venga modificato da più thread contemporaneamente.
+	
+-   **Registrazione:** Gli aspetti di registrazione vengono utilizzati per tracciare le interazioni con gli oggetti. Ad esempio, un aspetto di registrazione potrebbe registrare le chiamate ai metodi degli oggetti in un file di log.
+	
+-   **Persistenza:** Gli aspetti di persistenza vengono utilizzati per salvare gli oggetti in un database o in un altro sistema di archiviazione. Ad esempio, un aspetto di persistenza potrebbe implementare un metodo per salvare un oggetto quando viene creato o modificato.
+
+-   **Attivazione:** Gli aspetti di attivazione vengono utilizzati per attivare o disattivare le funzionalità di un oggetto. Ad esempio, un aspetto di attivazione potrebbe implementare un metodo per disabilitare la funzionalità di logging quando un'applicazione è in modalità di test.
+-   **Remotismo:** Gli aspetti di remoto vengono utilizzati per consentire agli oggetti di interagire tra loro in remoto. Ad esempio, un aspetto di remoto potrebbe implementare un metodo per inviare una richiesta a un oggetto remoto.
+-   **Ricaricabilità:** Gli aspetti di ricaricabilità vengono utilizzati per aggiornare gli oggetti senza interrompere l'esecuzione dell'applicazione. Ad esempio, un aspetto di ricaricabilità potrebbe implementare un metodo per ricaricare un oggetto da un file di configurazione.
+
+In genere, solo i metodi dalle interfacce implementate vengono considerati quando si implementano aspetti. Ciò è dovuto al fatto che gli aspetti vengono applicati agli oggetti in base alle loro interfacce, non alle loro classi.
+
+[_Torna all'indice_](#indice)
+
+---
+
+### Shared Aspect
+Un oggetto condiviso è un oggetto che deve garantire la mutua esclusione per l'esecuzione delle sue modalità.
+Solo i metodi delle interfacce implementate sono interessanti perché sono i metodi esportati.
+Un proxy dinamico è sufficiente per intercettare tutte le invocazioni a metodi interessanti:
+- Il gestore di invocazione fornisce oggetti utilizzati come blocco di sincronizzazione.
+- Il gestore di invocazione entra in una regione critica protetta dal lock prima di invocare il metodo di destinazione, ed esce dalla regione critica immediatamente dopo.
+- Il gestore di invocazione esce dalla regione critica anche in caso di eccezioni.
+
+Esempio: Un aspetto di condivisione potrebbe essere utilizzato per garantire che un oggetto condiviso non venga modificato da più thread contemporaneamente. Ad esempio, il seguente aspetto implementa un mutex per garantire che un oggetto `MyObject` possa essere utilizzato solo da un thread alla volta:
+```java
+@Aspect
+public class SharingAspect {
+
+    @Around("execution(* MyObject.*(..))")
+    public void synchronize(ProceedingJoinPoint joinPoint) throws Throwable {
+        // Ottieni un mutex per l'oggetto
+        Object mutex = joinPoint.getThis();
+        
+        // Blocca il mutex
+        synchronized (mutex) {
+            // Esegui il metodo reale
+            joinPoint.proceed();
+        }
+    }
+}
+```
+
+[_Torna all'indice_](#indice)
+
+---
+
+### Logging Aspect
+Un oggetto di registrazione è un oggetto che traccia le invocazioni ai suoi metodi in un registro dei messaggi.
+Solo i metodi delle interfacce implementate sono interessanti perché sono i metodi esportati.
+Un proxy dinamico è sufficiente per intercettare tutte le invocazioni a metodi interessanti:
+- Il gestore delle chiamate registra prima e dopo aver invocato il metodo di destinazione.
+- Il gestore delle chiamate registra anche in caso di eccezioni.
+
+Esempio: Un aspetto di registrazione potrebbe essere utilizzato per tracciare le chiamate ai metodi di un oggetto. Ad esempio, il seguente aspetto registra le chiamate ai metodi di un oggetto `MyObject` in un file di log:
+```java
+@Aspect
+public class LoggingAspect {
+
+    @Around("execution(* MyObject.*(..))")
+    public void logMethodCall(ProceedingJoinPoint joinPoint) throws Throwable {
+        // Registra la chiamata al metodo
+        System.out.println("Chiamata al metodo " + joinPoint.getSignature().getName());
+
+        // Prosegui con la chiamata al metodo reale
+        joinPoint.proceed();
+    }
+}
+
+```
+
+[_Torna all'indice_](#indice)
+
+---
+
+### Persistent Aspect
+Un oggetto persistente è un oggetto che sopravvive allo spegnimento del sistema in cui è stato creato o modificato.
+I proxy dinamici non sono necessari perché all'utente viene richiesto esplicitamente:
+- Effettua il commit delle modifiche nell'archivio persistente.
+- Modifiche di rollback (ricaricando i dati dall'archivio persistente).
+
+È possibile ottenere una semplice persistenza caricando/salvando oggetti serializzabili su file:
+- Gli oggetti che implementano `java.io.Serializable` possono essere facilmente serializzati con `java.io.ObjectOutputStream` e deserializzati con `java.io.ObjectInputStream`.
+- Gli oggetti serializzabili forniscono un campo `serialVersionUID` privato per disambiguare diverse versioni delle loro classi.
+
+	Esempio: Un aspetto di persistenza potrebbe essere utilizzato per salvare gli oggetti in un database. Ad esempio, il seguente aspetto salva un oggetto `MyObject` in un database quando viene creato o modificato:
+```java
+@Aspect
+public class PersistenceAspect {
+
+    @AfterReturning("execution(* MyObject.*(..))")
+    public void saveObject(Object object) {
+        // Salva l'oggetto nel database
+        // ...
+    }
+}
+```
+
+[_Torna all'indice_](#indice)
+
 ---

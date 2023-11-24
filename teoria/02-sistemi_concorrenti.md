@@ -880,3 +880,118 @@ In questo modo, possiamo garantire che i metodi dell'oggetto attivo vengano eseg
 [_Torna all'indice_](#indice)
 
 ---
+
+### Remote Aspect
+Un oggetto remoto è un oggetto che può essere invocato da un altro oggetto che si trova in un altro processo o computer.
+
+Per implementare un oggetto remoto, è necessario fornire un modo per i client di inviare richieste all'oggetto remoto e per l'oggetto remoto di inviare risposte ai client.
+
+Una soluzione comune è utilizzare una comunicazione socket. In questo caso, l'oggetto remoto crea una socket per accettare richieste dai client. Quando un client invia una richiesta, l'oggetto remoto la riceve sulla socket e la elabora. Dopo aver elaborato la richiesta, l'oggetto remoto invia una risposta al client sulla socket.
+
+L'oggetto remoto crea una socket per accettare richieste dai client. Quando un client invia una richiesta, l'oggetto remoto la riceve sulla socket e la elabora. Dopo aver elaborato la richiesta, l'oggetto remoto invia una risposta al client sulla socket.
+
+Un oggetto remoto basato su eventi è un oggetto remoto che invia eventi ai client.
+
+Un evento è un messaggio che viene inviato da un oggetto a un altro oggetto. Gli eventi possono essere utilizzati per notificare ai client che si è verificato un evento di interesse.
+
+Per implementare un oggetto remoto basato su eventi, è necessario fornire un modo per i client di registrarsi per eventi e per l'oggetto remoto di inviare eventi ai client registrati.
+
+Una soluzione comune è utilizzare un canale di eventi. In questo caso, l'oggetto remoto crea un canale di eventi. I client possono registrarsi per eventi sull'oggetto remoto passando un callback al canale di eventi. Quando l'oggetto remoto genera un evento, lo invia al canale di eventi. Il canale di eventi quindi invia l'evento ai client registrati.
+
+Un oggetto remoto asincrono è un oggetto remoto che può essere invocato in modo asincrono.
+
+Invocazione asincrona significa che l'invocazione del metodo non blocca il thread che ha invocato il metodo. Il metodo viene eseguito in un thread separato e il thread che ha invocato il metodo riceve una notifica quando il metodo è terminato.
+
+Per implementare un oggetto remoto asincrono, è necessario utilizzare un meccanismo di chiamata asincrona. Una soluzione comune è utilizzare una coda di lavoro. In questo caso, l'oggetto remoto crea una coda di lavoro. I client possono inviare richieste all'oggetto remoto inviando le richieste alla coda di lavoro. La coda di lavoro quindi esegue le richieste in un thread separato.
+
+L'oggetto remoto crea una coda di lavoro. I client possono inviare richieste all'oggetto remoto inviando le richieste alla coda di lavoro. La coda di lavoro quindi esegue le richieste in un thread separato.
+
+Esempio: Consideriamo l'esempio di un oggetto remoto che rappresenta un servizio di calcolo. Il servizio di calcolo può essere utilizzato per eseguire calcoli complessi.
+
+L'oggetto remoto implementa l'interfaccia `IComputationService`. L'interfaccia `IComputationService` definisce un metodo `compute()` che esegue un calcolo complesso.
+
+La seguente è una possibile implementazione dell'interfaccia `IComputationService`:
+
+```java
+public interface IComputationService {
+	double compute(double x, double y);
+}    
+```
+
+La seguente è una possibile implementazione del servizio di calcolo in modo sincrono:
+
+```java
+public class ComputationService implements IComputationService {
+
+    @Override
+    public double compute(double x, double y) {
+        // Esegue il calcolo complesso
+        double result = Math.pow(x, 2) + Math.pow(y, 2);
+
+        // Restituisce il risultato
+        return result;
+    }
+}
+```
+
+In questa implementazione, il metodo `compute()` esegue il calcolo complesso nel thread che ha invocato il metodo. Ciò significa che il thread che ha invocato il metodo potrebbe essere bloccato per un periodo di tempo significativo, a seconda della complessità del calcolo.
+
+Per implementare il servizio di calcolo in modo asincrono, possiamo utilizzare una coda di lavoro. La seguente è una possibile implementazione del servizio di calcolo in modo asincrono:
+
+```java
+public class ComputationService implements IComputationService {
+
+    private final ExecutorService executorService = Executors.newSingleThreadExecutor();
+
+    @Override
+    public Future<Double> compute(double x, double y) {
+        // Crea un oggetto Future per rappresentare il risultato del calcolo
+        Future<Double> future = new Future<>();
+
+        // Esegue il calcolo complesso in un thread separato
+        executorService.submit(() -> {
+            double result = Math.pow(x, 2) + Math.pow(y, 2);
+            future.set(result);
+        });
+
+        // Restituisce l'oggetto Future
+        return future;
+    }
+}
+```
+
+In questa implementazione, il metodo `compute()` crea un oggetto `Future` per rappresentare il risultato del calcolo. L'oggetto `Future` viene utilizzato per notificare il thread che ha invocato il metodo quando il calcolo è terminato.
+
+Il metodo `compute()` esegue il calcolo complesso in un thread separato, utilizzando l'executor service. Ciò significa che il thread che ha invocato il metodo non viene bloccato.
+
+**Client**
+
+Il client può utilizzare l'oggetto remoto in modo sincrono o asincrono.
+
+Per utilizzare l'oggetto remoto in modo sincrono, il client può semplicemente invocare il metodo desiderato. Ad esempio:
+
+```java
+IComputationService service = new ComputationService();
+
+double result = service.compute(1.0, 2.0);
+```
+
+In questo caso, il thread del client verrà bloccato fino a quando il calcolo non sarà terminato.
+
+Per utilizzare l'oggetto remoto in modo asincrono, il client può creare un oggetto `Future` per rappresentare il risultato del calcolo. Ad esempio:
+
+```java
+IComputationService service = new ComputationService();
+
+Future<Double> future = service.compute(1.0, 2.0);
+
+// Fai qualcos'altro...
+
+double result = future.get();
+```
+
+In questo caso, il thread del client non verrà bloccato. Il thread del client potrà continuare a fare qualcos'altro mentre il calcolo viene eseguito in background. Quando il calcolo è terminato, il metodo `get()` restituirà il risultato del calcolo.
+
+[_Torna all'indice_](#indice)
+
+---

@@ -782,3 +782,101 @@ public class PersistenceAspect {
 [_Torna all'indice_](#indice)
 
 ---
+
+### Active Aspect
+Un oggetto attivo è un oggetto che esegue i propri metodi in un pool di thread dedicato. Ciò significa che i metodi di un oggetto attivo non vengono eseguiti nel thread che li ha invocati, ma in un thread diverso, che fa parte del pool di thread dedicato all'oggetto.
+Solo i metodi che implementano interfacce sono interessati perche' questi sono metodi esportati. Un proxy dinamico  e' sufficiente per intercettare tutte le invocazioni dei metodi interessati.
+Un'interfaccia attiva è un'interfaccia che fornisce metodi con firme simili ai metodi nelle interfacce implementate dall'oggetto attivo. La differenza principale è che i metodi di un'interfaccia attiva restituiscono i risultati utilizzando futures e callback.
+
+Esempio: Consideriamo l'esempio di un oggetto attivo che rappresenta un server web. L'oggetto attivo implementa l'interfaccia `WebServer`, che definisce i metodi per gestire le richieste HTTP.
+
+La seguente è una possibile implementazione dell'interfaccia `WebServer`:
+
+```java
+public interface WebServer {
+
+    void handleRequest(HttpRequest request, HttpResponse response);
+    void shutdown();
+
+}
+```
+
+L'interfaccia `WebServer` non fornisce alcuna informazione sul modo in cui i metodi `handleRequest()` e `shutdown()` vengono eseguiti. Per specificare che questi metodi devono essere eseguiti in un pool di thread dedicato, possiamo creare un'interfaccia attiva che estende `WebServer`.
+La seguente è una possibile implementazione dell'interfaccia attiva `ActiveWebServer`:
+
+```java
+public interface ActiveWebServer extends Active<WebServer> {
+
+    Future<Void> handleRequest(HttpRequest request, HttpResponse response);
+    void shutdown();
+
+}
+```
+
+L'interfaccia `ActiveWebServer` fornisce due metodi aggiuntivi:
+
+-   `Future<Void> handleRequest()`: questo metodo restituisce un oggetto `Future` che rappresenta il risultato dell'invocazione del metodo `handleRequest()`.
+-   `void shutdown()`: questo metodo non restituisce alcun valore.
+
+Per creare un oggetto attivo che implementi l'interfaccia `ActiveWebServer`, possiamo utilizzare un proxy dinamico. Un proxy dinamico è un oggetto che viene creato dinamicamente per rappresentare un altro oggetto. In questo caso, il proxy dinamico rappresenterà l'oggetto che implementa l'interfaccia `WebServer`.
+
+La seguente è una possibile implementazione di un proxy dinamico per l'interfaccia `ActiveWebServer`:
+
+```java
+public class ActiveWebServerProxy implements ActiveWebServer {
+
+    private WebServer server;
+
+    public ActiveWebServerProxy(WebServer server) {
+        this.server = server;
+    }
+
+    @Override
+    public Future<Void> handleRequest(
+		    HttpRequest request, HttpResponse response) {
+        // Crea un oggetto Future per rappresentare il risultato dell'invocazione del metodo
+        // handleRequest()
+        Future<Void> future = new Future<>();
+
+        // Esegue il metodo handleRequest() nell'oggetto server
+        new Thread(() -> {
+            try {
+                server.handleRequest(request, response);
+                future.setDone();
+            } catch (Exception e) {
+                future.setException(e);
+            }
+        }).start();
+
+        return future;
+    }
+
+    @Override
+    public void shutdown() {
+        server.shutdown();
+    }
+
+}
+```
+
+Il proxy dinamico implementa tutti i metodi dell'interfaccia `ActiveWebServer`. Il metodo `handleRequest()` esegue il metodo `handleRequest()` dell'oggetto server in un thread separato. Il metodo `shutdown()` esegue il metodo `shutdown()` dell'oggetto server.
+
+Per utilizzare l'oggetto attivo, possiamo creare un'istanza del proxy dinamico. Ad esempio:
+
+```java
+WebServer server = new WebServer();
+ActiveWebServer activeServer = new ActiveWebServerProxy(server);
+```
+
+Quindi, possiamo invocare i metodi dell'oggetto attivo come se si trattasse di un normale oggetto. Ad esempio:
+
+```java
+activeServer.handleRequest(new HttpRequest(), new HttpResponse());
+activeServer.shutdown();
+```
+
+In questo modo, possiamo garantire che i metodi dell'oggetto attivo vengano eseguiti in un pool di thread dedicato.
+
+[_Torna all'indice_](#indice)
+
+---

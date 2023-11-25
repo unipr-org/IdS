@@ -8,6 +8,7 @@ package it.unipr.informatica.beans;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.util.ArrayList;
@@ -19,23 +20,19 @@ import java.util.Scanner;
 
 public class BeanLoader {
     
-	// Metodo principale per il caricamento dei dati da un file in oggetti Bean
     public <T extends Bean> List<T> load(Class<T> clazz, String fileName) throws IOException {
-        // Verifica se la classe è un'interfaccia
+        
+    	// Verifica se la classe è un'interfaccia
         if (clazz == null || !clazz.isInterface())
             throw new IllegalArgumentException("clazz == null || !clazz.isInterface()");
 
-        // Verifica se il nome del file è valido
         if (fileName == null || fileName.length() == 0)
             throw new IllegalArgumentException("fileName == null || fileName.length() == 0");
 
-        // Utilizza il blocco try-with-resources per aprire il file e lo scanner per leggere i dati
-        try (InputStream inputStream = new FileInputStream(fileName);
-             Scanner scanner = new Scanner(inputStream)) {
-            // Imposta il locale dello scanner per gestire correttamente i numeri decimali
+        try (	InputStream inputStream = new FileInputStream(fileName);
+        		Scanner scanner = new Scanner(inputStream)) {
             scanner.useLocale(Locale.US);
 
-            // Legge la riga di intestazione contenente i nomi delle proprietà
             String heading = scanner.nextLine();
 
             // Ottiene i nomi delle proprietà dalla riga di intestazione
@@ -49,16 +46,21 @@ public class BeanLoader {
 
             // Ciclo per leggere le righe del file e creare gli oggetti Bean
             while (scanner.hasNext()) {
+            	
                 // Oggetto Value utilizzato come contenitore per i valori delle proprietà
                 Value container = new Value();
 
                 // Creazione del proxy Bean dinamico
+                // Object newProxyInstance(ClassLoader loader, Class<?>[] interfaces, InvocationHandler h)
+                
                 @SuppressWarnings("unchecked")
                 T bean = (T) Proxy.newProxyInstance(
                         clazz.getClassLoader(),
                         new Class<?>[]{clazz},
                         (proxy, method, args) -> {
-                            // Gestisce le chiamate ai metodi dell'interfaccia
+                            // InvocationHandler
+                        	
+                        	// Gestisce le chiamate ai metodi dell'interfaccia
                             String methodName = method.getName();
 
                             // Se il metodo inizia con "get" e non ha argomenti, restituisce il valore dalla mappa

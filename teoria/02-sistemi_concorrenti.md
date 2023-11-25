@@ -331,6 +331,10 @@ Un lock è normalmente associato con importanti condizioni:
 - Quando un thread aspetta che una condizione venga segnalata, rilascia il lock della condizione.
 - Quando un thread segnala una condizione, deve esplicitamente rilasciare il lock della condizione.
 
+Le condizioni forniscono un significato ad un thread per la sospensione dell'esecuzione (`wait`) finché non viene notificato da un altro thread che la condizione è diventata vera. Dato che l'accesso a questo stato condiviso avviene all'interno di thread differenti deve essere protetto, per questo motivo un lock di qualunque forma è associato ad una condizione. La proprietà chiave che l'attesa per una condizione fornisce è che il rilascio del lock associato e l'attesa del thread avvengono in modo atomico.
+[Java docs](https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/locks/Condition.html)
+
+
 > Lock rientrante: consente di acquisire più volte lo stesso lock $\to$ è consentito acquisirlo di nuovo senza che si verifichi un deadlock.
 > Un esempio di lock rientrante:
 ``` java

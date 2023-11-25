@@ -17,93 +17,127 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
+import it.unipr.informatica.aspects.interfaces.PersistentHandler;
+
 public class PersistentAspect {
-	public static <T extends Serializable> PersistentHandler<T> attach(String fileName, T object) throws IOException {
-		return attach(new File(fileName), object);
-	}
 
-	public static <T extends Serializable> PersistentHandler<T> attach(File file, T object) throws IOException {
-		if (object == null)
-			throw new IllegalArgumentException("object == null");
+    // Metodo per associare un oggetto serializzabile a un gestore di persistenza
+    public static <T extends Serializable> PersistentHandler<T> 
+    		attach(String fileName, T object) 
+    				throws IOException {
+    	
+        return attach(new File(fileName), object);
+    }
 
-		if (file == null)
-			throw new IllegalArgumentException("file == null");
+    // Metodo per associare un oggetto serializzabile a un gestore di persistenza con un file specifico
+    public static <T extends Serializable> PersistentHandler<T> attach(File file, T object) throws IOException {
+        
+        if (object == null)
+            throw new IllegalArgumentException("object == null");
 
-		if (file.exists() && !file.isFile())
-			throw new IllegalArgumentException("file.exists() && !file.isFile()");
+        
+        if (file == null)
+            throw new IllegalArgumentException("file == null");
 
-		InnerPersistentHandler<T> handler = new InnerPersistentHandler<T>(file);
+        // Controlla se il file esiste e non è un file
+        if (file.exists() && !file.isFile())
+            throw new IllegalArgumentException("file.exists() && !file.isFile()");
 
-		if (file.exists())
-			handler.load();
-		else
-			handler.target = object;
+        // Crea un gestore di persistenza interno
+        InnerPersistentHandler<T> handler = new InnerPersistentHandler<T>(file);
 
-		return handler;
-	}
+        // Se il file esiste, carica il contenuto, altrimenti imposta l'oggetto di destinazione
+        if (file.exists())
+            handler.load();
+        else
+            handler.target = object;
 
-	private static class InnerPersistentHandler<T extends Serializable> implements PersistentHandler<T> {
-		private T target;
+        // Restituisce il gestore di persistenza
+        return handler;
+    }
 
-		private File file;
+    // Classe interna che implementa il gestore di persistenza
+    private static class InnerPersistentHandler<T extends Serializable> implements PersistentHandler<T> {
 
-		private InnerPersistentHandler(File file) {
-			this.file = file;
+        // Oggetto di destinazione
+        private T target;
 
-			this.target = null;
-		}
+        // File associato al gestore di persistenza
+        private File file;
 
-		@Override
-		public T get() {
-			if (target == null)
-				throw new IllegalStateException("target == null");
+        private InnerPersistentHandler(File file) {
+            this.file = file;
 
-			return target;
-		}
+            this.target = null;
+        }
 
-		@Override
-		public void rollback() throws IOException {
-			load();
-		}
+        // Metodo per ottenere l'oggetto di destinazione
+        @Override
+        public T get() {
+            if (target == null)
+                throw new IllegalStateException("target == null");
+            return target;
+        }
 
-		@Override
-		public void commit() throws IOException {
-			save();
-		}
+        // Metodo per ripristinare lo stato precedente dall'archivio
+        @Override
+        public void rollback() throws IOException {
+            // Carica il contenuto del file
+            load();
+        }
 
-		private void load() throws IOException {
-			try (InputStream inputStream = new FileInputStream(file);
-					BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-					ObjectInputStream objectInputStream = new ObjectInputStream(bufferedInputStream)) {
-				Object object = objectInputStream.readObject();
+        // Metodo per salvare l'oggetto di destinazione nello stato corrente
+        @Override
+        public void commit() throws IOException {
+            // Salva l'oggetto di destinazione nel file
+            save();
+        }
 
-				@SuppressWarnings("unchecked")
-				T result = (T) object;
+        // Metodo privato per caricare il contenuto del file nell'oggetto di destinazione
+        private void load() throws IOException {
+        	
+            try (InputStream inputStream = new FileInputStream(file);
+                    BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+                    ObjectInputStream objectInputStream = new ObjectInputStream(bufferedInputStream)) {
+                
+            	// Legge l'oggetto serializzato dal file
+                Object object = objectInputStream.readObject();
 
-				target = result;
-			} catch (IOException exception) {
-				throw exception;
-			} catch (Throwable throwable) {
-				throw new IOException(throwable);
-			}
+                // Esegue il cast dell'oggetto a T
+                @SuppressWarnings("unchecked")
+                T result = (T) object;
 
-			if (target == null)
-				throw new IllegalStateException("target == null");
-		}
+                // Imposta l'oggetto di destinazione con l'oggetto letto dal file
+                target = result;
+            
+            } catch (IOException exception) {
+                throw exception;
+            } catch (Throwable throwable) {
+                throw new IOException(throwable);
+            }
 
-		private void save() throws IOException {
-			if (target == null)
-				throw new IllegalStateException("target == null");
+            if (target == null)
+                throw new IllegalStateException("target == null");
+        }
 
-			try (OutputStream outputStream = new FileOutputStream(file);
-					BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
-					ObjectOutputStream objectOutputStream = new ObjectOutputStream(bufferedOutputStream)) {
-				objectOutputStream.writeObject(target);
-			} catch (IOException exception) {
-				throw exception;
-			} catch (Throwable throwable) {
-				throw new IOException(throwable);
-			}
-		}
-	}
+        // Metodo privato per salvare l'oggetto di destinazione nel file
+        private void save() throws IOException {
+        	
+            if (target == null)
+                throw new IllegalStateException("target == null");
+
+            try (OutputStream outputStream = new FileOutputStream(file);
+                    BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(bufferedOutputStream)) {
+            	
+                // Scrive l'oggetto di destinazione nel file
+                objectOutputStream.writeObject(target);
+                
+            } catch (IOException exception) {
+                throw exception;
+            } catch (Throwable throwable) {
+                throw new IOException(throwable);
+            }
+        }
+    }
 }

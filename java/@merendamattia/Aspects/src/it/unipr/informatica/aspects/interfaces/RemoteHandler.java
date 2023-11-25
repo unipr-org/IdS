@@ -3,7 +3,7 @@
  *
  * (c) 2021-2023 Federico Bergenti. All Rights Reserved.
  */
-package it.unipr.informatica.aspects;
+package it.unipr.informatica.aspects.interfaces;
 
 public interface RemoteHandler<T> {
 	public void shutdown();

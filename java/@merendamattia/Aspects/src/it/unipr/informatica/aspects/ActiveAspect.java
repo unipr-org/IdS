@@ -18,112 +18,132 @@ import it.unipr.informatica.concurrent.pool.ExecutorService;
 import it.unipr.informatica.concurrent.pool.Executors;
 
 public class ActiveAspect {
-	public static <T, A extends Active<T>> ActiveHandler<A> attach(Class<A> activeInterface, T target) {
-		return attach(activeInterface, target, 10);
-	}
+    
+	// Metodo per allegare un'implementazione di ActiveInterface a un oggetto
+    public static <T, A extends Active<T>> ActiveHandler<A> attach(Class<A> activeInterface, T target) {
+        return attach(activeInterface, target, 10);
+    }
 
-	public static <T, A extends Active<T>> ActiveHandler<A> attach(Class<A> activeInterface, T target, int poolSize) {
-		if (activeInterface == null)
-			throw new IllegalArgumentException("activeInterface == null");
+    // Metodo per allegare un'implementazione di ActiveInterface a un oggetto con un pool di dimensione specifica
+    public static <T, A extends Active<T>> ActiveHandler<A> attach(Class<A> activeInterface, T target, int poolSize) {
+        if (activeInterface == null)
+            throw new IllegalArgumentException("activeInterface == null");
 
-		if (target == null)
-			throw new IllegalArgumentException("target == null");
+        if (target == null)
+            throw new IllegalArgumentException("target == null");
 
-		if (poolSize < 1)
-			throw new IllegalArgumentException("poolSize < 1");
+        if (poolSize < 1)
+            throw new IllegalArgumentException("poolSize < 1");
 
-		InnerInvocationHandler invocationHandler = new InnerInvocationHandler(target, poolSize);
+        // Creazione di un'istanza di InnerInvocationHandler
+        InnerInvocationHandler invocationHandler = new InnerInvocationHandler(target, poolSize);
 
-		Object proxy = Proxy.newProxyInstance(target.getClass().getClassLoader(), new Class<?>[] { activeInterface },
-				invocationHandler);
+        // Creazione di un proxy per l'interfaccia ActiveInterface
+        Object proxy = Proxy.newProxyInstance(target.getClass().getClassLoader(), new Class<?>[] { activeInterface },
+                invocationHandler);
 
-		@SuppressWarnings("unchecked")
-		A object = (A) proxy;
+        // Creazione di un'istanza di InnerActiveHandler
+        @SuppressWarnings("unchecked")
+        A object = (A) proxy;
 
-		return new InnerActiveHandler<A>(object, invocationHandler);
-	}
+        return new InnerActiveHandler<A>(object, invocationHandler);
+    }
 
-	private static class InnerActiveHandler<A extends Active<?>> implements ActiveHandler<A> {
-		private A proxy;
+    // Classe interna che gestisce il proxy e il suo InvocationHandler
+    // Fornisce un'interfaccia più pulita e semantica per accedere al proxy di Active<T>
+    private static class InnerActiveHandler<A extends Active<?>> implements ActiveHandler<A> {
+        private A proxy;
 
-		private InnerInvocationHandler handler;
+        private InnerInvocationHandler handler;
 
-		private InnerActiveHandler(A proxy, InnerInvocationHandler handler) {
-			this.proxy = proxy;
+        // Costruttore
+        private InnerActiveHandler(A proxy, InnerInvocationHandler handler) {
+            this.proxy = proxy;
 
-			this.handler = handler;
-		}
+            this.handler = handler;
+        }
 
-		@Override
-		public A get() {
-			return proxy;
-		}
+        // Restituisce il proxy
+        @Override
+        public A get() {
+            return proxy;
+        }
 
-		@Override
-		public void shutdown() {
-			handler.shutdown();
-		}
-	}
+        // Ferma l'esecuzione dei thread asincroni
+        @Override
+        public void shutdown() {
+            handler.shutdown();
+        }
+    }
 
-	private static class InnerInvocationHandler implements InvocationHandler {
-		private ExecutorService executorService;
+    // Classe interna che funge da InvocationHandler per il proxy
+    private static class InnerInvocationHandler implements InvocationHandler {
+        private ExecutorService executorService; // Servizio di esecuzione asincrona
+        private Object target; // Oggetto su cui eseguire i metodi
 
-		private Object target;
+        // Costruttore
+        private InnerInvocationHandler(Object target, int poolSize) {
+            this.target = target;
+            this.executorService = Executors.newFixedThreadPool(poolSize);
+        }
 
-		private InnerInvocationHandler(Object target, int poolSize) {
-			this.target = target;
+        // Ferma l'esecuzione dei thread asincroni
+        private void shutdown() {
+            executorService.shutdown();
+        }
 
-			this.executorService = Executors.newFixedThreadPool(poolSize);
-		}
+        // Metodo chiamato quando un metodo viene invocato sull'oggetto proxy
+        @Override
+        public Object invoke(Object proxy, Method method, Object[] arguments) throws Throwable {
+            Class<?>[] parameterTypes = method.getParameterTypes();
+            
+            int parameterCount = parameterTypes.length;
+            
+            Class<?> targetClass = target.getClass();
 
-		private void shutdown() {
-			executorService.shutdown();
-		}
+            // Se l'ultimo parametro del metodo è di tipo Callback, esegui il metodo in modo asincrono
+            if (parameterCount > 0 && parameterTypes[parameterCount - 1] == Callback.class) {
+                
+            	parameterCount--;
+                
+            	Class<?>[] newParameterTypes = (Class<?>[]) Arrays.copyOf(parameterTypes, parameterCount);
+                
+            	Method passiveMethod = targetClass.getMethod(method.getName(), newParameterTypes);
+                
+            	@SuppressWarnings("unchecked")
+                Callback<Object> callback = (Callback<Object>) arguments[parameterCount];
+                
+            	Object[] newArguments = Arrays.copyOf(arguments, parameterCount);
 
-		@Override
-		public Object invoke(Object proxy, Method method, Object[] arguments) throws Throwable {
-			Class<?>[] parameterTypes = method.getParameterTypes();
+                // Esegui il metodo in modo asincrono e fornisce il risultato al callback
+                executorService.submit(() -> invokeMethod(passiveMethod, newArguments), callback);
 
-			int parameterCount = parameterTypes.length;
+                return null;
+            
+            } else {
+                // Se il metodo non ha un parametro di tipo Callback, esegui il metodo in modo asincrono e restituisci il Future
+                Method passiveMethod = targetClass.getMethod(method.getName(), parameterTypes);
+                
+                return executorService.submit(() -> invokeMethod(passiveMethod, arguments));
+            }
+        }
 
-			Class<?> targetClass = target.getClass();
+        // Invoca il metodo passivo sull'oggetto target
+        private Object invokeMethod(Method passiveMethod, Object[] arguments) throws Exception {
+            try {
+                return passiveMethod.invoke(target, arguments);
+                
+            } catch (InvocationTargetException exception) {
+                Throwable cause = exception.getCause();
 
-			if (parameterCount > 0 && parameterTypes[parameterCount - 1] == Callback.class) {
-				parameterCount--;
+                if (cause instanceof RuntimeException)
+                    throw (RuntimeException) cause;
 
-				Class<?>[] newParameterTypes = (Class<?>[]) Arrays.copyOf(parameterTypes, parameterCount);
+                if (cause instanceof Exception)
+                    throw (Exception) cause;
 
-				Method passiveMethod = targetClass.getMethod(method.getName(), newParameterTypes);
-
-				@SuppressWarnings("unchecked")
-				Callback<Object> callback = (Callback<Object>) arguments[parameterCount];
-
-				Object[] newArguments = Arrays.copyOf(arguments, parameterCount);
-
-				executorService.submit(() -> invokeMethod(passiveMethod, newArguments), callback);
-
-				return null;
-			} else {
-				Method passiveMethod = targetClass.getMethod(method.getName(), parameterTypes);
-
-				return executorService.submit(() -> invokeMethod(passiveMethod, arguments));
-			}
-		}
-
-		private Object invokeMethod(Method passiveMethod, Object[] arguments) throws Exception {
-			try {
-				return passiveMethod.invoke(target, arguments);
-			} catch (InvocationTargetException exception) {
-				Throwable cause = exception.getCause();
-
-				if (cause instanceof RuntimeException)
-					throw (RuntimeException) cause;
-
-				if (cause instanceof Exception)
-					throw (Exception) cause;
-
-				throw exception;
-			}
-		}
-	}
+                throw exception;
+            }
+        }
+    }
 }

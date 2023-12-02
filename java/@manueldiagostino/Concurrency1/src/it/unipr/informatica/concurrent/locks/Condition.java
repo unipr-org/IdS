@@ -1,4 +1,4 @@
-package it.unipr.informatica.concurrent;
+package it.unipr.informatica.concurrent.locks;
 
 public interface Condition {
 	public void await() throws InterruptedException;

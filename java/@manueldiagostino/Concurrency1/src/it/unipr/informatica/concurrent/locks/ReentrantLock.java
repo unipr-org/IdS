@@ -1,4 +1,4 @@
-package it.unipr.informatica.concurrent;
+package it.unipr.informatica.concurrent.locks;
 
 public class ReentrantLock implements Lock {
 	private Object mutex = new Object();

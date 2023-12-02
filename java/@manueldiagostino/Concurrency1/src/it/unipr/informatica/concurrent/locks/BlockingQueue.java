@@ -1,4 +1,4 @@
-package it.unipr.informatica.concurrent;
+package it.unipr.informatica.concurrent.locks;
 
 public interface BlockingQueue<T> {
 	public void put(T elem) throws InterruptedException;

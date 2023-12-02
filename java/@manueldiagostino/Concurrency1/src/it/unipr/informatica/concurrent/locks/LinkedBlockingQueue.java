@@ -1,4 +1,4 @@
-package it.unipr.informatica.concurrent;
+package it.unipr.informatica.concurrent.locks;
 
 public class LinkedBlockingQueue<T> implements BlockingQueue<T> {
 	
@@ -8,9 +8,9 @@ public class LinkedBlockingQueue<T> implements BlockingQueue<T> {
 	final Object mutex = new Object();
 	
 	@Override
-	public void put(T elem) throws InterruptedException {
+	public void put(T elem) {
 		if (elem == null)
-			throw new InterruptedException("elem == null");
+			throw new NullPointerException("elem == null");
 		
 		Node<T> node = new Node<>();
 		node.value = elem;
@@ -24,7 +24,7 @@ public class LinkedBlockingQueue<T> implements BlockingQueue<T> {
 				tail = node;
 			}
 			
-			System.err.println(elem.toString() + " added to the queue");
+//			System.err.println(elem.toString() + " added to the queue");
 			
 			if (head.next == null)
 				mutex.notify();				
@@ -48,7 +48,7 @@ public class LinkedBlockingQueue<T> implements BlockingQueue<T> {
 				mutex.notify();
 		}
 		
-		System.err.println(result.toString() + " taken from the queue");
+//		System.err.println(result.toString() + " taken from the queue");
 		
 		return result;
 	}

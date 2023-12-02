@@ -14,7 +14,7 @@ public class Exercise02 {
 					
 					
 					try {
-						Thread.sleep(1500 + (int)(1*Math.random()));
+						Thread.sleep(1500 + (int)(1600*Math.random()));
 					} catch (InterruptedException e) {
 						System.err.println("run() " + id + " interrupted");
 					}

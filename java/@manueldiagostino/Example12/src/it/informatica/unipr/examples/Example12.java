@@ -22,8 +22,7 @@ public class Example12 {
 	
 	public void go1() {
 		try {
-			File file = new File("my_log");
-			List<Integer> list2 = LoggingAspect.attach(new LinkedList<>(), new PrintStream(file) );
+			List<Integer> list2 = LoggingAspect.attach(new LinkedList<>(), "my.log");
 			for (int i=10; i<20; ++i)
 				list2.add(i);
 			

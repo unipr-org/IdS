@@ -1,5 +1,7 @@
 package it.informatica.unipr.aspects;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
@@ -14,6 +16,10 @@ public class LoggingAspect {
 	
 	public static <T> T attach(T target) {
 		return LoggingAspect.attach(target, System.out);
+	}
+	
+	public static <T> T attach(T target, String file) throws FileNotFoundException {
+		return LoggingAspect.attach(target, new PrintStream(file));
 	}
 	
 	public static <T> T attach(T target, PrintStream outputStream) {

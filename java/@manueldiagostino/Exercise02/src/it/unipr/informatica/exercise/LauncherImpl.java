@@ -7,7 +7,6 @@ public class LauncherImpl implements Launcher {
 			throw new IllegalArgumentException("tasks is null");
 		
 		new ExecutionHandler(tasks);
-		System.out.println("*** launch() exited ***");
 	}
 	
 	// Classe privata per gestire l'esecuzione vera e propria
@@ -25,18 +24,21 @@ public class LauncherImpl implements Launcher {
 			
 			// sfrutta oneReturned come una condition
 			// su cui mettersi in attesa
-			synchronized (oneReturned) {				
 				for (int i=0; i<count_; ++i) {
 					taskHandler[i] = new TaskHandler(i, tasks[i]);
 					new Thread(taskHandler[i]).start();
 				}
 				
+			synchronized (oneReturned) {				
 				try {
-					oneReturned.wait();
+					if (oneReturned.flag == false)
+						oneReturned.wait();
 				} catch (InterruptedException e) {
 					System.err.println("ExecutionHandler interrupted");
 				}
 			}
+			
+			System.out.println("*** launch() exited ***");
 		}
 		
 		private class TaskHandler implements Runnable {

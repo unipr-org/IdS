@@ -26,6 +26,11 @@ public class Example12 {
 			for (int i=10; i<20; ++i)
 				list2.add(i);
 			
+			LoggingAspect.dispose();
+			LoggingAspect.attach(list2, "my2.log");
+			for (int i=20; i>10; --i)
+				list2.add(i);
+			
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

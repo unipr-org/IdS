@@ -1,6 +1,5 @@
 package it.informatica.unipr.aspects;
 
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
 import java.lang.reflect.InvocationHandler;
@@ -38,6 +37,14 @@ public class LoggingAspect {
 		return result;
 	}
 	
+	public static void dispose() {
+		if (LoggingAspect.outputStream_ == null)
+			throw new RuntimeException("disposing null outputStream_");
+		
+		LoggingAspect.outputStream_.close();
+		LoggingAspect.outputStream_ = null;
+	}
+	
 	
 	private static class InnerInvocationHandler implements InvocationHandler {
 		private final Object target_;
@@ -60,9 +67,10 @@ public class LoggingAspect {
 			
 			try {
 				log("In " + methodName + " " + Arrays.toString(args));
-				Object result = method.invoke(target_, args);
-				log("In " + methodName + " " + result);
 				
+				Object result = method.invoke(target_, args);
+				
+				log("In " + methodName + " " + result);		
 				return result;
 			} catch (InvocationTargetException exception) {
 				log("In " + exception.getCause().getMessage());

@@ -5,6 +5,7 @@
 # Argomenti principali
 
 ## Concorrenza
+<<<<<<< HEAD
 ### Blocking queue
 ```java
 public interface BlockingQueue<T> {

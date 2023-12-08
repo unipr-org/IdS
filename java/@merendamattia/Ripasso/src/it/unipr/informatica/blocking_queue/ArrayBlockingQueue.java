@@ -27,15 +27,12 @@ public class ArrayBlockingQueue<T> implements BlockingQueue<T> {
 	}
 
 	@Override
-	public T take(){
+	public T take() throws InterruptedException {
 		lock.lock();
 		
-		try {
-			while (size == 0)
-				isNotEmpty.await();
-		} catch (InterruptedException e) {
-			new IllegalAccessException("isNotEmpty.await()");
-		}
+		while (size == 0)
+			isNotEmpty.await();
+
 		
 		@SuppressWarnings("unchecked")
 		T result = (T) queue[0];
@@ -53,15 +50,12 @@ public class ArrayBlockingQueue<T> implements BlockingQueue<T> {
 	}
 
 	@Override
-	public void put(T value) {
+	public void put(T value) throws InterruptedException {
 		lock.lock();
 
-		try {
-			while (size == capacity)
-				isNotFull.await();
-		} catch (InterruptedException e) {
-			new IllegalAccessException("isNotEmpty.await()");
-		}
+		while (size == capacity)
+			isNotFull.await();
+
 		
 		queue[size] = value;
 		++size;
@@ -79,8 +73,8 @@ public class ArrayBlockingQueue<T> implements BlockingQueue<T> {
 		
 		size = 0;
 		
+		isNotFull.signalAll();
 		lock.unlock();
-		
 	}
 
 	@Override

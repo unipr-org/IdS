@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
+import it.unipr.informatica.concurrent.pool.Callable;
 import it.unipr.informatica.concurrent.pool.Callback;
 import it.unipr.informatica.concurrent.pool.ExecutorService;
 import it.unipr.informatica.concurrent.pool.Executors;
@@ -29,8 +30,13 @@ public final class DownloadManager {
 	public void download(String url, Callback<ResourceContent> callback) {
 		if (url == null)
 			throw new IllegalArgumentException("url == null");
+		
+		Callable callable = () -> {
+			return downloadResourceContent(url);
+		};
 
-		executorService.submit(() -> downloadResourceContent(url), callback);
+		executorService.submit(callable, callback);
+//		executorService.submit(() -> downloadResourceContent(url), callback);
 	}
 
 	private ResourceContent downloadResourceContent(String url) throws IOException {

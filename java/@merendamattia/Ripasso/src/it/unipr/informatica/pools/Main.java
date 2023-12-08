@@ -1,6 +1,6 @@
 package it.unipr.informatica.pools;
 
-public class SimpleThreadPoolTest {
+public class Main {
 	public void test() {
 		ExecutorService es = Executors.newThreadPool(6);
 		
@@ -29,6 +29,6 @@ public class SimpleThreadPoolTest {
 	}
 	
 	public static void main(String[] args) {
-		new SimpleThreadPoolTest().test();
+		new Main().test();
 	}
 }

@@ -78,6 +78,7 @@ Questi Creational Patterns forniscono approcci diversi alla creazione di oggetti
 ---
 
 ### Abstract Factory
+
 > Conosciuto anche come Kit.
 
 ![[47.png]]
@@ -198,4 +199,167 @@ public class Test {
 ### Interpreter
 ### Iterator
 ### Observer
+
+---
+
 ### Visitator
+Si tratta di un pattern <u>comportamentale basato su oggetti</u> e viene utilizzato per eseguire delle operazioni sugli elementi di una struttura. L’utilizzo di questo pattern consente di definire le operazioni di un elemento senza doverlo modificare.
+
+**Ma com’è possibile?**
+Solitamente ogni classe definisce le proprie proprietà e le proprie operazioni nel rispetto del principio della singola responsabilità (SRP) ed usando il concetto di ereditarietà può condividere le operazioni alle classi figlie.  
+
+**Ma cosa succede se ci accorgiamo a posteriori che dobbiamo introdurre una nuova operazione?**
+- Se le operazioni sono state definite a *livello di classe*, l’introduzione di un nuovo metodo comporterà la modifica della classe interessata, violando il principio open-closed (OCP).
+- Se le operazioni sono state definite a *livello di interfaccia*, l’introduzione di un nuovo metodo comporterà la modifica di tutte le classi figlie.
+
+<u>Ovviamente se questa situazione si presenta frequentemente, la manutenzione del codice non sarà agevole.</u>
+
+**Per evitare questo problema** sarà possibile seguire un’altra strada, ossia disaccoppiare gli oggetti che definiscono lo stato dagli oggetti che definiscono il comportamento ed in questo modo sarà più semplice inserire nuovi metodi.  
+Il pattern Visitor ci consente di implementare questa separazione tra stato e comportamento e realizzare il legame tra questi oggetti tramite la definizione di 2 metodi presenti nelle due strutture.
+
+1.  Nella _prima struttura_, che definisce lo stato, è presente il metodo `accept()` che invoca il metodo `visit()`.
+2.  Nella _seconda struttura_, che definisce il comportamento, è presente il metodo `visit()`.
+
+In questo modo sarà possibile aggiungere nuove operazioni semplicemente definendo nuove classi nella seconda struttura che si occuperà poi di elaborare lo stato della prima.
+
+Vediamo la rappresentanzione UML usando il Class Diagram:
+
+![[48.png]]
+
+Pertanto, parlando in termini del pattern Visitor:  
+In base alla competenza:
+1.  la _prima struttura_ definisce gli _Element_ che detengono lo <u>stato</u>.
+2.  la _seconda struttura_ definisce i _Visitor_ che detengono i <u>comportamenti</u>.
+
+In base all’ordine di invocazione:
+1.  Il Client invoca il metodo `accept()` presente nell’_Element_ passandogli in ingresso un oggetto _Visitor_.
+2.  L’_Element_ invoca il metodo `visit()` del Visitor passandogli se stesso (oggetto `this`) come parametro.
+3.  Il _Visitor_, disponendo della referenza all’_Element_ (tramite l’oggetto `this`) accede alle proprietà dell’Element ed eseguire le operazioni.
+
+Vediamo la rappresentanzione UML usando il Sequence Diagram:
+
+![[49.png]]
+
+Questo pattern utilizza la tecnica del [Double Dispatch](https://dellabate.wordpress.com/2012/11/28/simple-double-e-multi-dispatch/) al fine di consentire questo scambio di messaggi tra l’Element ed il Visitor, pertanto risulta un po’ complesso considerando che utilizza polimorfismo, overriding ed overloading.
+
+**Partecipanti e Struttura**  
+Questo pattern è composto dai seguenti partecipanti:
+-   _Element_: definisce il metodo `accept()` che prende un Visitor come argomento.
+-   _ConcreteElement_: implementa un oggetto Element che prende un Visitor come argomento.
+-   _ObjectStructure_: contiene una collezione di Element che può essere visitata dagli oggetti Visitor.
+-   _Visitor_: dichiara un metodo `visit()` per ogni Element; il nome del metodo ed il parametro identificano la classe Element che ha effettuato l’invocazione.
+-   _ConcreteVisitor_: implementa il metodo `visit()` e definisce l’algoritmo da applicare per l’Element passato come parametro.
+
+Vediamo come si presenta il Pattern Visitor utilizzando il Class Diagram in UML:
+
+![[50.png]]
+
+**Conseguenze**  
+Tale pattern presenta i seguenti vantaggi/svantaggi:
+
+-  <u>Facilità nell’aggiungere nuovi Visitor</u>: definendo un nuovo Visitor sarà possibile aggiungere una nuova operazione ad un Element.
+
+-  <u>Difficoltà nell’aggiungere nuovi Element</u>: definire un nuovo Element comporterà la modifica dell’interfaccia Visitor e di tutte le implementazioni.
+
+-  <u>Separazione tra stato ed algoritmi</u>: gli algoritmi di elaborazioni sono nascosti nelle classi Visitor e non vengono esposti nelle classi Element.
+
+-  <u>Iterazione su struttura eterogenea</u>: la classe Visitor è in grado di accedere a tipi diversi, senza la necessità che tra di essi ci sia un vincolo di parentela. In poche parole, il metodo `visit()` può definire come parametro un tipo $X$ oppure un tipo $Y$ senza che tra di essi ci sia alcuna relazione di parentela, diretta o indiretta.
+
+-  <u>Accumulazione dello stato</u>: un Visitor può accumulare delle informazioni di stato a seguito dell’attraversamento degli Element.
+
+-  <u>Violazione dell’incapsulamento</u>: i Visitor devono poter accedere allo stato degli Element e questo può comportare la violazione dell’incapsulamento.
+
+#### Esempio - Visitor
+Calcoliamo l'area e il perimetro di un rettangolo utilizzando il design pattern Visitor.
+
+![[51.png]]
+
+Definiamo l'interfaccia Visitor:
+```java
+public interface Visitor {
+	public void visitRettangoloArea(ElementRettangolo element);
+	public void visitRettangoloPerimetro(ElementRettangolo elemento);
+}
+```
+
+Implementiamo la classe VisitorRettangoloArea. Ovviamente il metodo relativo al calcolo del perimetro non dovrà essere implementato:
+
+```java
+public class VisitorRettangoloArea implements Visitor {
+    @Override
+    public void visitRettangoloArea(ElementRettangolo element) {
+        int area = element.getAltezza() * element.getLarghezza();
+        System.out.println("L'area del rettangolo e': "+ area);
+    }
+    @Override
+    public void visitRettangoloPerimetro(ElementRettangolo element) {
+        throw new UnsupportedOperationException("Not supported.");
+    }
+}
+```
+
+Adesso definiamo l’altro Visitor, VisitorRettangoloPerimetro, che si occupa di calcolare il perimentro del rettangolo:
+
+```java
+public class VisitorRettangoloPerimetro implements Visitor {
+    @Override
+    public void visitRettangoloArea(ElementRettangolo element) {
+        throw new UnsupportedOperationException("Not supported.");
+    }
+    @Override
+    public void visitRettangoloPerimetro(ElementRettangolo element) {
+        int per = element.getAltezza() + elemento.getLarghezza();
+        per = per * 2;
+	    System.out.println("Il perimetro del rettangolo e': " + per);
+    }
+}
+```
+
+Adesso nella classe Element, ElementRettangolo, definiamo un comportamento diverso a seconda dell’oggetto passato come paramentro al metodo `accept()`:
+```java
+public class ElementRettangolo {
+    private int altezza;
+    private int larghezza;
+ 
+    public int getAltezza() {
+        return this.altezza;
+    }
+ 
+    public void setAltezza(int altezza) {
+        this.altezza = altezza;
+    }
+ 
+    public int getLarghezza() {
+        return this.larghezza;
+    }
+ 
+    public void setLarghezza(int larghezza) {
+        this.larghezza = larghezza;
+    }
+ 
+    public void accept(Visitor visitor) {
+        if (visitor instanceof VisitorRettangoloArea)
+            visitor.visitRettangoloArea(this);
+        else if (visitor instanceof VisitorRettangoloPerimetro)
+            visitor.visitRettangoloPerimetro(this);
+    }
+}
+```
+
+Infine nella classe Client possiamo invocare il nostro Client che si occupa di creare il rettangolo e successivamente di invocare le operazioni relative al calcolo dell’aria e del perimetro in base al tipo di Visitor che viene passato: 
+
+```java
+public class Client {
+    public void test() {
+        ElementRettangolo element = new ElementRettangolo();
+        
+        element.setAltezza(10);
+        element.setLarghezza(20);
+        
+        element.accept( new VisitorRettangoloPerimetro() ); // 60
+        element.accept( new VisitorRettangoloArea() ); // 200
+    }
+}
+```
+
+[_Torna all'indice_](#indice)

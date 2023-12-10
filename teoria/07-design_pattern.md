@@ -108,7 +108,7 @@ Lo svantaggio principlamente è uno: aggiungere un nuovo prodotto richiede la mo
 Il pattern AbstractFactory può essere utilizzato in un gran numero di situazioni reali. 
 Per cercare di acquisire una certa dimestichezza con questo pattern e capirne meglio il funzionamento illustriamo un esempio di utilizzo in un contesto reale. Il nostro esempio simula la renderizzazione di una figura geometrica. Per semplicità implementiamo un'unica ConcreteFactory e soltanto due prodotti che non fanno altro che stampare una stringa a video.
 
-#### Esempio
+#### Esempio - Abstract Factory
 Analizziamo ora in dettaglio le singole interfacce/classi necessarie per implementare il pattern. Partiamo da **FiguraFactory** che rappresenta la nostra AbstractFactory. Definisce i metodi che ciascuna ConcreteFactory deve implementare: `createRettangolo()` e `createCerchio()`. Entrambi i metodi restituiscono un'istanza della classe Figura.
 
 **FiguraFactory:**
@@ -187,7 +187,174 @@ public class Test {
 
 ## Structural Patterns
 ### Adapter
+
+---
+
 ### Bridge
+Si tratta di un pattern <u>strutturale basato su oggetti</u> che viene utilizzato per disaccoppiare dei componeti software. In questo modo è possibile effettuare uno switch a Run-Time, garantire il disaccoppiamento, nascondere l’implementazione, estendere la specializzazione delle classi.
+
+Per esempio: si vuole cambiare l’interfaccia grafica della nostra applicazione da Motif a XWindow preservando la funzionalità di tutti i componenti grafici: in poche parole si vuole cambiare il LookAndFeel di tutti i tasti ma fare in modo che continuino a fare sempre la stessa cosa.
+
+1. La prima idea, <u>ma errata</u>, sarebbe quella di creare 2 classi per ogni tasto, esempio ButtonXWindow e ButtonMotif; RadioXWindow e RadioMotif e via dicendo.  In questo modo ci sarebbe un proliferare di classi da gestire. Ovviamente se viene introdotto un nuovo LookAndFeel occorrerà inserire tutte le classi di gestione dei tasti nuovi.
+	In UML sarebbe così rappresentabile:
+	
+	![[52.png]]
+ Occorre separare la funzionalità e l’estetica, come?
+
+2. Un’altra idea, <u>più corretta</u>, è quella di creare 2 gerachie: una per la funzionalità ed una per l’estetica. 
+	La funzionalità è composta dal tasto: Button, Radio.  L’estetica è data dal LookAndFell: XWindow, Motif.
+	Per disaccoppiare le gerachie definiamo 2 interfacce: la funzionalità nell’interfaccia Tasti e l’estetica nell’interfaccia LookAndFeel, successivamente possiamo implementare le 2 gerachie creando le classi concrete.
+	In UML sarebbe così rappresentabile:
+	
+	![[53.png]]
+
+**Partecipanti e Struttura**
+Questo pattern è composto dai seguenti partecipanti:
+
+1.  **Client**: colui che effettua l’invocazione all’operazione di interesse.
+2.  **Abstraction**: definisce l’interfaccia del dominio applicativo utilizzata dal Client.
+3.  **RefinedAbstraction**: definisce l’implementazione dell’interfaccia utilizzata.
+4.  **Implementor**: definisce l’interfaccia da usare come Bridge e riferibile agli oggetti concreti da utilizzare.
+5.  **ConcreteImplementor**: implementa l’interfaccia Implementor usata come Bridge per il transito degli oggetti.
+
+Possiamo schematizzare in UML:
+
+![[54.png]]
+
+**Conseguenze**
+Tale pattern presenta i seguenti vantaggi/svantaggi:
+
+1. <u>Disaccoppia l’interfaccia dall’implementazione</u>: disaccoppiando Abstraction e Implementor è possibile gestire i cambiamenti delle classi concrete senza cablare nel codice dei riferiementi diretti.
+2. <u>Migliora l’estendibilità</u>: è possibile estendere la gerarchia di Abstraction e Implementor senza problemi.
+3. <u>Nasconde l’implementazione al client</u>: il Client non si deve porre il problema di conoscere l’implementazione delle classi concrete.
+
+**Implementazione**
+Facciamo un altro esempio: pensiamo al caso in cui ci rechiamo in un ristorante-pizzeria e facciamo un’ordinazione. Il cameriere addetto alla pizzeria prenderà la nostra ordinazione indipendentemente dal tipo di pizza che scegliamo.
+
+Rappresentiamo questa situazione in questo Class Diagram UML:
+
+![[55.png]]
+
+L’interfaccia Cameriere definisce il metodo ordinazione che prende come parametro il Pasto: nel nostro caso sceglieremo una pizza.
+
+```java
+public interface Cameriere {
+    Pasto ordinazione(Pasto pasto);
+}
+```
+
+La classe CamerierePizzeria implementa l’interfaccia Cameriere e ritorna
+il tipo di pasto che abbiamo scelto.
+
+```java
+public class CamerierePizzeria implements Cameriere {
+    public Pasto ordinazione(Pasto pasto) {
+        return pasto;
+    }
+}
+```
+
+L’interfaccia Pasto definisce il tipo di piatto, pertanto qualunque pietanza ipotizzabile in un ristorante-pizzeria:
+
+```java
+public interface Pasto {
+    Pasto getPiatto();
+}
+```
+
+La classe PizzaCapricciosa implementa come viene fatta la pizza Capricciosa.
+
+```java
+public class PizzaCapricciosa implements Pasto {
+    public Pasto getPiatto() {
+        return this;
+    }
+}
+```
+
+Mentre la classe PizzaMargherita implementa come viene fatta la pizza Margherita.
+
+```java
+public class PizzaMargherita implements Pasto {
+    public Pasto getPiatto() {
+        return this;
+    }
+}
+```
+
+Siamo arrivati alla classe Cliente che effettua l’ordinazione. Il nostro cliente ordina una pizza Margherita al cameriere addetto alle pizze.
+
+```java
+public class Cliente {
+    public static void main(String[] args) {
+        Cameriere cameriere = new CamerierePizzeria();
+        Pasto ordinazione = cameriere.ordinazione(new PizzaMargherita());
+        System.out.println(ordinazione);
+    }
+}
+```
+
+L’ordine della pizza Margherita è stato eseguito.
+Possiamo aggiungere qualunque tipo di pizza implementando l’interfaccia Pasto disaccoppiandola con la classe CamerierePizzeria. Nascondiamo l’implementazione della pizza al cameriere che non è tenuto a sapere come viene fatta.
+
+**Estensione**
+Visto e considerato che abbiamo parlato di un ristorante-pizzeria, immaginiamo di avere un angolo ristorante servito da un cameriere diverso da quello della pizzeria. Ovviamente abbiamo anche un menù ristorante che presenta altri piatti oltre alle pizze.
+Il cameriere addetto al ristorante implementa il metodo ordinazione dall’interfaccia Cameriere e si chiamerà CameriereRistorante. I pasti del ristorante implementano l’interfaccia Pasto.
+
+Rappresentiamo questa situazione in questo Class Diagram UML:
+
+![[56.png]]
+
+Vediamo come si presenta la classe CameriereRistorante che si occupa di servire i clienti del ristorante.
+
+```java
+public class CameriereRistorante implements Cameriere {
+    public Pasto ordinazione(Pasto pasto) {
+        return pasto;
+    }
+}
+```
+
+Queste invece sono le classi che si occupano di implementare l’interfaccia Pasto per gestire altre pietanze: PastaFagioli e PastaPomodoro .
+
+```java
+public class PastaFagioli implements Pasto {
+    public Pasto getPiatto() {
+        return this;
+    }
+}
+```
+
+```java
+public class PastaPomodoro implements Pasto {
+    public Pasto getPiatto() {
+        return this;
+    }
+}
+```
+
+Eseguiamo la classe Cliente che effettua 2 ordinazioni: PizzaMargherita ed un piatto di PastaPomodoro.
+
+```java
+public class Cliente {
+    public static void main(String[] args) {
+        Cameriere[] cameriere  = new Cameriere[2];
+ 
+        cameriere[0] = new CamerierePizzeria();
+        Pasto pasto = cameriere[0].ordinazione(new PizzaMargherita());
+        System.out.println(pasto);
+ 
+        cameriere[1] = new CameriereRistorante();
+        pasto = cameriere[1].ordinazione(new PastaPomodoro());
+        System.out.println(pasto);
+    }
+}
+```
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Composite
 ### Decorator
 ### Proxy

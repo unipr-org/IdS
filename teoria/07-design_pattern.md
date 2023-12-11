@@ -185,7 +185,7 @@ public class Test {
 ---
 ### Singleton
 
-#todo_immagine_sigleton
+![[57.jpg]]
 
 Il sigleton è un pattern creazionale che viene utilizzato per mantenere una singola istanza di una classe e fornire un accesso globale a questa. L'utilizzo di questo pattern lo si propone quando:
 - Deve essere presente esattamente una singola istanza di una classe, e deve essere accessibile dal cliente da un punto d'accesso ben preciso.

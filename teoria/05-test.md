@@ -239,7 +239,7 @@ Punti chiave:
     -   Questo è utile per promuovere lo sviluppo guidato dai test (Test-Driven Development, TDD) in cui i test sono scritti prima del codice di implementazione.
 
 ```java
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import org.junit.Test;
 
 public class Tests {

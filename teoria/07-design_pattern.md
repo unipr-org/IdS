@@ -181,7 +181,50 @@ public class Test {
 ### Builder
 ### Factory Method
 ### Prototype
+
+---
 ### Singleton
+
+#todo_immagine_sigleton
+
+Il sigleton è un pattern creazionale che viene utilizzato per mantenere una singola istanza di una classe e fornire un accesso globale a questa. L'utilizzo di questo pattern lo si propone quando:
+- Deve essere presente esattamente una singola istanza di una classe, e deve essere accessibile dal cliente da un punto d'accesso ben preciso.
+- Quando soltanto l'istanza della classe dovrebbe essere estesa mediante una sottoclasse, che il cliente deve essere in grado di utilizzare senza modificare il codice.
+
+Il sigleton è composto da un solo elemento:
+- Sigleton, che è responsabile della creazione dell'oggetto e definisce un'operazione `Instance` che permette al cliente di accedere all'istanza univoca della classe.
+
+> Il cliente accede all'istanza univoca mediante l'operazione `Istance`
+
+I vantaggi principali sono:
+- Accesso controllato ad una singola istanza, perché questo questo pattern si occupa di encapsulare l'istanza, avendo il controllo completo su di essa e gestendo come/quando i vari clienti possono accederci
+- Riduzione del namespace, Il pattern è un miglioramento rispetto alle variabili globali, racchiudendo le variabili all'interno dell'istanza
+
+#### Esempio - Sigleton
+
+```java
+public class MySigleton {
+
+	private static MySigleton instance_ = null;
+
+	public static MySigleton Instace() {
+
+		if(instance_ == null)
+			instance_ = new MySigleton();
+		
+		return instance_;
+	}
+
+	protected MySigleton() {}
+	
+}
+```
+
+> Per controllare la creazione di in sigleton, mantenendo la possibilità di creare delle sottoclassi, è necessario mettere il costruttore `protected`
+
+
+
+[_Torna all'indice_](#indice)
 
 ---
 

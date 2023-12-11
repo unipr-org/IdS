@@ -8,7 +8,7 @@ package it.unipr.informatica.concurrent;
 class SimpleThreadPoolExecutorService implements ExecutorService {
 	private Worker[] workers;
 
-	private LinkedBlockingQueue<Runnable> tasks;
+	private ArrayBlockingQueue<Runnable> tasks;
 
 	private boolean shutdown;
 
@@ -18,7 +18,7 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 
 		this.shutdown = false;
 
-		this.tasks = new LinkedBlockingQueue<>();
+		this.tasks = new ArrayBlockingQueue<Runnable>(count);
 
 		this.workers = new Worker[count];
 
@@ -118,7 +118,12 @@ class SimpleThreadPoolExecutorService implements ExecutorService {
 			if (shutdown)
 				throw new RejectedExecutionException("shutdown == true");
 
-			tasks.put(command);
+			try {
+				tasks.put(command);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

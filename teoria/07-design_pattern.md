@@ -213,11 +213,9 @@ public class Singleton {
 		return instance_;
 	}
 
-	protected Singleton() {}
+	private Singleton() {}
 }
 ```
-
->  Per controllare la creazione di in singleton, mantenendo la possibilità di creare delle sottoclassi, è necessario mettere il costruttore `protected`.
 
 
 

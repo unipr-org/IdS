@@ -83,7 +83,7 @@ Questi Creational Patterns forniscono approcci diversi alla creazione di oggetti
 
 ![[47.png]]
 
-L'Abstract Factory è uno dei principali pattern creazionali il cui scopo è quello di fornire un'interfaccia per creare famiglie di oggetti interconnessi fra loro, in modo che non ci sia necessità di specificare i nomi delle classi concrete all'interno del proprio codice. In questo modo si facilita la creazione di un sistema indipendente dall'implementazione degli oggetti concreti, infatti, l'utilizzatore (Client) conosce solo l'interfaccia per creare le famiglie di prodotti ma non la sua implementazione concreta.
+L'Abstract Factory è uno dei principali pattern <u>creazionali</u> il cui scopo è quello di fornire un'interfaccia per creare famiglie di oggetti interconnessi fra loro, in modo che non ci sia necessità di specificare i nomi delle classi concrete all'interno del proprio codice. In questo modo si facilita la creazione di un sistema indipendente dall'implementazione degli oggetti concreti, infatti, l'utilizzatore (Client) conosce solo l'interfaccia per creare le famiglie di prodotti ma non la sua implementazione concreta.
 
 L'Abstract Factory è costituito da 5 elementi:
 1. **AbstractFactory**: interfaccia che definisce i metodi mediante i quali sarà possibile ottenere gli AbstractProduct.
@@ -187,40 +187,37 @@ public class Test {
 
 ![[57.jpg]]
 
-Il singleton è un pattern creazionale che viene utilizzato per mantenere una singola istanza di una classe e fornire un accesso globale a questa. L'utilizzo del pattern si presenta quando:
+Il singleton è un pattern <u>creazionale</u> che viene utilizzato per mantenere una singola istanza di una classe e fornire un accesso globale a questa. 
+L'utilizzo del pattern si presenta quando:
 - Deve esistere esattamente una singola istanza di una classe, e deve essere accessibile dal cliente da un punto d'accesso ben preciso.
 - Quando soltanto l'istanza della classe deve essere estesa mediante una sottoclasse, che il cliente deve essere in grado di utilizzare senza modificare il codice.
 
 Il singleton è composto da un solo elemento:
 - Singleton, che è responsabile della creazione dell'oggetto e definisce un'operazione `Instance` che permette al cliente di accedere all'istanza univoca della classe.
 
-> Il cliente accede all'istanza univoca mediante l'operazione `Instance`
+> Il cliente accede all'istanza univoca mediante l'operazione `Instance`.
 
 I vantaggi principali sono:
-- Accesso controllato ad una singola istanza, perché questo questo pattern si occupa di encapsulare l'istanza, avendo il controllo completo su di essa e gestendo come/quando i vari clienti possono accederci
-- Riduzione del namespace, Il pattern è un miglioramento rispetto alle variabili globali, racchiudendo le variabili all'interno dell'istanza
+- Accesso controllato ad una singola istanza, perché questo questo pattern si occupa di encapsulare l'istanza, avendo il controllo completo su di essa e gestendo come/quando i vari clienti possono accederci.
+- Riduzione del namespace, Il pattern è un miglioramento rispetto alle variabili globali, racchiudendo le variabili all'interno dell'istanza.
 
-#### Esempio - Sigleton
+#### Esempio - Singleton
 
 ```java
 public class Singleton {
-
 	private static Singleton instance_ = null;
 
 	public static Singleton Instace() {
-
 		if(instance_ == null)
 			instance_ = new Singleton();
-		
 		return instance_;
 	}
 
 	protected Singleton() {}
-	
 }
 ```
 
-> Per controllare la creazione di in singleton, mantenendo la possibilità di creare delle sottoclassi, è necessario mettere il costruttore `protected`
+>  Per controllare la creazione di in singleton, mantenendo la possibilità di creare delle sottoclassi, è necessario mettere il costruttore `protected`.
 
 
 

@@ -7,39 +7,37 @@ public class LoggingAspectTest {
 	private void go() {
 		try {
 			BlockingQueue<String> q = LoggingAspect.attach(new ArrayBlockingQueue<String>(5)) ;
+			q.isEmpty();
+			q.isFull();
+			q.remainingCapacity();
 			
-//			System.out.println("isEmpty(): " + q.isEmpty()); // True
-//			System.out.println("isFull(): " + q.isFull()); // False
-//			System.out.println("remainingCapacity(): " + q.remainingCapacity()); // 5
-		
 			q.put("ciao");
 			q.put("mi");
 			q.put("chiamo");
 			
-//			System.out.println("isEmpty(): " + q.isEmpty()); // False
-//			System.out.println("isFull(): " + q.isFull()); // False
-//			System.out.println("remainingCapacity(): " + q.remainingCapacity()); // 2
-			q.print();
+			q.toString();
+			
+			q.isEmpty();
+			q.isFull();
+			q.remainingCapacity();
 			
 			q.put("mattia");
 			q.put("forza");
 			
-//			System.out.println("isEmpty(): " + q.isEmpty()); // False
-//			System.out.println("isFull(): " + q.isFull()); // True
-//			System.out.println("remainingCapacity(): " + q.remainingCapacity()); // 0
-			q.print();
+			q.toString();
 			
-//			System.out.println("take(): " + q.take());
-//			System.out.println("isEmpty(): " + q.isEmpty()); // False
-//			System.out.println("isFull(): " + q.isFull()); // False
-//			System.out.println("remainingCapacity(): " + q.remainingCapacity()); // 1
-			q.print();
+			q.take();
+			q.isEmpty();
+			q.isFull();
+			q.remainingCapacity();
+
+			q.toString();
 			
 			q.clear();
 			
-//			System.out.println("isEmpty(): " + q.isEmpty()); // True
-//			System.out.println("isFull(): " + q.isFull()); // False
-//			System.out.println("remainingCapacity(): " + q.remainingCapacity()); // 5
+			q.isEmpty();
+			q.isFull();
+			q.remainingCapacity();
 		
 		} catch (InterruptedException e) {
 			System.err.println(e.getCause());

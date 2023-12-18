@@ -363,6 +363,89 @@ Va precisato che la versione presentata è leggermente diversa da quella present
 ---
 
 ### Factory Method
+
+> Conosciuto anche come Virtual Constructor.
+
+Si tratta di un pattern <u>creazionale</u> basato su classi e viene utilizzato per creare degli oggetti senza conoscerne i dettagli ma delegando un Creator che, in base alle informazioni ricevute, saprà quale oggetto restituire. Questo pattern consente di separare il Client dal Framework  permettendo di modificare i dettagli implementativi senza dovere modificare il Client.
+
+Questo pattern è composto dai seguenti partecipanti:
+- Creator: dichiara la `Factory` che avrà il compito di ritornare l’oggetto appropriato.
+- ConcreteCreator: effettua l’overwrite del metodo della `Factory` al fine di ritornare l’implementazione dell’oggetto.
+- Product: definisce l’interfaccia dell’oggetto che deve essere creato dalla `Factory`.
+- ConcreteProduct: implementa l’oggetto in base ai metodi definiti dall’interfaccia `Product`.
+
+![[59.png]]
+
+Tale pattern presenta i seguenti vantaggi/svantaggi:
+
+1.  Rappresenta un gancio alle sottoclassi: tramite il `Creator` è possibile scegliere quale classe concreta utilizzare e decidere di cambiarla senza avere nessun impatto verso il `Client`.
+2. Consente di collegare gerarchie di classi in modo parallelo: i `ConcreteCreator` possono collegarsi con i `ConcreteProduct` e generare un collegamento parallelo tra gerarchie diverse.
+
+#### Esempio - Factory Method
+Come esempio  pensiamo al caso in cui ci rechiamo in un centro commerciale  per acquistare un paio di scarpe sportive, in particolare da ginnastica, quindi chiediamo al commesso di turno che ci rimanda al commesso specializzato nel settore di nostro interesse che ci consegnerà le scarpe di ginnastica che cercavamo.
+
+Vediamo come si presenta il pattern in UML in base all’esempio:
+
+![[60.png]]
+
+Vediamo come si presenta la classe Cliente:
+
+```java
+public class Cliente {
+    public static void main(String[] args) {
+        Commesso commesso = new Commesso();
+        
+        Scarpe scarpe = commesso.getScarpe("ginnastica");
+        
+        System.out.println(scarpe.getClass());
+    }
+} // ! Cliente
+```
+
+Vediamo la definizione del prodotto nella sua definizione e nelle sue implementazioni che nel nostro caso sono vuote per semplicità:
+
+```java
+public interface Scarpe { }
+ 
+public class ScarpeGinnastica implements Scarpe { }
+ 
+public class ScarpeTennis implements Scarpe { }
+```
+
+Di seguito abbiamo l’implementazioni della Factory:
+
+```java
+public class Commesso {
+    public Scarpe getScarpe(String tipo) {
+        
+        Scarpe scarpe = null;
+        
+        if(tipo.equals("ginnastica"))
+            scarpe = CommessoGinnastica.getScarpe();
+        else if(tipo.equals("tennis"))
+            scarpe = CommessoTennis.getScarpe();
+        
+        return scarpe;
+    }
+} // ! Commesso
+ 
+public class CommessoGinnastica extends Commesso {
+    public static Scarpe getScarpe(){
+        return new ScarpeGinnastica();
+    }
+} // ! CommessoGinnastica
+
+public class CommessoTennis extends Commesso {
+    public static Scarpe getScarpe(){
+        return new ScarpeTennis();
+    }
+} // ! CommessoTennis
+```
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Prototype
 
 ---

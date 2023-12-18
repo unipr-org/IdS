@@ -179,6 +179,189 @@ public class Test {
 ---
 
 ### Builder
+Il Build Pattern e' un pattern <u>creazionale</u> che in molte situazioni può rappresentare una valida alternativa alla costruzione di oggetti mediante costruttori.
+
+La necessità di introdurre meccanismi alternativi a quelli forniti da Java per la creazione di oggetti nasce dal fatto che talvolta le strutture sono molto complesse e non sempre è banale impostare un costruttore ben formato. Pensiamo ai casi in cui il numero di attributi sia molto alto oppure ai casi in cui ci sono attributi che possono anche non essere valorizzati. La probabilità di fare un errore scrivendo il costruttore a mano è molto alta.
+
+L'obiettivo finale è quello di separare la creazione dell'oggetto dalla sua rappresentazione. In tale maniera l'algoritmo per la creazione dell'oggetto è indipendente dalle varie parti che costituiscono l’oggetto e da come vengono assemblate.
+
+La creazione delle istanze e la loro gestione vengono quindi separate in modo da rendere il programma più semplice.
+
+Un aspetto molto interessante è che questi meccanismi permettono di creare un oggetto passo passo, verificandone l'idoneità ad ogni passaggio (pensiamo a quando vogliamo costruire un oggetto con dati provenienti dai risultati di un parser) e soprattutto ci permette di nascondere la logica di controllo che sarebbe magari stata presente nell'eventuale costruttore.
+
+> Il Builder Pattern è usato per creare istanze di oggetti molto complessi con costruttori telescopici nella maniera più semplice.
+
+![[58.png]]
+
+Analizziamo in dettaglio i vari componenti:
+
+-   **Product:** definisce il tipo di oggetto complesso che sarà generato dal **Builder Pattern**.
+-   **Builder:** questa **classe astratta** va a definire i vari passaggi per creare correttamente gli oggetti. Ogni metodo è generalmente astratto e le implementazioni sono fornite dalle sottoclassi concrete. Il metodo `getProduct()` è utilizzato per restituire il prodotto finale. Talvolta il Builder viene sostituito da un'interfaccia.
+-   **ConcreteBuilder:** possono esserci diverse sottoclassi concrete `ConcreteBuilder`. Queste sottoclassi forniscono i meccanismi per la creazione di oggetti complessi.
+-   **Director:** la classe Director controlla l'algoritmo per la creazione dei vari oggetti. Quando viene istanziata, il suo costruttore viene invocato. Contiene un parametro che indica quale `ConcreteBuilder` utilizzare per la creazione degli oggetti. Durante il processo di creazione, i vari metodi del `ConcreteBuilder` vengono richiamati e alla fine delle operazioni, il metodo `getProduct()` viene utilizzato per ottenere il prodotto finale.
+
+#### Esempio - Builder
+> Esempio presente in Effective Java di Joshua Bloch.
+
+```java
+public class Animal {
+	private final String id;
+	private String name;
+	private String pedigreeName;
+	private String owner;
+	private String race;
+	private String residence;
+	private Boolean isVaccinated;
+	private Boolean isChampion;
+	private List sons;
+	private Sex sex;
+	private Double weight;
+	private Double height;
+	
+	public Animal(String name, String pedigreeName, String id, String owner, String race, String residence, Boolean isVaccinated, Boolean isChampion, List sons, Sex sex, Double weight, Double height) {
+		this.name = name;
+		this.pedigreeName = pedigreeName;
+		this.id = id;
+		this.owner = owner;
+		this.race = race;
+		this.residence = residence;
+		this.isVaccinated = isVaccinated;
+		this.isChampion = isChampion;
+		this.sons = sons;
+		this.sex = sex;
+		this.weight = weight;
+		this.height = height;
+	}
+	
+	public enum Sex {
+		MALE,
+		FEMALE
+	}
+} // ! Animal
+```
+
+Applichiamo ora il pattern:
+
+```java
+public final class AnimalBuilder {
+	private String id;
+	private String name;
+	private String pedigreeName;
+	private String owner;
+	private String race;
+	private String residence;
+	private Boolean isVaccinated;
+	private Boolean isChampion;
+	private List<String> sons;
+	private Animal.Sex sex;
+	private Double weight;
+	private Double height;
+	
+	private AnimalBuilder(String id) {
+		this.id = id;
+	}
+	
+	public static AnimalBuilder newBuilder(String id) {
+		return new AnimalBuilder(id);
+	}
+	
+	public AnimalBuilder name(String name) {
+		this.name = name;
+		return this;
+	}
+	
+	public AnimalBuilder pedigreeName(String pedigreeName) {
+		this.pedigreeName = pedigreeName;
+		return this;
+	}
+	
+	public AnimalBuilder owner(String owner) {
+		this.owner = owner;
+		return this;
+	}
+	
+	public AnimalBuilder race(String race) {
+		this.race = race;
+		return this;
+	}
+	
+	public AnimalBuilder residence(String residence) {
+		this.residence = residence;
+		return this;
+	}
+	
+	public AnimalBuilder isVaccinated(Boolean isVaccinated) {
+		this.isVaccinated = isVaccinated;
+		return this;
+	}
+	
+	public AnimalBuilder isChampion(Boolean isChampion) {
+		this.isChampion = isChampion;
+		return this;
+	}
+	
+	public AnimalBuilder sons(List<String> sons) {
+		this.sons = sons;
+		return this;
+	}
+	
+	public AnimalBuilder sex(Animal.Sex sex) {
+		this.sex = sex;
+		return this;
+	}
+	
+	public AnimalBuilder weight(Double weight) {
+		this.weight = weight;
+		return this;
+	}
+	
+	public AnimalBuilder height(Double height) {
+		this.height = height;
+		return this;
+	}
+	
+	public Animal build() {
+		return new Animal(name, pedigreeName, id, owner, race, residence, isVaccinated, isChampion, sons, sex, weight, height);
+	}
+} // ! AnimalBuilder
+```
+
+Un oggetto potrà ora essere istanziato come:
+
+```java
+Animal pluto = AnimalBuilder.newBuilder("0000001")
+	.name("0000001")
+	.pedigreeName("PlutoSecondo")
+	.owner("Marco Rossi")
+	.race("labrador")
+	.residence("Via x")
+	.isVaccinated(true)
+	.isChampion(false)
+	.sons(null)
+	.sex(Animal.Sex.MALE)
+	.weight(40.5)
+	.height(30.0)
+	.build();
+```
+
+> Premettiamo che in questo particolare caso, la classe astratta Builder non è strettamente indispensabile. Può essere aggiunta senza modificare radicalmente la struttura presentata qui sotto.
+
+Troviamo diversi vantaggi nell'utilizzo di questo pattern creazionale, infatti possiamo creare oggetti cloni, o comunque molto simili, minimizzando il codice da scrivere. Il metodo utilizzato è simile al seguente, facendo riferimento al builder istanziato sopra:
+
+```java
+Animal animal3A = animalBuilder.build();
+Animal animal3AClone = animalBuilder.build();
+Animal animal3B = animalBuilder.sex(Animal.Sex.FEMALE).build();
+```
+
+Qui si creano due oggetti uguali e un oggetto simile ai due precedenti, ma con sesso opposto. Un vantaggio molto importante è quello di concentrare la validazione della classe in un unico metodo e di ottenere quindi oggetti pressochè immutabili.
+
+Va precisato che la versione presentata è leggermente diversa da quella presentata nel modello originale. L'unico svantaggio dell'utilizzo del pattern è il fatto che vada necessariamente definita una classe builder per ogni oggetto, aumentando nettamente il tempo di sviluppo.
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Factory Method
 ### Prototype
 

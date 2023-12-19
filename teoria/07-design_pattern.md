@@ -617,27 +617,38 @@ L'utilizzo del pattern si presenta quando:
 - Quando soltanto l'istanza della classe deve essere estesa mediante una sottoclasse, che il cliente deve essere in grado di utilizzare senza modificare il codice.
 
 Il singleton è composto da un solo elemento:
-- Singleton, che è responsabile della creazione dell'oggetto e definisce un'operazione `Instance` che permette al cliente di accedere all'istanza univoca della classe.
+- Singleton, che è responsabile della creazione dell'oggetto e definisce un'operazione `getInstance` che permette al cliente di accedere all'istanza univoca della classe.
 
-> Il cliente accede all'istanza univoca mediante l'operazione `Instance`.
+> Il cliente accede all'istanza univoca mediante l'operazione `getInstance`.
 
 I vantaggi principali sono:
-- Accesso controllato ad una singola istanza, perché questo questo pattern si occupa di encapsulare l'istanza, avendo il controllo completo su di essa e gestendo come/quando i vari clienti possono accederci.
-- Riduzione del namespace, Il pattern è un miglioramento rispetto alle variabili globali, racchiudendo le variabili all'interno dell'istanza.
+- Accesso controllato ad una singola istanza: questo questo pattern si occupa di encapsulare l'istanza, avendo il controllo completo su di essa e gestendo come/quando i vari clienti possono accederci.
+- Riduzione del namespace: il pattern è un miglioramento rispetto alle variabili globali, racchiudendo le variabili all'interno dell'istanza.
 
-#### Esempio - Singleton
+#### Tipo reference pre-inizializzato
+```java
+public class Singleton {
+	private static Singleton instance_ = new Singleton();
+	
+	public static MySingleton getInstance(){
+		return instance_;
+	}
+}
+```
+
+#### Inizializzazione pigra
 
 ```java
 public class Singleton {
 	private static Singleton instance_ = null;
-
-	public static Singleton Instace() {
+	
+	public static Singleton getInstace() {
 		if(instance_ == null)
 			instance_ = new Singleton();
 		return instance_;
 	}
-
-	private Singleton() {}
+	
+	private Singleton() { }
 }
 ```
 

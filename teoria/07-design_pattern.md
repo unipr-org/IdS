@@ -630,7 +630,7 @@ I vantaggi principali sono:
 public class Singleton {
 	private static Singleton instance_ = new Singleton();
 	
-	public static MySingleton getInstance(){
+	public static Singleton getInstance(){
 		return instance_;
 	}
 }
@@ -643,8 +643,13 @@ public class Singleton {
 	private static Singleton instance_ = null;
 	
 	public static Singleton getInstace() {
-		if(instance_ == null)
-			instance_ = new Singleton();
+		if(instance_ == null) {
+			syncronized(Singleton.class) {
+				if(instance_ == null)
+					instance_ = new Singleton();
+			}
+		}
+		
 		return instance_;
 	}
 	

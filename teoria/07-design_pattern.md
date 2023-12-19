@@ -447,8 +447,166 @@ public class CommessoTennis extends Commesso {
 ---
 
 ### Prototype
+Si tratta di un pattern <u>creazionale</u> basato su oggetti e viene utilizzato per creare un nuovo oggetto clonando un oggetto già esistente detto prototipo. Questo pattern risulta utile affinchè il Client possa creare nuovi oggetti senza conoscerne i dettagli implementativi ma avvalendosi della clonazione. 
+
+>La creazione del clone avviene a RunTime e non a CompileTime, pertanto il clone viene creato in sede di esecuzione.
+
+Durante la creazione del clone dell’oggetto occorre prestare molta attenzione alla creazione degli oggetti annidati. Una classe può contenere al suo interno dei riferimenti ad altre classi, pertanto la clonazione dell’oggetto principale deve effettuare la clonazione anche di tutti gli altri oggetti al suo interno. 
+
+La clonazione dell’intero albero degli oggetti genera un clone detto ***deep-clone*** in quanto copia tutti gli oggetti presenti. Se la clonazione si limita solo all’oggetto principale “contenitore” allora nel clone verranno mantenuti gli stessi riferimenti agli oggetti secondari: in questo caso si parla di ***shallow-clone***.
+
+![[61.png]]
+
+Tale pattern presenta i seguenti vantaggi/svantaggi:
+1. <u>Aggiungere / rimuovere prodotti a RunTime:</u> è possibile decidere a Runtime se aggiungere nuovi oggetti.
+2. <u>Specificare nuovi oggetti cambiando il loro valore:</u> invece di creare nuove classi per definire nuovi comportamenti, possiamo cambiare il valore di un oggetto per definire un nuovo comportamento. In questo modo vengono ridotti i numeri delle classi.
+
+#### Esempio - Prototype
+Come esempio pensiamo al caso in cui vogliamo creare dei template di tabelle di Hash da poter essere facilmente clonate all’occorrenza. In Java una tabella di hash può essere realizzata utilizzando per esempio le classi HashMap, IdentityHashMap, LinkedHashMap ognuna con caratteristiche diverse. Realizziamo una classe astratta Hash e specializziamo le classi di hash di nostro interesse.
+
+Vediamo come si presenta in UML in base all’esempio:
+
+![[62.png]]
+
+La classe astratta Hash implementa l’interfaccia Clonable per dichiarare la propria volontà di clonazione. 
+
+La classe astratta Hash, ereditando di default dalla classe Object, eredita il metodo `protected native Object clone() throws CloneNotSupportedException;` che implementa di default la clonazione. Nel nostro caso richiameremo semplicemente il metodo nativo `super.clone()`:
+
+```java
+public abstract class Hash implements Cloneable {
+ 
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
+ 
+    public abstract void addItem(Object key, Object value);
+ 
+    public abstract int getSize();
+ 
+}
+```
+
+Le classi seguenti MyLinkedHashMap, MyHashMap e MyIdentityHashMap ereditano dalla classe Hash ed effettuano l’overriding del metodo `clone()` *SENZA* deep-copy *MA* shadow-copy ossia non duplicano gli oggetti contenuti in esse.
+
+```java
+public class MyLinkedHashMap extends Hash {
+    private LinkedHashMap hash = new LinkedHashMap();
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return (MyLinkedHashMap) super.clone();
+    }
+    
+    @Override
+    public void addItem(Object key, Object value) {
+        hash.put(key, value);
+    }
+    
+    @Override
+    public int getSize() {
+        return hash.size();
+    }
+}
+```
+
+> Le classi MyHashMap e MyIdentityHashMap non vengono implementate nell'esempio perche' sono praticamente uguali a MyLinkedHashMap.
+
+La classe Client ha il compito di invocare il template di interesse e richiedere la clonazione.
+Nel nostro esempio viene creato un template della classe MyLinkedHashMap per poi essere popolato con una chiave ed a questo punto viene clonato l’oggetto. Abbiamo fatto una shallow-copy, ossia una clonazione superficiale.
+
+L’oggetto MyLinkedHashMap è stato duplicato e ce ne accorgiamo dal fatto che l’hashcode è diverso.
+L’oggetto annidato LinkedHashMap non è stato clonato e ce ne accorgiamo dal fatto che se proviamo ad aggiungere una nuova chiave al template questa viene “ritrovata” anche nell’oggetto clonato.
+
+```java
+public class Client {
+
+    public static void main(String[] args) throws CloneNotSupportedException {
+     
+        Hash hash = new MyLinkedHashMap();
+        hash.addItem("key1", "value1");
+        
+        System.out.println("Prototype");
+        System.out.println("ClassName: " + hash.getClass().getCanonicalName());
+        System.out.println("ClassHashCode:" + hash.hashCode());
+        
+        Hash hashCloned = (MyLinkedHashMap) hash.clone();
+        System.out.println("Clone:");
+        System.out.println("ClassName: " + hashCloned.getClass().getCanonicalName());
+        System.out.println("ClassHashCode:" + hashCloned.hashCode());
+        
+        System.out.println("Prototype Hashtable size: " + hash.getSize());
+        System.out.println("Cloned Hashtable size: " + hashCloned.getSize());
+        
+        System.out.println("Adding new key");
+        hash.addItem("key2", "value2");
+        
+        System.out.println("Prototype Hashtable size: " + hash.getSize());
+        System.out.println("Cloned Hashtable size: " + hashCloned.getSize());
+    
+    } // ! main()
+} // ! Client
+```
+
+Output:
+```bash
+$JAVA_HOME/bin/java patterns.prototype.Client
+Prototype
+ClassName: patterns.prototype.A
+ClassHashCode:16130931
+Clone:
+ClassName: patterns.prototype.A
+ClassHashCode:26315233
+Prototype Hashtable size: 1
+Cloned Hashtable size: 1
+Adding new key
+Prototype Hashtable size: 2
+Cloned Hashtable size: 2
+```
+
+Guardando l’Object Diagram abbiamo questa situazione di condivisione dell’oggetto hash:
+
+![[63.png]]
+
+Per evitare questo problema occorre prevedere la deep-copy definiendo nell’overriding del metodo `clone()` la clonazione anche dell’oggetto annidato. Pertanto in tutte le classi che ereditano direttamente dalla classe astratta Hash modifichiamo il metodo `clone()` in questo modo:
+
+```java
+@Override
+public Object clone() throws CloneNotSupportedException{
+    MyLinkedHashMap myLinkedHashMap = (MyLinkedHashMap) super.clone();
+    myLinkedHashMap.hash = (LinkedHashMap) myLinkedHashMap.hash.clone();
+    return myLinkedHashMap;
+}
+```
+
+In questo modo quando eseguiamo la classe Client vediamo che l’inserimento di una nuova chiave nella nostra tabella di hash di template non determina alcuna modifica nella tabella di hash clonata.
+
+Output:
+```bash
+$JAVA_HOME/bin/java patterns.prototype.Client
+Prototype
+ClassName: patterns.prototype.MyLinkedHashMap
+ClassHashCode:16130931
+Clone:
+ClassName: patterns.prototype.MyLinkedHashMap
+ClassHashCode:23660326
+Prototype Hashtable size: 1
+Cloned Hashtable size: 1
+Adding new key
+Prototype Hashtable size: 2
+Cloned Hashtable size: 1
+```
+
+Guardando l’Object Diagram abbiamo questa situazione di <u>NON</u> condivisione dell’oggetto hash:
+
+![[64.png]]
+
+A seconda della complessità dell’oggetto template ed a seconda dell’alberatura annidata degli oggetti presenti nella classe template, occorrerà ricordarsi di clonare tutti gli oggetti presenti nel template.
+
+[_Torna all'indice_](#indice)
 
 ---
+
 ### Singleton
 
 ![[57.jpg]]
@@ -532,7 +690,7 @@ Tale pattern presenta i seguenti vantaggi/svantaggi:
 2. <u>Migliora l’estendibilità</u>: è possibile estendere la gerarchia di Abstraction e Implementor senza problemi.
 3. <u>Nasconde l’implementazione al client</u>: il Client non si deve porre il problema di conoscere l’implementazione delle classi concrete.
 
-**Implementazione**
+#### Esempio - Bridge
 Facciamo un altro esempio: pensiamo al caso in cui ci rechiamo in un ristorante-pizzeria e facciamo un’ordinazione. Il cameriere addetto alla pizzeria prenderà la nostra ordinazione indipendentemente dal tipo di pizza che scegliamo.
 
 Rappresentiamo questa situazione in questo Class Diagram UML:

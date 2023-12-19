@@ -617,38 +617,288 @@ L'utilizzo del pattern si presenta quando:
 - Quando soltanto l'istanza della classe deve essere estesa mediante una sottoclasse, che il cliente deve essere in grado di utilizzare senza modificare il codice.
 
 Il singleton è composto da un solo elemento:
-- Singleton, che è responsabile della creazione dell'oggetto e definisce un'operazione `Instance` che permette al cliente di accedere all'istanza univoca della classe.
+- Singleton, che è responsabile della creazione dell'oggetto e definisce un'operazione `getInstance` che permette al cliente di accedere all'istanza univoca della classe.
 
-> Il cliente accede all'istanza univoca mediante l'operazione `Instance`.
+> Il cliente accede all'istanza univoca mediante l'operazione `getInstance`.
 
 I vantaggi principali sono:
-- Accesso controllato ad una singola istanza, perché questo questo pattern si occupa di encapsulare l'istanza, avendo il controllo completo su di essa e gestendo come/quando i vari clienti possono accederci.
-- Riduzione del namespace, Il pattern è un miglioramento rispetto alle variabili globali, racchiudendo le variabili all'interno dell'istanza.
+- Accesso controllato ad una singola istanza: questo questo pattern si occupa di encapsulare l'istanza, avendo il controllo completo su di essa e gestendo come/quando i vari clienti possono accederci.
+- Riduzione del namespace: il pattern è un miglioramento rispetto alle variabili globali, racchiudendo le variabili all'interno dell'istanza.
 
-#### Esempio - Singleton
+#### Tipo reference pre-inizializzato
+```java
+public class Singleton {
+	private static Singleton instance_ = new Singleton();
+	
+	public static MySingleton getInstance(){
+		return instance_;
+	}
+}
+```
+
+#### Inizializzazione pigra
 
 ```java
 public class Singleton {
 	private static Singleton instance_ = null;
-
-	public static Singleton Instace() {
+	
+	public static Singleton getInstace() {
 		if(instance_ == null)
 			instance_ = new Singleton();
 		return instance_;
 	}
-
-	private Singleton() {}
+	
+	private Singleton() { }
 }
 ```
-
-
 
 [_Torna all'indice_](#indice)
 
 ---
 
 ## Structural Patterns
+  
+Gli structural design pattern sono un insieme di pattern che si concentrano sulla composizione di classi e oggetti per formare strutture più complesse. Questi pattern sono progettati per gestire la composizione di classi e oggetti in modo flessibile, consentendo la creazione di sistemi più estensibili e riutilizzabili. Ecco una breve panoramica di alcuni degli structural design pattern principali:
+
+1.  **Adapter Pattern (Pattern Adattatore):**
+    
+    -   **Scopo:** Converte l'interfaccia di una classe in un'altra interfaccia che un cliente si aspetta.
+    -   **Utilizzo comune:** Quando si desidera utilizzare una classe esistente che non ha l'interfaccia desiderata.
+2.  **Bridge Pattern (Pattern Ponte):**
+    
+    -   **Scopo:** Separa un'astrazione dalla sua implementazione, consentendo loro di evolvere indipendentemente.
+    -   **Utilizzo comune:** Quando si desidera evitare una connessione fissa tra un'astrazione e la sua implementazione.
+3.  **Composite Pattern (Pattern Composito):**
+    
+    -   **Scopo:** Consente di trattare oggetti singoli e composizioni di oggetti in modo uniforme.
+    -   **Utilizzo comune:** Per creare strutture ad albero e rappresentare parti-tutto.
+4.  **Decorator Pattern (Pattern Decoratore):**
+    
+    -   **Scopo:** Aggiunge responsabilità a un oggetto dinamicamente.
+    -   **Utilizzo comune:** Per estendere le funzionalità di un oggetto in modo flessibile e senza modificare il suo codice.
+7.  **Proxy Pattern (Pattern Proxy):**
+    
+    -   **Scopo:** Fornisce un surrogato o un segnaposto per controllare l'accesso a un oggetto.
+    -   **Utilizzo comune:** Per implementare il controllo dell'accesso, il caricamento pigro o la registrazione.
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Adapter
+> Conosciuto anche come Wrapper.
+
+Si tratta di un pattern <u>strutturale basato su classi o su oggetti</u> in quanto è possibile ottenere entrambe le rappresentazioni. Viene utilizzato quando si intende utilizzare un componente software ma occorre adattare la sua interfaccia per motivi di integrazione con l’applicazione esistente.
+
+Questo comporta la definizione di una nuova interfaccia che deve essere compatibile con quella esistente in modo tale da consentire la comunicazione con l’interfaccia da “adattare”. In tale contesto possono essere anche effettuate delle trasformazioni di dati per cui l’Adapter si occuperà di interfacciarsi con il nuovo sistema e fornisce anche le regole di mapping dei dati.
+Come abbiamo accennato, tale pattern può essere basato sia su classi che su oggetti pertanto l’instanza della classe da adattare può derivare da ereditarietà oppure da associazione.
+
+
+Questo pattern è composto dai seguenti partecipanti:
+- Client: colui che effettua l’invocazione all’operazione di interesse.
+- Target: definisce l’interfaccia specifica del dominio applicativo utilizzata dal Client.
+- Adaptee: definisce l’interfaccia di un diverso dominio applicativo da dover adattare per l’invocazione da parte del Client.
+- Adapter: definisce l’interfaccia compatibile con il Target che maschera l’invocazione dell’Adaptee.
+
+Abbiamo visto precedentemente che il pattern può essere basato su Classi o su Oggetti, in base a questo possiamo schematizzare in UML la relazione esistente tra l’adattatore e l’adattato (Adapter e Adaptee):
+1. Sotto forma di ereditarietà come nel caso seguente:
+	![[65.png]]
+2. Sotto forma di associazione come nel caso seguente:
+	![[66.png]]
+
+Tale pattern presenta i seguenti vantaggi/svantaggi:
+1. <u>Class Adapter</u>: prevede un rapporto di ereditarietà tra Adapter e Adaptee, in cui Adapter specializza Adaptee, pertanto non è possibile creare un Adapter che specializzi più Adaptee. Se esiste una gerarchia di Adaptee occorre creare una gereachia di Adapter.
+2. <u>Object Adapter</u>: prevede un rapporto di associazione tra Adapter e Adaptee, in cui Adapter instanzia Adaptee, pertanto è possible avere un Adapter associato con più Adaptee.
+
+#### Esempio - Adapter
+Come esempio pensiamo al caso in cui dobbiamo gestire l’elenco dei dipendenti di una società. I loro dati vengono memorizzati in un java bean dal nome Impiegati che contiene tutte le informazioni personali (nel nostro caso per semplicità indichiamo solo il cognome).
+
+Per effetto di una fusione societaria con una società straniera, il numero dei dipendenti aumenta ed occorre integrare il loro java bean dal nome Employer con quello esistente dal nome Impiegati. Semanticamente è uguale ma sintatticamente è diverso, pertanto creiamo la classe AdattatoreEmployer per adattare la classe Employer.
+
+Sappiamo che possiamo utilizzare sia l’Object Adapter che il Class Adapter: la differenza principale dipende dal fatto che nel secondo caso è richiesta l’ereditarietà multipla e in java non è possibile, o meglio, non è possibile ereditare più classi ma è possibile implementare più interfacce. Questo significa che qualora disponiamo di una interfaccia Target ed un’interfaccia Adaptee possiamo utilizzare anche il Class Adapter.
+
+##### Object Adapter
+Per cominciare iniziamo ad implementare Object Adapter per eseguire l’esempio precedente.
+Vediamo come si presenta il pattern in UML in base all’esempio nel caso di Object Adapter:
+
+![[67.png]]
+
+A questo punto passiamo a creare la classe Impiegato e la classe Employer:
+
+```java
+public class Impiegato {
+    private String cognome = null;
+    
+    public String getCognome() {
+        return cognome;
+    }
+    
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+} // ! Impiegato
+```
+
+```java
+public class Employer {
+    private String lastName = null;
+    
+    public String getLastName() {
+        return lastName;
+    }
+    
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+} // ! Employer
+```
+
+Creiamo la classe Adapter AdattatoreEmployer che eredita la classe Impiegato ed è associata con la classe Employer:
+
+```java
+public class AdattatoreEmployer extends Impiegato {
+    Employer employer = null;
+ 
+    public AdattatoreEmployer(Employer employer) {
+        this.employer = employer;
+    }
+ 
+    @Override
+    public String getCognome() {
+        return employer.getLastName();
+    }
+ 
+    @Override
+    public void setCognome(String cognome) {
+        employer.setLastName(cognome);
+    }
+} // ! AdattatoreEmployer
+```
+
+L’invocazione avviene ad opera della classe Client che passa per l’Adapter per invocare la classe Employer utilizzando gli stessi metodi utilizzati per invocare la classe Impiegato:
+
+```java
+public class Client {
+    public static void main(String[] args) {
+        Impiegato impiegato = new Impiegato();
+        impiegato.setCognome("Rossi");
+        System.out.println("Impiegato: " + impiegato.getCognome());
+        
+        AdattatoreEmployer adattatoreEmployer = 
+							        new AdattatoreEmployer(new Employer());
+        
+        adattatoreEmployer.setCognome("Verdi");
+        System.out.println("AdattatoreEmployer: " + adattatoreEmployer.getCognome());
+    } // ! main()
+} // ! Client
+```
+
+L’output del Client è mostrato di seguito:
+```java
+$JAVA_HOME/bin/java patterns.adapter.object.Client
+Impiegato: Rossi
+AdattatoreEmployer: Verdi
+```
+
+##### Class Adapter
+Sicuramente più complesso è il caso del Class Adapter.
+Vediamo di seguito il Class Diagram che ci mostra che l’Adapter eredita sia da Target che da Adaptee. Nel caso precedente Target ed Adaptee erano due classi, pertanto non era possibile l’ereditarietà multipla in Java, quindi abbiamo previsto due interfacce:
+1. Una del Target dal nome InterfacciaImpiegato.
+2. Una di Adaptee dal nome InterfacciaEmployer.
+
+![[68.png]]
+
+Le due interfacce definiscono i metodi presenti nelle due organizzazioni:
+
+```java
+public interface InterfaceImpiegato {
+    public String getCognome();
+    public void setCognome(String cognome);
+}
+```
+ 
+```java
+public interface InterfaceEmployer {
+    public String getLastName();
+    public void setLastName(String lastName);
+}
+```
+
+Le classi Impiegato ed Employer ereditano dalle due interfacce nel modo seguente:
+
+```java
+public class Impiegato implements InterfaceImpiegato {
+    private String cognome = null;
+    
+    @Override
+    public String getCognome() {
+        return cognome;
+    }
+    @Override
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+}
+```
+
+```java
+public class Employer implements InterfaceEmployer {
+    private String lastName = null;
+    
+    @Override
+    public String getLastName() {
+        return lastName;
+    }
+    
+    @Override
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+}
+```
+
+L’Adapter dal nome AdattatoreEmployer può ereditare dalle due interfacce ed espone i metodi previsti da Target ed Adaptee.
+
+```java
+public class AdattatoreEmployer extends Employer 
+								implements InterfaceEmployer, InterfaceImpiegato {
+								
+    @Override
+    public String getCognome() {
+        return getLastName();
+    }
+    
+    @Override
+    public void setCognome(String cognome) {
+        setLastName(cognome);
+    }
+}
+```
+
+L’invocazione da parte del Client consente di invocare Employer passando per la classe Adapter AdattatoreEmployer, come nel caso precedente Object Adapter.
+
+```java
+public class Client {
+    public static void main(String[] args) {
+        Impiegato impiegato = new Impiegato();
+        impiegato.setCognome("Rossi");
+        System.out.println("Impiegato: " + impiegato.getCognome());
+        
+        AdattatoreEmployer adattatoreEmployer = new AdattatoreEmployer();
+        adattatoreEmployer.setCognome("Verdi");
+        System.out.println("AdattatoreEmployer: " + adattatoreEmployer.getCognome());
+    } // ! main()
+} // ! Client
+```
+
+L’output della classe Client è il seguente:
+```java
+$JAVA_HOME/bin/java patterns.adapter.classes.Client
+Impiegato: Rossi
+AdattatoreEmployer: Verdi
+```
+
+[_Torna all'indice_](#indice)
 
 ---
 

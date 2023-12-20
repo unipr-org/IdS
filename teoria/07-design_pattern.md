@@ -83,7 +83,7 @@ Questi Creational Patterns forniscono approcci diversi alla creazione di oggetti
 
 ![[47.png]]
 
-L'Abstract Factory è uno dei principali pattern creazionali il cui scopo è quello di fornire un'interfaccia per creare famiglie di oggetti interconnessi fra loro, in modo che non ci sia necessità di specificare i nomi delle classi concrete all'interno del proprio codice. In questo modo si facilita la creazione di un sistema indipendente dall'implementazione degli oggetti concreti, infatti, l'utilizzatore (Client) conosce solo l'interfaccia per creare le famiglie di prodotti ma non la sua implementazione concreta.
+L'Abstract Factory è uno dei principali pattern <u>creazionali</u> il cui scopo è quello di fornire un'interfaccia per creare famiglie di oggetti interconnessi fra loro, in modo che non ci sia necessità di specificare i nomi delle classi concrete all'interno del proprio codice. In questo modo si facilita la creazione di un sistema indipendente dall'implementazione degli oggetti concreti, infatti, l'utilizzatore (Client) conosce solo l'interfaccia per creare le famiglie di prodotti ma non la sua implementazione concreta.
 
 L'Abstract Factory è costituito da 5 elementi:
 1. **AbstractFactory**: interfaccia che definisce i metodi mediante i quali sarà possibile ottenere gli AbstractProduct.
@@ -179,57 +179,731 @@ public class Test {
 ---
 
 ### Builder
-### Factory Method
-### Prototype
+Il Build Pattern e' un pattern <u>creazionale</u> che in molte situazioni può rappresentare una valida alternativa alla costruzione di oggetti mediante costruttori.
+
+La necessità di introdurre meccanismi alternativi a quelli forniti da Java per la creazione di oggetti nasce dal fatto che talvolta le strutture sono molto complesse e non sempre è banale impostare un costruttore ben formato. Pensiamo ai casi in cui il numero di attributi sia molto alto oppure ai casi in cui ci sono attributi che possono anche non essere valorizzati. La probabilità di fare un errore scrivendo il costruttore a mano è molto alta.
+
+L'obiettivo finale è quello di separare la creazione dell'oggetto dalla sua rappresentazione. In tale maniera l'algoritmo per la creazione dell'oggetto è indipendente dalle varie parti che costituiscono l’oggetto e da come vengono assemblate.
+
+La creazione delle istanze e la loro gestione vengono quindi separate in modo da rendere il programma più semplice.
+
+Un aspetto molto interessante è che questi meccanismi permettono di creare un oggetto passo passo, verificandone l'idoneità ad ogni passaggio (pensiamo a quando vogliamo costruire un oggetto con dati provenienti dai risultati di un parser) e soprattutto ci permette di nascondere la logica di controllo che sarebbe magari stata presente nell'eventuale costruttore.
+
+> Il Builder Pattern è usato per creare istanze di oggetti molto complessi con costruttori telescopici nella maniera più semplice.
+
+![[58.png]]
+
+Analizziamo in dettaglio i vari componenti:
+
+-   **Product:** definisce il tipo di oggetto complesso che sarà generato dal **Builder Pattern**.
+-   **Builder:** questa **classe astratta** va a definire i vari passaggi per creare correttamente gli oggetti. Ogni metodo è generalmente astratto e le implementazioni sono fornite dalle sottoclassi concrete. Il metodo `getProduct()` è utilizzato per restituire il prodotto finale. Talvolta il Builder viene sostituito da un'interfaccia.
+-   **ConcreteBuilder:** possono esserci diverse sottoclassi concrete `ConcreteBuilder`. Queste sottoclassi forniscono i meccanismi per la creazione di oggetti complessi.
+-   **Director:** la classe Director controlla l'algoritmo per la creazione dei vari oggetti. Quando viene istanziata, il suo costruttore viene invocato. Contiene un parametro che indica quale `ConcreteBuilder` utilizzare per la creazione degli oggetti. Durante il processo di creazione, i vari metodi del `ConcreteBuilder` vengono richiamati e alla fine delle operazioni, il metodo `getProduct()` viene utilizzato per ottenere il prodotto finale.
+
+#### Esempio - Builder
+> Esempio presente in Effective Java di Joshua Bloch.
+
+```java
+public class Animal {
+	private final String id;
+	private String name;
+	private String pedigreeName;
+	private String owner;
+	private String race;
+	private String residence;
+	private Boolean isVaccinated;
+	private Boolean isChampion;
+	private List sons;
+	private Sex sex;
+	private Double weight;
+	private Double height;
+	
+	public Animal(String name, String pedigreeName, String id, String owner, String race, String residence, Boolean isVaccinated, Boolean isChampion, List sons, Sex sex, Double weight, Double height) {
+		this.name = name;
+		this.pedigreeName = pedigreeName;
+		this.id = id;
+		this.owner = owner;
+		this.race = race;
+		this.residence = residence;
+		this.isVaccinated = isVaccinated;
+		this.isChampion = isChampion;
+		this.sons = sons;
+		this.sex = sex;
+		this.weight = weight;
+		this.height = height;
+	}
+	
+	public enum Sex {
+		MALE,
+		FEMALE
+	}
+} // ! Animal
+```
+
+Applichiamo ora il pattern:
+
+```java
+public final class AnimalBuilder {
+	private String id;
+	private String name;
+	private String pedigreeName;
+	private String owner;
+	private String race;
+	private String residence;
+	private Boolean isVaccinated;
+	private Boolean isChampion;
+	private List<String> sons;
+	private Animal.Sex sex;
+	private Double weight;
+	private Double height;
+	
+	private AnimalBuilder(String id) {
+		this.id = id;
+	}
+	
+	public static AnimalBuilder newBuilder(String id) {
+		return new AnimalBuilder(id);
+	}
+	
+	public AnimalBuilder name(String name) {
+		this.name = name;
+		return this;
+	}
+	
+	public AnimalBuilder pedigreeName(String pedigreeName) {
+		this.pedigreeName = pedigreeName;
+		return this;
+	}
+	
+	public AnimalBuilder owner(String owner) {
+		this.owner = owner;
+		return this;
+	}
+	
+	public AnimalBuilder race(String race) {
+		this.race = race;
+		return this;
+	}
+	
+	public AnimalBuilder residence(String residence) {
+		this.residence = residence;
+		return this;
+	}
+	
+	public AnimalBuilder isVaccinated(Boolean isVaccinated) {
+		this.isVaccinated = isVaccinated;
+		return this;
+	}
+	
+	public AnimalBuilder isChampion(Boolean isChampion) {
+		this.isChampion = isChampion;
+		return this;
+	}
+	
+	public AnimalBuilder sons(List<String> sons) {
+		this.sons = sons;
+		return this;
+	}
+	
+	public AnimalBuilder sex(Animal.Sex sex) {
+		this.sex = sex;
+		return this;
+	}
+	
+	public AnimalBuilder weight(Double weight) {
+		this.weight = weight;
+		return this;
+	}
+	
+	public AnimalBuilder height(Double height) {
+		this.height = height;
+		return this;
+	}
+	
+	public Animal build() {
+		return new Animal(name, pedigreeName, id, owner, race, residence, isVaccinated, isChampion, sons, sex, weight, height);
+	}
+} // ! AnimalBuilder
+```
+
+Un oggetto potrà ora essere istanziato come:
+
+```java
+Animal pluto = AnimalBuilder.newBuilder("0000001")
+	.name("0000001")
+	.pedigreeName("PlutoSecondo")
+	.owner("Marco Rossi")
+	.race("labrador")
+	.residence("Via x")
+	.isVaccinated(true)
+	.isChampion(false)
+	.sons(null)
+	.sex(Animal.Sex.MALE)
+	.weight(40.5)
+	.height(30.0)
+	.build();
+```
+
+> Premettiamo che in questo particolare caso, la classe astratta Builder non è strettamente indispensabile. Può essere aggiunta senza modificare radicalmente la struttura presentata qui sotto.
+
+Troviamo diversi vantaggi nell'utilizzo di questo pattern creazionale, infatti possiamo creare oggetti cloni, o comunque molto simili, minimizzando il codice da scrivere. Il metodo utilizzato è simile al seguente, facendo riferimento al builder istanziato sopra:
+
+```java
+Animal animal3A = animalBuilder.build();
+Animal animal3AClone = animalBuilder.build();
+Animal animal3B = animalBuilder.sex(Animal.Sex.FEMALE).build();
+```
+
+Qui si creano due oggetti uguali e un oggetto simile ai due precedenti, ma con sesso opposto. Un vantaggio molto importante è quello di concentrare la validazione della classe in un unico metodo e di ottenere quindi oggetti pressochè immutabili.
+
+Va precisato che la versione presentata è leggermente diversa da quella presentata nel modello originale. L'unico svantaggio dell'utilizzo del pattern è il fatto che vada necessariamente definita una classe builder per ogni oggetto, aumentando nettamente il tempo di sviluppo.
+
+[_Torna all'indice_](#indice)
 
 ---
+
+### Factory Method
+
+> Conosciuto anche come Virtual Constructor.
+
+Si tratta di un pattern <u>creazionale</u> basato su classi e viene utilizzato per creare degli oggetti senza conoscerne i dettagli ma delegando un Creator che, in base alle informazioni ricevute, saprà quale oggetto restituire. Questo pattern consente di separare il Client dal Framework  permettendo di modificare i dettagli implementativi senza dovere modificare il Client.
+
+Questo pattern è composto dai seguenti partecipanti:
+- Creator: dichiara la `Factory` che avrà il compito di ritornare l’oggetto appropriato.
+- ConcreteCreator: effettua l’overwrite del metodo della `Factory` al fine di ritornare l’implementazione dell’oggetto.
+- Product: definisce l’interfaccia dell’oggetto che deve essere creato dalla `Factory`.
+- ConcreteProduct: implementa l’oggetto in base ai metodi definiti dall’interfaccia `Product`.
+
+![[59.png]]
+
+Tale pattern presenta i seguenti vantaggi/svantaggi:
+
+1.  Rappresenta un gancio alle sottoclassi: tramite il `Creator` è possibile scegliere quale classe concreta utilizzare e decidere di cambiarla senza avere nessun impatto verso il `Client`.
+2. Consente di collegare gerarchie di classi in modo parallelo: i `ConcreteCreator` possono collegarsi con i `ConcreteProduct` e generare un collegamento parallelo tra gerarchie diverse.
+
+#### Esempio - Factory Method
+Come esempio  pensiamo al caso in cui ci rechiamo in un centro commerciale  per acquistare un paio di scarpe sportive, in particolare da ginnastica, quindi chiediamo al commesso di turno che ci rimanda al commesso specializzato nel settore di nostro interesse che ci consegnerà le scarpe di ginnastica che cercavamo.
+
+Vediamo come si presenta il pattern in UML in base all’esempio:
+
+![[60.png]]
+
+Vediamo come si presenta la classe Cliente:
+
+```java
+public class Cliente {
+    public static void main(String[] args) {
+        Commesso commesso = new Commesso();
+        
+        Scarpe scarpe = commesso.getScarpe("ginnastica");
+        
+        System.out.println(scarpe.getClass());
+    }
+} // ! Cliente
+```
+
+Vediamo la definizione del prodotto nella sua definizione e nelle sue implementazioni che nel nostro caso sono vuote per semplicità:
+
+```java
+public interface Scarpe { }
+ 
+public class ScarpeGinnastica implements Scarpe { }
+ 
+public class ScarpeTennis implements Scarpe { }
+```
+
+Di seguito abbiamo l’implementazioni della Factory:
+
+```java
+public class Commesso {
+    public Scarpe getScarpe(String tipo) {
+        
+        Scarpe scarpe = null;
+        
+        if(tipo.equals("ginnastica"))
+            scarpe = CommessoGinnastica.getScarpe();
+        else if(tipo.equals("tennis"))
+            scarpe = CommessoTennis.getScarpe();
+        
+        return scarpe;
+    }
+} // ! Commesso
+ 
+public class CommessoGinnastica extends Commesso {
+    public static Scarpe getScarpe(){
+        return new ScarpeGinnastica();
+    }
+} // ! CommessoGinnastica
+
+public class CommessoTennis extends Commesso {
+    public static Scarpe getScarpe(){
+        return new ScarpeTennis();
+    }
+} // ! CommessoTennis
+```
+
+[_Torna all'indice_](#indice)
+
+---
+
+### Prototype
+Si tratta di un pattern <u>creazionale</u> basato su oggetti e viene utilizzato per creare un nuovo oggetto clonando un oggetto già esistente detto prototipo. Questo pattern risulta utile affinchè il Client possa creare nuovi oggetti senza conoscerne i dettagli implementativi ma avvalendosi della clonazione. 
+
+>La creazione del clone avviene a RunTime e non a CompileTime, pertanto il clone viene creato in sede di esecuzione.
+
+Durante la creazione del clone dell’oggetto occorre prestare molta attenzione alla creazione degli oggetti annidati. Una classe può contenere al suo interno dei riferimenti ad altre classi, pertanto la clonazione dell’oggetto principale deve effettuare la clonazione anche di tutti gli altri oggetti al suo interno. 
+
+La clonazione dell’intero albero degli oggetti genera un clone detto ***deep-clone*** in quanto copia tutti gli oggetti presenti. Se la clonazione si limita solo all’oggetto principale “contenitore” allora nel clone verranno mantenuti gli stessi riferimenti agli oggetti secondari: in questo caso si parla di ***shallow-clone***.
+
+![[61.png]]
+
+Tale pattern presenta i seguenti vantaggi/svantaggi:
+1. <u>Aggiungere / rimuovere prodotti a RunTime:</u> è possibile decidere a Runtime se aggiungere nuovi oggetti.
+2. <u>Specificare nuovi oggetti cambiando il loro valore:</u> invece di creare nuove classi per definire nuovi comportamenti, possiamo cambiare il valore di un oggetto per definire un nuovo comportamento. In questo modo vengono ridotti i numeri delle classi.
+
+#### Esempio - Prototype
+Come esempio pensiamo al caso in cui vogliamo creare dei template di tabelle di Hash da poter essere facilmente clonate all’occorrenza. In Java una tabella di hash può essere realizzata utilizzando per esempio le classi HashMap, IdentityHashMap, LinkedHashMap ognuna con caratteristiche diverse. Realizziamo una classe astratta Hash e specializziamo le classi di hash di nostro interesse.
+
+Vediamo come si presenta in UML in base all’esempio:
+
+![[62.png]]
+
+La classe astratta Hash implementa l’interfaccia Clonable per dichiarare la propria volontà di clonazione. 
+
+La classe astratta Hash, ereditando di default dalla classe Object, eredita il metodo `protected native Object clone() throws CloneNotSupportedException;` che implementa di default la clonazione. Nel nostro caso richiameremo semplicemente il metodo nativo `super.clone()`:
+
+```java
+public abstract class Hash implements Cloneable {
+ 
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return super.clone();
+    }
+ 
+    public abstract void addItem(Object key, Object value);
+ 
+    public abstract int getSize();
+ 
+}
+```
+
+Le classi seguenti MyLinkedHashMap, MyHashMap e MyIdentityHashMap ereditano dalla classe Hash ed effettuano l’overriding del metodo `clone()` *SENZA* deep-copy *MA* shadow-copy ossia non duplicano gli oggetti contenuti in esse.
+
+```java
+public class MyLinkedHashMap extends Hash {
+    private LinkedHashMap hash = new LinkedHashMap();
+    
+    @Override
+    public Object clone() throws CloneNotSupportedException{
+        return (MyLinkedHashMap) super.clone();
+    }
+    
+    @Override
+    public void addItem(Object key, Object value) {
+        hash.put(key, value);
+    }
+    
+    @Override
+    public int getSize() {
+        return hash.size();
+    }
+}
+```
+
+> Le classi MyHashMap e MyIdentityHashMap non vengono implementate nell'esempio perche' sono praticamente uguali a MyLinkedHashMap.
+
+La classe Client ha il compito di invocare il template di interesse e richiedere la clonazione.
+Nel nostro esempio viene creato un template della classe MyLinkedHashMap per poi essere popolato con una chiave ed a questo punto viene clonato l’oggetto. Abbiamo fatto una shallow-copy, ossia una clonazione superficiale.
+
+L’oggetto MyLinkedHashMap è stato duplicato e ce ne accorgiamo dal fatto che l’hashcode è diverso.
+L’oggetto annidato LinkedHashMap non è stato clonato e ce ne accorgiamo dal fatto che se proviamo ad aggiungere una nuova chiave al template questa viene “ritrovata” anche nell’oggetto clonato.
+
+```java
+public class Client {
+
+    public static void main(String[] args) throws CloneNotSupportedException {
+     
+        Hash hash = new MyLinkedHashMap();
+        hash.addItem("key1", "value1");
+        
+        System.out.println("Prototype");
+        System.out.println("ClassName: " + hash.getClass().getCanonicalName());
+        System.out.println("ClassHashCode:" + hash.hashCode());
+        
+        Hash hashCloned = (MyLinkedHashMap) hash.clone();
+        System.out.println("Clone:");
+        System.out.println("ClassName: " + hashCloned.getClass().getCanonicalName());
+        System.out.println("ClassHashCode:" + hashCloned.hashCode());
+        
+        System.out.println("Prototype Hashtable size: " + hash.getSize());
+        System.out.println("Cloned Hashtable size: " + hashCloned.getSize());
+        
+        System.out.println("Adding new key");
+        hash.addItem("key2", "value2");
+        
+        System.out.println("Prototype Hashtable size: " + hash.getSize());
+        System.out.println("Cloned Hashtable size: " + hashCloned.getSize());
+    
+    } // ! main()
+} // ! Client
+```
+
+Output:
+```bash
+$JAVA_HOME/bin/java patterns.prototype.Client
+Prototype
+ClassName: patterns.prototype.A
+ClassHashCode:16130931
+Clone:
+ClassName: patterns.prototype.A
+ClassHashCode:26315233
+Prototype Hashtable size: 1
+Cloned Hashtable size: 1
+Adding new key
+Prototype Hashtable size: 2
+Cloned Hashtable size: 2
+```
+
+Guardando l’Object Diagram abbiamo questa situazione di condivisione dell’oggetto hash:
+
+![[63.png]]
+
+Per evitare questo problema occorre prevedere la deep-copy definiendo nell’overriding del metodo `clone()` la clonazione anche dell’oggetto annidato. Pertanto in tutte le classi che ereditano direttamente dalla classe astratta Hash modifichiamo il metodo `clone()` in questo modo:
+
+```java
+@Override
+public Object clone() throws CloneNotSupportedException{
+    MyLinkedHashMap myLinkedHashMap = (MyLinkedHashMap) super.clone();
+    myLinkedHashMap.hash = (LinkedHashMap) myLinkedHashMap.hash.clone();
+    return myLinkedHashMap;
+}
+```
+
+In questo modo quando eseguiamo la classe Client vediamo che l’inserimento di una nuova chiave nella nostra tabella di hash di template non determina alcuna modifica nella tabella di hash clonata.
+
+Output:
+```bash
+$JAVA_HOME/bin/java patterns.prototype.Client
+Prototype
+ClassName: patterns.prototype.MyLinkedHashMap
+ClassHashCode:16130931
+Clone:
+ClassName: patterns.prototype.MyLinkedHashMap
+ClassHashCode:23660326
+Prototype Hashtable size: 1
+Cloned Hashtable size: 1
+Adding new key
+Prototype Hashtable size: 2
+Cloned Hashtable size: 1
+```
+
+Guardando l’Object Diagram abbiamo questa situazione di <u>NON</u> condivisione dell’oggetto hash:
+
+![[64.png]]
+
+A seconda della complessità dell’oggetto template ed a seconda dell’alberatura annidata degli oggetti presenti nella classe template, occorrerà ricordarsi di clonare tutti gli oggetti presenti nel template.
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Singleton
 
 ![[57.jpg]]
 
-Il singleton è un pattern creazionale che viene utilizzato per mantenere una singola istanza di una classe e fornire un accesso globale a questa. L'utilizzo del pattern si presenta quando:
+Il singleton è un pattern <u>creazionale</u> che viene utilizzato per mantenere una singola istanza di una classe e fornire un accesso globale a questa. 
+L'utilizzo del pattern si presenta quando:
 - Deve esistere esattamente una singola istanza di una classe, e deve essere accessibile dal cliente da un punto d'accesso ben preciso.
 - Quando soltanto l'istanza della classe deve essere estesa mediante una sottoclasse, che il cliente deve essere in grado di utilizzare senza modificare il codice.
 
 Il singleton è composto da un solo elemento:
-- Singleton, che è responsabile della creazione dell'oggetto e definisce un'operazione `Instance` che permette al cliente di accedere all'istanza univoca della classe.
+- Singleton, che è responsabile della creazione dell'oggetto e definisce un'operazione `getInstance` che permette al cliente di accedere all'istanza univoca della classe.
 
-> Il cliente accede all'istanza univoca mediante l'operazione `Instance`
+> Il cliente accede all'istanza univoca mediante l'operazione `getInstance`.
 
 I vantaggi principali sono:
-- Accesso controllato ad una singola istanza, perché questo questo pattern si occupa di encapsulare l'istanza, avendo il controllo completo su di essa e gestendo come/quando i vari clienti possono accederci
-- Riduzione del namespace, Il pattern è un miglioramento rispetto alle variabili globali, racchiudendo le variabili all'interno dell'istanza
+- Accesso controllato ad una singola istanza: questo questo pattern si occupa di encapsulare l'istanza, avendo il controllo completo su di essa e gestendo come/quando i vari clienti possono accederci.
+- Riduzione del namespace: il pattern è un miglioramento rispetto alle variabili globali, racchiudendo le variabili all'interno dell'istanza.
 
-#### Esempio - Sigleton
-
+#### Tipo reference pre-inizializzato
 ```java
 public class Singleton {
-
-	private static Singleton instance_ = null;
-
-	public static Singleton Instace() {
-
-		if(instance_ == null)
-			instance_ = new Singleton();
-		
+	private static Singleton instance_ = new Singleton();
+	
+	public static Singleton getInstance(){
 		return instance_;
 	}
-
-	protected Singleton() {}
-	
 }
 ```
 
-> Per controllare la creazione di in singleton, mantenendo la possibilità di creare delle sottoclassi, è necessario mettere il costruttore `protected`
+#### Inizializzazione pigra
 
-
+```java
+public class Singleton {
+	private static Singleton instance_ = null;
+	
+	public static Singleton getInstace() {
+		if(instance_ == null) {
+			syncronized(Singleton.class) {
+				if(instance_ == null)
+					instance_ = new Singleton();
+			}
+		}
+		
+		return instance_;
+	}
+	
+	private Singleton() { }
+}
+```
 
 [_Torna all'indice_](#indice)
 
 ---
 
 ## Structural Patterns
+  
+Gli structural design pattern sono un insieme di pattern che si concentrano sulla composizione di classi e oggetti per formare strutture più complesse. Questi pattern sono progettati per gestire la composizione di classi e oggetti in modo flessibile, consentendo la creazione di sistemi più estensibili e riutilizzabili. Ecco una breve panoramica di alcuni degli structural design pattern principali:
+
+1.  **Adapter Pattern (Pattern Adattatore):**
+    
+    -   **Scopo:** Converte l'interfaccia di una classe in un'altra interfaccia che un cliente si aspetta.
+    -   **Utilizzo comune:** Quando si desidera utilizzare una classe esistente che non ha l'interfaccia desiderata.
+2.  **Bridge Pattern (Pattern Ponte):**
+    
+    -   **Scopo:** Separa un'astrazione dalla sua implementazione, consentendo loro di evolvere indipendentemente.
+    -   **Utilizzo comune:** Quando si desidera evitare una connessione fissa tra un'astrazione e la sua implementazione.
+3.  **Composite Pattern (Pattern Composito):**
+    
+    -   **Scopo:** Consente di trattare oggetti singoli e composizioni di oggetti in modo uniforme.
+    -   **Utilizzo comune:** Per creare strutture ad albero e rappresentare parti-tutto.
+4.  **Decorator Pattern (Pattern Decoratore):**
+    
+    -   **Scopo:** Aggiunge responsabilità a un oggetto dinamicamente.
+    -   **Utilizzo comune:** Per estendere le funzionalità di un oggetto in modo flessibile e senza modificare il suo codice.
+7.  **Proxy Pattern (Pattern Proxy):**
+    
+    -   **Scopo:** Fornisce un surrogato o un segnaposto per controllare l'accesso a un oggetto.
+    -   **Utilizzo comune:** Per implementare il controllo dell'accesso, il caricamento pigro o la registrazione.
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Adapter
+> Conosciuto anche come Wrapper.
+
+Si tratta di un pattern <u>strutturale basato su classi o su oggetti</u> in quanto è possibile ottenere entrambe le rappresentazioni. Viene utilizzato quando si intende utilizzare un componente software ma occorre adattare la sua interfaccia per motivi di integrazione con l’applicazione esistente.
+
+Questo comporta la definizione di una nuova interfaccia che deve essere compatibile con quella esistente in modo tale da consentire la comunicazione con l’interfaccia da “adattare”. In tale contesto possono essere anche effettuate delle trasformazioni di dati per cui l’Adapter si occuperà di interfacciarsi con il nuovo sistema e fornisce anche le regole di mapping dei dati.
+Come abbiamo accennato, tale pattern può essere basato sia su classi che su oggetti pertanto l’instanza della classe da adattare può derivare da ereditarietà oppure da associazione.
+
+
+Questo pattern è composto dai seguenti partecipanti:
+- Client: colui che effettua l’invocazione all’operazione di interesse.
+- Target: definisce l’interfaccia specifica del dominio applicativo utilizzata dal Client.
+- Adaptee: definisce l’interfaccia di un diverso dominio applicativo da dover adattare per l’invocazione da parte del Client.
+- Adapter: definisce l’interfaccia compatibile con il Target che maschera l’invocazione dell’Adaptee.
+
+Abbiamo visto precedentemente che il pattern può essere basato su Classi o su Oggetti, in base a questo possiamo schematizzare in UML la relazione esistente tra l’adattatore e l’adattato (Adapter e Adaptee):
+1. Sotto forma di ereditarietà come nel caso seguente:
+	![[65.png]]
+2. Sotto forma di associazione come nel caso seguente:
+	![[66.png]]
+
+Tale pattern presenta i seguenti vantaggi/svantaggi:
+1. <u>Class Adapter</u>: prevede un rapporto di ereditarietà tra Adapter e Adaptee, in cui Adapter specializza Adaptee, pertanto non è possibile creare un Adapter che specializzi più Adaptee. Se esiste una gerarchia di Adaptee occorre creare una gereachia di Adapter.
+2. <u>Object Adapter</u>: prevede un rapporto di associazione tra Adapter e Adaptee, in cui Adapter instanzia Adaptee, pertanto è possible avere un Adapter associato con più Adaptee.
+
+#### Esempio - Adapter
+Come esempio pensiamo al caso in cui dobbiamo gestire l’elenco dei dipendenti di una società. I loro dati vengono memorizzati in un java bean dal nome Impiegati che contiene tutte le informazioni personali (nel nostro caso per semplicità indichiamo solo il cognome).
+
+Per effetto di una fusione societaria con una società straniera, il numero dei dipendenti aumenta ed occorre integrare il loro java bean dal nome Employer con quello esistente dal nome Impiegati. Semanticamente è uguale ma sintatticamente è diverso, pertanto creiamo la classe AdattatoreEmployer per adattare la classe Employer.
+
+Sappiamo che possiamo utilizzare sia l’Object Adapter che il Class Adapter: la differenza principale dipende dal fatto che nel secondo caso è richiesta l’ereditarietà multipla e in java non è possibile, o meglio, non è possibile ereditare più classi ma è possibile implementare più interfacce. Questo significa che qualora disponiamo di una interfaccia Target ed un’interfaccia Adaptee possiamo utilizzare anche il Class Adapter.
+
+##### Object Adapter
+Per cominciare iniziamo ad implementare Object Adapter per eseguire l’esempio precedente.
+Vediamo come si presenta il pattern in UML in base all’esempio nel caso di Object Adapter:
+
+![[67.png]]
+
+A questo punto passiamo a creare la classe Impiegato e la classe Employer:
+
+```java
+public class Impiegato {
+    private String cognome = null;
+    
+    public String getCognome() {
+        return cognome;
+    }
+    
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+} // ! Impiegato
+```
+
+```java
+public class Employer {
+    private String lastName = null;
+    
+    public String getLastName() {
+        return lastName;
+    }
+    
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+} // ! Employer
+```
+
+Creiamo la classe Adapter AdattatoreEmployer che eredita la classe Impiegato ed è associata con la classe Employer:
+
+```java
+public class AdattatoreEmployer extends Impiegato {
+    Employer employer = null;
+ 
+    public AdattatoreEmployer(Employer employer) {
+        this.employer = employer;
+    }
+ 
+    @Override
+    public String getCognome() {
+        return employer.getLastName();
+    }
+ 
+    @Override
+    public void setCognome(String cognome) {
+        employer.setLastName(cognome);
+    }
+} // ! AdattatoreEmployer
+```
+
+L’invocazione avviene ad opera della classe Client che passa per l’Adapter per invocare la classe Employer utilizzando gli stessi metodi utilizzati per invocare la classe Impiegato:
+
+```java
+public class Client {
+    public static void main(String[] args) {
+        Impiegato impiegato = new Impiegato();
+        impiegato.setCognome("Rossi");
+        System.out.println("Impiegato: " + impiegato.getCognome());
+        
+        AdattatoreEmployer adattatoreEmployer = 
+							        new AdattatoreEmployer(new Employer());
+        
+        adattatoreEmployer.setCognome("Verdi");
+        System.out.println("AdattatoreEmployer: " + adattatoreEmployer.getCognome());
+    } // ! main()
+} // ! Client
+```
+
+L’output del Client è mostrato di seguito:
+```java
+$JAVA_HOME/bin/java patterns.adapter.object.Client
+Impiegato: Rossi
+AdattatoreEmployer: Verdi
+```
+
+##### Class Adapter
+Sicuramente più complesso è il caso del Class Adapter.
+Vediamo di seguito il Class Diagram che ci mostra che l’Adapter eredita sia da Target che da Adaptee. Nel caso precedente Target ed Adaptee erano due classi, pertanto non era possibile l’ereditarietà multipla in Java, quindi abbiamo previsto due interfacce:
+1. Una del Target dal nome InterfacciaImpiegato.
+2. Una di Adaptee dal nome InterfacciaEmployer.
+
+![[68.png]]
+
+Le due interfacce definiscono i metodi presenti nelle due organizzazioni:
+
+```java
+public interface InterfaceImpiegato {
+    public String getCognome();
+    public void setCognome(String cognome);
+}
+```
+ 
+```java
+public interface InterfaceEmployer {
+    public String getLastName();
+    public void setLastName(String lastName);
+}
+```
+
+Le classi Impiegato ed Employer ereditano dalle due interfacce nel modo seguente:
+
+```java
+public class Impiegato implements InterfaceImpiegato {
+    private String cognome = null;
+    
+    @Override
+    public String getCognome() {
+        return cognome;
+    }
+    @Override
+    public void setCognome(String cognome) {
+        this.cognome = cognome;
+    }
+}
+```
+
+```java
+public class Employer implements InterfaceEmployer {
+    private String lastName = null;
+    
+    @Override
+    public String getLastName() {
+        return lastName;
+    }
+    
+    @Override
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+}
+```
+
+L’Adapter dal nome AdattatoreEmployer può ereditare dalle due interfacce ed espone i metodi previsti da Target ed Adaptee.
+
+```java
+public class AdattatoreEmployer extends Employer 
+								implements InterfaceEmployer, InterfaceImpiegato {
+								
+    @Override
+    public String getCognome() {
+        return getLastName();
+    }
+    
+    @Override
+    public void setCognome(String cognome) {
+        setLastName(cognome);
+    }
+}
+```
+
+L’invocazione da parte del Client consente di invocare Employer passando per la classe Adapter AdattatoreEmployer, come nel caso precedente Object Adapter.
+
+```java
+public class Client {
+    public static void main(String[] args) {
+        Impiegato impiegato = new Impiegato();
+        impiegato.setCognome("Rossi");
+        System.out.println("Impiegato: " + impiegato.getCognome());
+        
+        AdattatoreEmployer adattatoreEmployer = new AdattatoreEmployer();
+        adattatoreEmployer.setCognome("Verdi");
+        System.out.println("AdattatoreEmployer: " + adattatoreEmployer.getCognome());
+    } // ! main()
+} // ! Client
+```
+
+L’output della classe Client è il seguente:
+```java
+$JAVA_HOME/bin/java patterns.adapter.classes.Client
+Impiegato: Rossi
+AdattatoreEmployer: Verdi
+```
+
+[_Torna all'indice_](#indice)
 
 ---
 
@@ -271,7 +945,7 @@ Tale pattern presenta i seguenti vantaggi/svantaggi:
 2. <u>Migliora l’estendibilità</u>: è possibile estendere la gerarchia di Abstraction e Implementor senza problemi.
 3. <u>Nasconde l’implementazione al client</u>: il Client non si deve porre il problema di conoscere l’implementazione delle classi concrete.
 
-**Implementazione**
+#### Esempio - Bridge
 Facciamo un altro esempio: pensiamo al caso in cui ci rechiamo in un ristorante-pizzeria e facciamo un’ordinazione. Il cameriere addetto alla pizzeria prenderà la nostra ordinazione indipendentemente dal tipo di pizza che scegliamo.
 
 Rappresentiamo questa situazione in questo Class Diagram UML:
@@ -399,7 +1073,330 @@ public class Cliente {
 ---
 
 ### Composite
+Si tratta di un pattern <u>strutturale basato su oggetti</u> che viene utilizzato quando si ha la necessità di realizzare una gerarchia di oggetti in cui l’oggetto contenitore può detenere oggetti elementari e/o oggetti contenitori. L’obiettivo è di permettere al Client che deve navigare la gerarchia, di comportarsi sempre nello stesso modo sia verso gli oggetti elementari e sia verso gli oggetti contenitori.
+
+**Partecipanti e Struttura**
+Questo pattern è composto dai seguenti partecipanti:
+- Client: colui che effettua l’invocazione all’operazione di interesse.
+- Component: definisce l’interfaccia degli oggetti della composizione.
+- Leaf: rappresenta l’oggetto foglia della composizione. Non ha figli. Definisce il comportamento “primitivo” dell’oggetto della composizione.
+- Composite: definisce il comportamento degli oggetti usati come contenitori ed detiene il riferimento ai componenti “figli”.
+
+In UML, usando il Class Diagram, possiamo schematizzare le relazioni in questo modo:
+
+![[69.png]]
+
+Tale pattern presenta i seguenti vantaggi/svantaggi:
+1. <u>Definisce la gerarchia:</u> Gli oggetti della gerarchia possono essere composti da oggetti semplici e/o da oggetti contenitori che a loro volta sono composti ricorsivamente da altri oggetti semplici e/o da oggetti contenitori.
+2. <u>Semplifica il client:</u> il Client tratta gli oggetti semplici e gli oggetti contenitori nello stesso modo. Questo semplifica il suo lavoro il quale astrae dalla specifica implementazione.
+3. <u>Semplifica la modifica dell’albero gerarchico:</u> l’alberatura è facilmente modificabile aggiungendo/rimuovendo foglie e contenitori.
+
+#### Esempio - Composite
+Come esempio pensiamo al FileSystem che presenta una struttura ad albero e che può essere composto da elementi semplici (i files) e da contenitori (le cartelle). L’obiettivo del nostro esercizio è quello di permettere al Client di accedere e navigare il File System senza conoscere la natura degli elementi che lo compongono in modo da consentire al Client di trattare tutti gli elementi nello stesso modo.
+
+Per fare questo il Client userà la stessa interfaccia per l’accesso mentre l’implementazione nasconderà la gestione degli oggetti a seconda della loro reale natura.
+
+Per fare questo schematizziamo la struttura delle classi usando il Class Diagram seguente:
+
+![[70.png]]
+
+Creiamo l’interfaccia di interrogazione per l’accesso a files e cartelle.
+Creiamo i metodi add/remove per aggiungere/rimuovere files/cartelle ed il metodo print per visualizzare il suo nome.
+
+```java
+public interface MyFileSystem {
+    public void add(MyFileSystem myFileSystem);
+    public void remove(MyFileSystem myFileSystem);
+    public void print();
+}
+```
+
+Implementiamo la classe che gestisce i Files. In questo caso i metodo `add` e `remove` non sono implementabili.
+
+```java
+public class MyFile implements MyFileSystem {
+ 
+    private String myFileName = null;
+ 
+    public MyFile(String myFileName) {
+        this.myFileName = myFileName;
+    }
+ 
+    @Override
+    public void print() {
+        System.out.println(myFileName);
+    }
+ 
+    @Override
+    public void add(MyFileSystem myFileNameSystem) {
+        System.out.println("Impossible to add!");
+    }
+ 
+    @Override
+    public void remove(MyFileSystem myFileNameSystem) {
+        System.out.println("Impossible to remove!");
+    }
+} // ! MyFile
+```
+
+Implementiamo la classe che gestisce le Cartelle. In questo caso i metodo add/remove aggiungono/rimuovono nuovi files/cartelle alla cartella corrente.
+
+```java
+public class MyFolder implements MyFileSystem {
+ 
+    private String myFolderName;
+    private ArrayList<MyFileSystem> folder;
+ 
+    public MyFolder(String myFolderName) {
+        this.myFolderName = myFolderName;
+        folder = new ArrayList<MyFileSystem>();
+    }
+ 
+    @Override
+    public void print() {
+        System.out.println(myFolderName);
+        for (int i = 0; i < folder.size(); i++) {
+            folder.get(i).print();
+        }
+    }
+ 
+    @Override
+    public void add(MyFileSystem myFileSystem) {
+        folder.add(myFileSystem);
+    }
+ 
+    @Override
+    public void remove(MyFileSystem myFileSystem) {
+        folder.remove(myFileSystem);
+    }
+} // ! MyFolder
+```
+
+Il metodo print viene invocato su tutti gli oggetti dell’albero, siano essi files o cartelle. Il comportamento sarà diverso nei 2 casi. Nella classe MyFile si limita a stampare il nome del file. Nella classe MyFolder, oltre a stampare il nome della cartella, presenta un loop utilizzato per invocare files/cartelle per consentire la ricorsione su tutta l’alberatura del Files System.
+
+```java
+folder.get(i).print();
+```
+
+La classe Client crea l’alberatura del File System e poi visualizza il suo contenuto.
+
+```java
+public class Client {
+    public static void main(String[] args) {
+        MyFileSystem f2 = new MyFile("F2");
+        MyFileSystem f3 = new MyFile("F3");
+        MyFileSystem c2 = new MyFolder("C2");
+        c2.add(f2);
+        c2.add(f3);
+ 
+        MyFileSystem f1 = new MyFile("F1");
+        MyFileSystem c1 = new MyFolder("C1");
+        c1.add(f1);
+        c1.add(c2);
+ 
+        c1.print();
+    }
+}
+```
+
+L’output del Client è il seguente:
+
+```java
+$JAVA_HOME/bin/java patterns.composite.Client
+C1
+F1
+C2
+F2
+F3
+```
+
+Graficamente l’albero del File System può essere rappresentato in questo modo:
+
+![[71.png]]
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Decorator
+Si tratta di un pattern <u>strutturale basato su oggetti</u> che viene utilizzato per aggiungere a RunTime delle funzionalità ad un oggetto.
+In Java, e più in generale nella programmazione ad oggetti, per aggiungere delle funzionalità ad una classe viene utilizzata l’ereditarietà che prevede la creazione di classi figlie che specializzano il comportamento della classe padre ma tutto ciò avviene a CompileTime.
+
+Pertanto se in sede di definizione della struttura delle classi non vengono previste delle specifiche funzionalità, queste non saranno disponibili a RunTime. Al fine di superare questo limite, attraverso la decorazione è possibile aggiungere nuove funzionalità senza dover alterare la struttura delle classi ed i rapporti di parentela in quanto è possibile agire a RunTime per modificare il comportamento di un oggetto.
+
+Per esempio: si vuole conoscere il tempo di esecuzione di un metodo ma tale funzionalità non è prevista nel metodo di nostro interesse. Come fare? Creiamo una classe “Decorator” da invocare al posto della classe originaria e che si occuperà di monitorare il tempo trascorso nell’invocazione del metodo originario. Come? Mantenendo una associazione alla classe originaria e calcolando il tempo di esecuzione del metodo. Vediamo l’esempio in seguito, in sede di implementazione.
+
+**Partecipanti e Struttura**
+Questo pattern è composto dai seguenti partecipanti:
+- Client: colui che effettua l’invocazione alla funzionalità di interesse.
+- Component: definisce l’interfaccia degli oggetti per i quali verranno aggiunte nuove funzionalità.
+- ConcreteComponent: definisce un oggetto al quale verrà aggiunta una nuova funzionalità.
+- Decorator: definisce l’interfaccia conforme all’interfaccia del Component e mantiene l’associazione con l’oggetto Component.
+- ConcreteDecorator: implementa l’interfaccia Decorator al fine di aggiungere nuove funzionalità all’oggetto.
+
+Possiamo schematizzare in UML con il Class Diagram:
+
+![[72.png]]
+
+Tale pattern presenta i seguenti vantaggi/svantaggi:
+1. <u>Maggiore flessibilità rispetto alla eredità:</u> permette di aggiungere funzionalità in modo molto più semplice rispetto all’ereditarietà
+2. <u>Funzionalità solo se richieste:</u> consente di aggiungere delle funzionalità solo se occorrono realmente senza ereditare una struttura di classi che prevede un insieme di funzionalità di cui se ne utilizzeranno solo una parte. Nel caso in cui tali funzionalità sono anche a pagamento, consente di scegliere solo quelle strettamente necessarie da acquistare, coprendo esigenze di budget.
+3. <u>Aumento di micro-funzionalità:</u> la presenza di molte classi Decorator di cui ognuna di esse aggiunge una micro funzionalità, può creare problemi in fase di comprensione o di debug del codice.
+
+#### Esempio - Decorator
+Un esempio noto del pattern Decorator lo troviamo nelle librerie java ed esattamente nelle classi di java.io.InputStream in cui i partecipanti sono cosi suddivisi:
+
+- Component: la classe astratta InputStream.
+- ConcreteComponent: le classi ByteArrayInputStream, FileInputStream, ObjectInputStream, PipedInputStream, SequenceInputStream e StringBufferInputStream.
+- Decorator: la classe FilterInputStream.
+- ConcreteDecorator: le classi BufferedInputStream, DataInputStream, LineNumberInputStream e PushbackInputStream.
+
+L’utilizzo di questo pattern consente di poter scegliere la funzionalità di nostro interesse quando occorre leggere uno stream di dati, per esempio utilizzando BufferedInputStream è possibile bufferizzare lo stream.
+
+![[73.png]]
+
+Per esempio, possiamo wrappare la classe concreta FileInputStream di tipo ConcreteComponent con la classe concreta BufferedInputStream di tipo ConcreteDecorator, come nell’esempio seguente:
+
+```java
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+ 
+public class FileDecorator {
+ 
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream inputStream = new BufferedInputStream(
+								        new FileInputStream("myFile"));
+    }
+ 
+} // ! FileDecorator
+```
+
+Riprendiamo ed estendiamo l’esempio iniziale: pensiamo al caso in cui abbiamo l’esigenza di monitorare l’invocazione di un metodo ma non abbiamo la possibilità di modificare il codice. Utilizziamo il pattern Decorator per esigenze di debug pertanto “wrappiamo” un metodo con delle semplici istruzioni print-screen.
+
+Rappresentiamo questa situazione nel Class Diagram:
+
+![[74.png]]
+
+Creiamo l’interfaccia Component che dichiara il metodo interessanto.
+
+```java
+public interface MyComponent {
+    public void operation();
+}
+```
+
+Implementiamo il metodo dichiarato nell’interfaccia MyComponent creando la classe ConcreteComponent.
+
+```java
+public class ConcreteComponent implements MyComponent {
+    public void operation() {
+        System.out.println("Hello World");
+    }
+}
+```
+
+Definiamo l’interfaccia MyDecorator che si occupa di ereditare il metodo interessato da MyComponent e di interporsi con le classi di decorazione concrete.
+
+```java
+interface MyDecorator extends MyComponent {
+}
+```
+
+Creiamo la classe LoggingDecorator che implementa l’interfaccia MyDecorator ed aggiunge le informazioni di debug prima e dopo l’esecuzione del metodo interessato.
+
+```java
+public class LoggingDecorator implements MyDecorator {
+ 
+    MyComponent myComponent = null;
+ 
+    public LoggingDecorator(MyComponent myComponent){
+        this.myComponent = myComponent;
+    }
+
+	@Override
+    public void operation() {
+        System.out.println("First Logging");
+        myComponent.operation();
+        System.out.println("Last Logging");
+    }
+} // ! LoggingDecorator
+```
+
+La classe Client invoca la classe concreta LoggingDecorator passando al costruttore il componente concreto, successivamente invoca il metodo operation().
+
+```java
+class Client {
+    public static void main(String[] args) {
+        MyComponent myComponent = new LoggingDecorator(new ConcreteComponent());
+        myComponent.operation();
+    }
+}
+```
+L’output è il seguente:
+
+```java
+$JAVA_HOME/bin/java patterns.decorator.Cliente
+First Logging
+Hello World
+Last Logging
+```
+
+Partendo dall’esempio, possiamo creare una moltitudine di classi concrete Decorator che aggiungono nuove funzionalità. Per esempio possiamo creare una classe WaitingDecorator che preveda una pausa durante l’esecuzione. Vediamo come diventa il Class Diagram a seguito dell’inseriemento di questa nuova classe.
+
+![[75.png]]
+
+```java
+public class WaitingDecorator implements MyDecorator {
+ 
+    MyComponent myComponent = null;
+ 
+    public WaitingDecorator(MyComponent myComponent) {
+        this.myComponent = myComponent;
+    }
+	
+	@Override
+    public void operation() {
+        try {
+            System.out.println("Waiting...");
+            Thread.sleep(1000);
+        }
+        catch (Exception e) {}
+ 
+        myComponent.operation();
+    }
+ 
+} // ! WaitingDecorator
+```
+
+Il Client invoca in modo annidato i Decorator tramite il loro costruttore, come segue:
+
+```java
+public class Client {
+    public static void main(String[] args) {
+        MyComponent myComponent = new LoggingDecorator(
+								        new WaitingDecorator(
+									        new ConcreteComponent()));
+        myComponent.operation();
+    }
+}
+```
+
+L’output è il seguente:
+
+```java
+$JAVA_HOME/bin/java patterns.decorator.Cliente
+First Logging
+Waiting...
+Hello World
+Last Logging
+```
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Proxy
 
 ---

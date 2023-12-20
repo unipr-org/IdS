@@ -125,5 +125,27 @@ public class ArrayBlockingQueue<T> implements BlockingQueue<T> {
 		System.out.println("]");
 		lock.unlock();
 	}
+	
+	@Override
+	public String toString() {
+		String result = "";
+		
+		lock.lock();
+		
+		result += "[";
+		
+		for(int i = 0; i < size; ++i) {
+			result += queue[i];
+			
+			if((i + 1) != size)
+				result += ", ";
+		}
+		
+		result += "]";
+		
+		lock.unlock();
+		
+		return result;
+	}
 
 }

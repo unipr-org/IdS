@@ -53,9 +53,26 @@ public class SimpleThreadPool implements ExecutorService {
 	@Override
 	public void shutdown() {
 		synchronized (tasks) {
+			System.out.println("shutdown invoked");
+			
 			shutdown = true;
 		}
-		// System.out.println("No more tasks allowed");
+		
+	}
+	
+	@Override
+	public void forceShutdown() {
+		synchronized (tasks) {
+			System.out.println("forceShutdown invoked");
+			
+			shutdown = true;
+			
+			for(int i = 0; i < workers.length; ++i) {
+				workers[i].interrupt();
+//				System.out.println("Thread.interrupted() - Thread" + i + ": " + workers[i].isInterrupted());
+			}
+				
+		}
 	}
 	
 	@Override
@@ -143,7 +160,7 @@ public class SimpleThreadPool implements ExecutorService {
 		@Override
 		public void run() {
 			while(true) {
-				synchronized (tasks) {
+				synchronized (tasks) {					
 					if(shutdown && tasks.isEmpty()) {
 						// System.out.println("Worker[" + id + "] - shutting down");
 						return;
@@ -152,14 +169,14 @@ public class SimpleThreadPool implements ExecutorService {
 				
 				try {
 					Runnable runnable = tasks.take();
-					
 					// System.out.println("Worker[" + id + "] - takes new task");
-					
 					runnable.run();
 					
 				} catch (InterruptedException e) {
 					System.err.println("Worker[" + id + "] - " + e.getCause());
+					return; // Serve per far terminare il thread quando faccio shutdown
 				} catch (Exception e) {
+					System.out.println(e.getClass());
 					throw e;
 				}	
 			}

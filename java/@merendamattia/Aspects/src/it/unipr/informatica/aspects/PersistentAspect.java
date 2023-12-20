@@ -22,10 +22,7 @@ import it.unipr.informatica.aspects.interfaces.PersistentHandler;
 public class PersistentAspect {
 
     // Metodo per associare un oggetto serializzabile a un gestore di persistenza
-    public static <T extends Serializable> PersistentHandler<T> 
-    		attach(String fileName, T object) 
-    				throws IOException {
-    	
+    public static <T extends Serializable> PersistentHandler<T> attach(String fileName, T object) throws IOException {
         return attach(new File(fileName), object);
     }
 
@@ -96,9 +93,12 @@ public class PersistentAspect {
         // Metodo privato per caricare il contenuto del file nell'oggetto di destinazione
         private void load() throws IOException {
         	
-            try (InputStream inputStream = new FileInputStream(file);
-                    BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-                    ObjectInputStream objectInputStream = new ObjectInputStream(bufferedInputStream)) {
+            try (	InputStream inputStream = new FileInputStream(file);
+                    ObjectInputStream objectInputStream = new ObjectInputStream(inputStream)
+            ) {
+//        	try (InputStream inputStream = new FileInputStream(file);
+//                    BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
+//                    ObjectInputStream objectInputStream = new ObjectInputStream(bufferedInputStream)) {
                 
             	// Legge l'oggetto serializzato dal file
                 Object object = objectInputStream.readObject();
@@ -126,10 +126,12 @@ public class PersistentAspect {
             if (target == null)
                 throw new IllegalStateException("target == null");
 
-            try (OutputStream outputStream = new FileOutputStream(file);
-                    BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
-                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(bufferedOutputStream)) {
-            	
+//            try (OutputStream outputStream = new FileOutputStream(file);
+//                    BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
+//                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(bufferedOutputStream)) {
+        	try (	OutputStream outputStream = new FileOutputStream(file);
+                    ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream)
+            ) {	
                 // Scrive l'oggetto di destinazione nel file
                 objectOutputStream.writeObject(target);
                 

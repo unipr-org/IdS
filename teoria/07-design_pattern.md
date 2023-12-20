@@ -1073,6 +1073,151 @@ public class Cliente {
 ---
 
 ### Composite
+Si tratta di un pattern <u>strutturale basato su oggetti</u> che viene utilizzato quando si ha la necessità di realizzare una gerarchia di oggetti in cui l’oggetto contenitore può detenere oggetti elementari e/o oggetti contenitori. L’obiettivo è di permettere al Client che deve navigare la gerarchia, di comportarsi sempre nello stesso modo sia verso gli oggetti elementari e sia verso gli oggetti contenitori.
+
+**Partecipanti e Struttura**
+Questo pattern è composto dai seguenti partecipanti:
+- Client: colui che effettua l’invocazione all’operazione di interesse.
+- Component: definisce l’interfaccia degli oggetti della composizione.
+- Leaf: rappresenta l’oggetto foglia della composizione. Non ha figli. Definisce il comportamento “primitivo” dell’oggetto della composizione.
+- Composite: definisce il comportamento degli oggetti usati come contenitori ed detiene il riferimento ai componenti “figli”.
+
+In UML, usando il Class Diagram, possiamo schematizzare le relazioni in questo modo:
+
+![[69.png]]
+
+Tale pattern presenta i seguenti vantaggi/svantaggi:
+1. <u>Definisce la gerarchia:</u> Gli oggetti della gerarchia possono essere composti da oggetti semplici e/o da oggetti contenitori che a loro volta sono composti ricorsivamente da altri oggetti semplici e/o da oggetti contenitori.
+2. <u>Semplifica il client:</u> il Client tratta gli oggetti semplici e gli oggetti contenitori nello stesso modo. Questo semplifica il suo lavoro il quale astrae dalla specifica implementazione.
+3. <u>Semplifica la modifica dell’albero gerarchico:</u> l’alberatura è facilmente modificabile aggiungendo/rimuovendo foglie e contenitori.
+
+#### Esempio - Composite
+Come esempio pensiamo al FileSystem che presenta una struttura ad albero e che può essere composto da elementi semplici (i files) e da contenitori (le cartelle). L’obiettivo del nostro esercizio è quello di permettere al Client di accedere e navigare il File System senza conoscere la natura degli elementi che lo compongono in modo da consentire al Client di trattare tutti gli elementi nello stesso modo.
+
+Per fare questo il Client userà la stessa interfaccia per l’accesso mentre l’implementazione nasconderà la gestione degli oggetti a seconda della loro reale natura.
+
+Per fare questo schematizziamo la struttura delle classi usando il Class Diagram seguente:
+
+![[70.png]]
+
+Creiamo l’interfaccia di interrogazione per l’accesso a files e cartelle.
+Creiamo i metodi add/remove per aggiungere/rimuovere files/cartelle ed il metodo print per visualizzare il suo nome.
+
+```java
+public interface MyFileSystem {
+    public void add(MyFileSystem myFileSystem);
+    public void remove(MyFileSystem myFileSystem);
+    public void print();
+}
+```
+
+Implementiamo la classe che gestisce i Files. In questo caso i metodo `add` e `remove` non sono implementabili.
+
+```java
+public class MyFile implements MyFileSystem {
+ 
+    private String myFileName = null;
+ 
+    public MyFile(String myFileName) {
+        this.myFileName = myFileName;
+    }
+ 
+    @Override
+    public void print() {
+        System.out.println(myFileName);
+    }
+ 
+    @Override
+    public void add(MyFileSystem myFileNameSystem) {
+        System.out.println("Impossible to add!");
+    }
+ 
+    @Override
+    public void remove(MyFileSystem myFileNameSystem) {
+        System.out.println("Impossible to remove!");
+    }
+} // ! MyFile
+```
+
+Implementiamo la classe che gestisce le Cartelle. In questo caso i metodo add/remove aggiungono/rimuovono nuovi files/cartelle alla cartella corrente.
+
+```java
+public class MyFolder implements MyFileSystem {
+ 
+    private String myFolderName;
+    private ArrayList<MyFileSystem> folder;
+ 
+    public MyFolder(String myFolderName) {
+        this.myFolderName = myFolderName;
+        folder = new ArrayList<MyFileSystem>();
+    }
+ 
+    @Override
+    public void print() {
+        System.out.println(myFolderName);
+        for (int i = 0; i < folder.size(); i++) {
+            folder.get(i).print();
+        }
+    }
+ 
+    @Override
+    public void add(MyFileSystem myFileSystem) {
+        folder.add(myFileSystem);
+    }
+ 
+    @Override
+    public void remove(MyFileSystem myFileSystem) {
+        folder.remove(myFileSystem);
+    }
+} // ! MyFolder
+```
+
+Il metodo print viene invocato su tutti gli oggetti dell’albero, siano essi files o cartelle. Il comportamento sarà diverso nei 2 casi. Nella classe MyFile si limita a stampare il nome del file. Nella classe MyFolder, oltre a stampare il nome della cartella, presenta un loop utilizzato per invocare files/cartelle per consentire la ricorsione su tutta l’alberatura del Files System.
+
+```java
+folder.get(i).print();
+```
+
+La classe Client crea l’alberatura del File System e poi visualizza il suo contenuto.
+
+```java
+public class Client {
+    public static void main(String[] args) {
+        MyFileSystem f2 = new MyFile("F2");
+        MyFileSystem f3 = new MyFile("F3");
+        MyFileSystem c2 = new MyFolder("C2");
+        c2.add(f2);
+        c2.add(f3);
+ 
+        MyFileSystem f1 = new MyFile("F1");
+        MyFileSystem c1 = new MyFolder("C1");
+        c1.add(f1);
+        c1.add(c2);
+ 
+        c1.print();
+    }
+}
+```
+
+L’output del Client è il seguente:
+
+```java
+$JAVA_HOME/bin/java patterns.composite.Client
+C1
+F1
+C2
+F2
+F3
+```
+
+Graficamente l’albero del File System può essere rappresentato in questo modo:
+
+![[71.png]]
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Decorator
 ### Proxy
 

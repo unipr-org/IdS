@@ -5,6 +5,7 @@ public class ConcreteAbstractFactory implements AbstractFactory {
 	// Singleton
 	private static ConcreteAbstractFactory instance = new ConcreteAbstractFactory();
 	public static ConcreteAbstractFactory newInstance() { return instance; }
+	private ConcreteAbstractFactory() { }
 	// ! Singleton
 	
 	@Override

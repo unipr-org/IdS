@@ -1219,6 +1219,184 @@ Graficamente l’albero del File System può essere rappresentato in questo modo
 ---
 
 ### Decorator
+Si tratta di un pattern <u>strutturale basato su oggetti</u> che viene utilizzato per aggiungere a RunTime delle funzionalità ad un oggetto.
+In Java, e più in generale nella programmazione ad oggetti, per aggiungere delle funzionalità ad una classe viene utilizzata l’ereditarietà che prevede la creazione di classi figlie che specializzano il comportamento della classe padre ma tutto ciò avviene a CompileTime.
+
+Pertanto se in sede di definizione della struttura delle classi non vengono previste delle specifiche funzionalità, queste non saranno disponibili a RunTime. Al fine di superare questo limite, attraverso la decorazione è possibile aggiungere nuove funzionalità senza dover alterare la struttura delle classi ed i rapporti di parentela in quanto è possibile agire a RunTime per modificare il comportamento di un oggetto.
+
+Per esempio: si vuole conoscere il tempo di esecuzione di un metodo ma tale funzionalità non è prevista nel metodo di nostro interesse. Come fare? Creiamo una classe “Decorator” da invocare al posto della classe originaria e che si occuperà di monitorare il tempo trascorso nell’invocazione del metodo originario. Come? Mantenendo una associazione alla classe originaria e calcolando il tempo di esecuzione del metodo. Vediamo l’esempio in seguito, in sede di implementazione.
+
+**Partecipanti e Struttura**
+Questo pattern è composto dai seguenti partecipanti:
+- Client: colui che effettua l’invocazione alla funzionalità di interesse.
+- Component: definisce l’interfaccia degli oggetti per i quali verranno aggiunte nuove funzionalità.
+- ConcreteComponent: definisce un oggetto al quale verrà aggiunta una nuova funzionalità.
+- Decorator: definisce l’interfaccia conforme all’interfaccia del Component e mantiene l’associazione con l’oggetto Component.
+- ConcreteDecorator: implementa l’interfaccia Decorator al fine di aggiungere nuove funzionalità all’oggetto.
+
+Possiamo schematizzare in UML con il Class Diagram:
+
+![[72.png]]
+
+Tale pattern presenta i seguenti vantaggi/svantaggi:
+1. <u>Maggiore flessibilità rispetto alla eredità:</u> permette di aggiungere funzionalità in modo molto più semplice rispetto all’ereditarietà
+2. <u>Funzionalità solo se richieste:</u> consente di aggiungere delle funzionalità solo se occorrono realmente senza ereditare una struttura di classi che prevede un insieme di funzionalità di cui se ne utilizzeranno solo una parte. Nel caso in cui tali funzionalità sono anche a pagamento, consente di scegliere solo quelle strettamente necessarie da acquistare, coprendo esigenze di budget.
+3. <u>Aumento di micro-funzionalità:</u> la presenza di molte classi Decorator di cui ognuna di esse aggiunge una micro funzionalità, può creare problemi in fase di comprensione o di debug del codice.
+
+#### Esempio - Decorator
+Un esempio noto del pattern Decorator lo troviamo nelle librerie java ed esattamente nelle classi di java.io.InputStream in cui i partecipanti sono cosi suddivisi:
+
+- Component: la classe astratta InputStream.
+- ConcreteComponent: le classi ByteArrayInputStream, FileInputStream, ObjectInputStream, PipedInputStream, SequenceInputStream e StringBufferInputStream.
+- Decorator: la classe FilterInputStream.
+- ConcreteDecorator: le classi BufferedInputStream, DataInputStream, LineNumberInputStream e PushbackInputStream.
+
+L’utilizzo di questo pattern consente di poter scegliere la funzionalità di nostro interesse quando occorre leggere uno stream di dati, per esempio utilizzando BufferedInputStream è possibile bufferizzare lo stream.
+
+![[73.png]]
+
+Per esempio, possiamo wrappare la classe concreta FileInputStream di tipo ConcreteComponent con la classe concreta BufferedInputStream di tipo ConcreteDecorator, come nell’esempio seguente:
+
+```java
+import java.io.BufferedInputStream;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
+ 
+public class FileDecorator {
+ 
+    public static void main(String[] args) throws FileNotFoundException {
+        InputStream inputStream = new BufferedInputStream(
+								        new FileInputStream("myFile"));
+    }
+ 
+} // ! FileDecorator
+```
+
+Riprendiamo ed estendiamo l’esempio iniziale: pensiamo al caso in cui abbiamo l’esigenza di monitorare l’invocazione di un metodo ma non abbiamo la possibilità di modificare il codice. Utilizziamo il pattern Decorator per esigenze di debug pertanto “wrappiamo” un metodo con delle semplici istruzioni print-screen.
+
+Rappresentiamo questa situazione nel Class Diagram:
+
+![[74.png]]
+
+Creiamo l’interfaccia Component che dichiara il metodo interessanto.
+
+```java
+public interface MyComponent {
+    public void operation();
+}
+```
+
+Implementiamo il metodo dichiarato nell’interfaccia MyComponent creando la classe ConcreteComponent.
+
+```java
+public class ConcreteComponent implements MyComponent {
+    public void operation() {
+        System.out.println("Hello World");
+    }
+}
+```
+
+Definiamo l’interfaccia MyDecorator che si occupa di ereditare il metodo interessato da MyComponent e di interporsi con le classi di decorazione concrete.
+
+```java
+interface MyDecorator extends MyComponent {
+}
+```
+
+Creiamo la classe LoggingDecorator che implementa l’interfaccia MyDecorator ed aggiunge le informazioni di debug prima e dopo l’esecuzione del metodo interessato.
+
+```java
+public class LoggingDecorator implements MyDecorator {
+ 
+    MyComponent myComponent = null;
+ 
+    public LoggingDecorator(MyComponent myComponent){
+        this.myComponent = myComponent;
+    }
+
+	@Override
+    public void operation() {
+        System.out.println("First Logging");
+        myComponent.operation();
+        System.out.println("Last Logging");
+    }
+} // ! LoggingDecorator
+```
+
+La classe Client invoca la classe concreta LoggingDecorator passando al costruttore il componente concreto, successivamente invoca il metodo operation().
+
+```java
+class Client {
+    public static void main(String[] args) {
+        MyComponent myComponent = new LoggingDecorator(new ConcreteComponent());
+        myComponent.operation();
+    }
+}
+```
+L’output è il seguente:
+
+```java
+$JAVA_HOME/bin/java patterns.decorator.Cliente
+First Logging
+Hello World
+Last Logging
+```
+
+Partendo dall’esempio, possiamo creare una moltitudine di classi concrete Decorator che aggiungono nuove funzionalità. Per esempio possiamo creare una classe WaitingDecorator che preveda una pausa durante l’esecuzione. Vediamo come diventa il Class Diagram a seguito dell’inseriemento di questa nuova classe.
+
+![[75.png]]
+
+```java
+public class WaitingDecorator implements MyDecorator {
+ 
+    MyComponent myComponent = null;
+ 
+    public WaitingDecorator(MyComponent myComponent) {
+        this.myComponent = myComponent;
+    }
+	
+	@Override
+    public void operation() {
+        try {
+            System.out.println("Waiting...");
+            Thread.sleep(1000);
+        }
+        catch (Exception e) {}
+ 
+        myComponent.operation();
+    }
+ 
+} // ! WaitingDecorator
+```
+
+Il Client invoca in modo annidato i Decorator tramite il loro costruttore, come segue:
+
+```java
+public class Client {
+    public static void main(String[] args) {
+        MyComponent myComponent = new LoggingDecorator(
+								        new WaitingDecorator(
+									        new ConcreteComponent()));
+        myComponent.operation();
+    }
+}
+```
+
+L’output è il seguente:
+
+```java
+$JAVA_HOME/bin/java patterns.decorator.Cliente
+First Logging
+Waiting...
+Hello World
+Last Logging
+```
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Proxy
 
 ---

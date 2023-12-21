@@ -1597,12 +1597,216 @@ Output
 [COMMAND]: piazzaOrdine()::Ordini eseguiti!
 ```
 
-
 [_Torna all'indice_](#indice)
 
 ---
 
 ### Interpreter
+Si tratta di un pattern <u>comportamentale basato su classi</u> e viene utilizzato quando si vuole definire una grammatica e il relativo interprete. La grammatica è costituita da tutte le espressioni che possono essere utilizzate mentre l’interprete permette di valutare il risultato complessivo.
+
+Pensiamo ad una lingua straniera, per esempio lo spagnolo, che è costituita da una serie di vocabili e da regole grammaticali che disciplinano il loro ordine ed uso. Un interprete conoscendo i vocabili e le regole grammaticali riuscirà a capire il significato di una frase. Anche la matematica può essere usata come metafora, in cui i numeri rappresentano i dati e le operazioni rappresentano le funzioni, entrambi devono essere disposti secondo un preciso ordine quindi dovranno rispettare delle regole sintattiche. Un matematico è colui che conoscendo queste regole sarà in grado di capire il risultato di una operazione.
+Pensiamo per esempio ad una semplice addizione: 3 + 4. In questo caso la grammatica è costituita da 2 espressioni: dai numeri “3” e “4” e dall’operatore  “+”,  l’interprete analizza le espressioni per ottenere il risultato, ossia “7”.
+
+Il termine “espressione” è utilizzato per definire un simbolo ed il suo comportamento.
+- *Nel caso di un numero*: il simbolo è costituito da un carattere rappresentato dauno o più di questi valori  “0123456789” mentre il comportamento è costituito dal valore del simbolo quindi il carattere “1” ha il valore del numero 1 ( in Java `Integer.parseInt(“1”)`).
+- *Nel caso di operazioni aritmentiche*: l’addizione utilizza il simbolo “+” ed il suo comportamento è costituito dall’operazione di  somma.
+
+Le espressioni possono essere semplici o composte a seconda che aggregano o meno altre espressioni e vengono definite:
+- Terminali: quando definiscono in modo autonomo il comportamento, come nel caso di un numero che definisce il suo simbolo ed il suo comportamento
+- Non terminali: quando dipendono da altre espressioni, come nel caso dell’addizione che definisce il suo simbolo ma il suo comportamento è associato ai numeri utilizzati per effettuare la somma.
+
+Quindi possiamo creare una nostra calcolatrice elementare, per fare questo dobbiamo definire una grammatica costituita da numeri ed operazioni aritmetiche, pertanto abbiamo bisogno di 5 espressioni: numeri, addizioni, sottrazioni, moltiplicazioni e divisioni. Tali espressioni vengono valutare da un interprete che elabora il risultato.
+
+Di seguito vediamo un esempio che utilizza questo pattern per realizzare una semplice calcolatrice.
+
+**Partecipanti e Struttura**
+Questo pattern è composto dai seguenti partecipanti:
+- Client: colui che costruisce un albero sintattico costituito da TerminalExpression e NonTerminalExpression che dovrà essere elaborato dall’interprete.
+- Context: contiene le informazioni che l’interprete dovrà utilizzare.
+- AbstractExpression: definisce un comportamento astratto che le espressioni devono implementare.
+- TerminalExpression: implementa il comportamento dell’espressione semplice.
+- NonterminalExpression: implementa il comportamento dell’espressione composta richiamando il comportamento delle espressioni semplici.
+
+![[79.png]]
+
+**Tale pattern presenta i seguenti vantaggi/svantaggi:**
+1. <u>Facilità nel cambiare la grammatica</u>: attraveso l’estensione delle classi è possibile inserire e modificare la grammatica.
+2. <u>Difficoltà nel gestire una grammatica complessa</u>: quando la grammatica contiene molte regole risulta molto complicato riuscire a gestirla e comprendere il flusso dell’albero sintattico.
+
+#### Esempio - Interpreter
+Realizziamo una calcolatrice che utilizza tutte e quattro le operazioni aritmentiche elementari. In questo caso inseriamo gli elementi in un modo più intuitivo utilizzando il classico metodo “infisso” cioè numero, operatore, numero, operatore ecc, così come facciamo quando utilizziamo la calcolatrice.
+In questo modo possiamo sia usare sempre lo stesso operatore ($5 + 7 + 9$) che usare diversi operatori ( $3 + 4 - 2 * 6$ ). Ovviamente dobbiamo creare delle classi che gestiscono tutte e quattro le operazioni aritmetiche e lasciare al client l’ordine in cui tali operazioni vengono svolte ($3-4+6$ oppure $3+4-6$).
+
+> Solitamente ai fini computazionali il metodo “infisso” è poco usato e si preferisce usare il metodo “prefisso” o “postfisso” per motivi prestazionali, in quanto questi metodi utilizzano meglio la memoria e consentono una migliore gestione delle priorità degli operatori.
+
+Vediamo come si presenta il pattern in UML in base all’esempio della calcolatrice:
+
+![[80.png]]
+
+L’interfaccia Espressione definisce il metodo “interpreta” che le classi concrete dovranno implementare.
+
+```java
+public interface Espressione {
+    public int interpreta(Contesto operazione);
+}
+```
+
+La classe Contesto prevede la gestione dell’operazione corretta in base all’operatore.  Il metodo revOperazione è utilizzato per invertire l’ordine dello Stack e processare i numeri e gli operatori nell’ordine di inserimento.
+
+```java
+public class Contesto {
+ 
+    private Stack numeri = null;
+    private Stack operatori = null;
+ 
+    public Contesto(String operazione) {
+        this.numeri = new Stack();
+        this.operatori = new Stack();
+ 
+        for (String token : revOperazione(operazione)) {
+            if (token.equals("+")) {
+                operatori.add(new Addizione());
+            } else if (token.equals("-")) {
+                operatori.add(new Sottrazione());
+            } else if (token.equals("/")) {
+                operatori.add(new Divisione());
+            } else if (token.equals("*")) {
+                operatori.add(new Moltiplicazione());
+            } else {
+                numeri.add(new Numero(token));
+            }
+        }
+    }
+ 
+    public Espressione getNumero() {
+        return numeri.pop();
+    }
+ 
+    public void setNumero(Espressione exp) {
+        numeri.push(exp);
+    }
+ 
+    public Espressione getOperatore() {
+        return operatori.pop();
+    }
+ 
+    private String[] revOperazione(String operazione) {
+        List listOperation = Arrays.asList(operazione.split(" "));
+        Collections.reverse(listOperation);
+        return (String[]) listOperation.toArray();
+    }
+} // ! Contesto
+```
+
+La classe Numero è il primo esempio di una classe concreta e terminale che identifica il simbolo del numero e memorizza il suo valore.
+```java
+public class Numero implements Espressione {
+    private int numero;
+    
+    public Numero(String numero){
+        this.numero = Integer.parseInt(numero);
+    }
+ 
+    @Override
+    public int interpreta(Contesto contesto) {
+        return numero;
+    }
+}
+```
+
+La classe Addizione:
+```java
+public class Addizione implements Espressione {
+ 
+    @Override
+    public int interpreta(Contesto contesto) {
+        int risultato = contesto.getNumero().interpreta(contesto) + 
+				        contesto.getNumero().interpreta(contesto);
+        contesto.setNumero(new Numero(risultato + ""));
+        return risultato;
+    }
+}
+```
+
+La stessa cosa viene effettuata anche per la classe Sottrazione:
+
+```java
+public class Sottrazione implements Espressione {
+ 
+    @Override
+    public int interpreta(Contesto contesto) {
+        int risultato = contesto.getNumero().interpreta(contesto) - 
+				        contesto.getNumero().interpreta(contesto);
+        contesto.setNumero(new Numero(risultato + ""));
+        return risultato;
+    }
+ 
+}
+```
+La classe Moltiplicazione:
+
+```java
+public class Moltiplicazione implements Espressione {
+ 
+    @Override
+    public int interpreta(Contesto contesto) {
+        int risultato = contesto.getNumero().interpreta(contesto) * 
+				        contesto.getNumero().interpreta(contesto);
+        contesto.setNumero(new Numero(risultato + ""));
+        return risultato;
+    }
+ 
+}
+```
+
+La classe Divisione:
+
+```java
+public class Divisione implements Espressione {
+ 
+    @Override
+    public int interpreta(Contesto contesto) {
+        int risultato = contesto.getNumero().interpreta(contesto) / 
+				        contesto.getNumero().interpreta(contesto);
+        contesto.setNumero(new Numero(risultato + ""));
+        return risultato;
+    }
+ 
+}
+```
+
+La classe Client definisce l’operazione da effettuare e la inserisce nel Contesto, poi esegue le operazioni presenti: addizione, sottrazione, divisione, moltiplicazione attraverso il riconoscimento (interpretazione) dell’operazione
+
+```java
+public class Client {
+ 
+    public static void main(String[] args) {
+        //Contesto delle variabili ed operatori
+        String operazione = "45 + 38 - 13 / 21 * 16";
+        Contesto contesto = new Contesto(operazione);
+ 
+        //Risultato
+        int risultato = 0;
+        while (true) {
+            try {
+                Espressione operatore = contesto.getOperatore();
+                risultato = operatore.interpreta(contesto);
+            } catch (java.util.EmptyStackException ese) {
+                break;
+            }
+        }
+        System.out.println(operazione + " = " + risultato );
+    }
+} // ! Client
+```
+
+Il risultato è lo svolgimento dell’operazione.
+```java
+$JAVA_HOME/bin/java patterns.interpreter.calcolatrice.Client
+45 + 38 - 13 / 21 * 16 = 48
+```
+
+> Altro esempio: esercizio 8 visto a lezione.
 
 [_Torna all'indice_](#indice)
 

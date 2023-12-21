@@ -9,6 +9,8 @@
 ---
 
 ### Class Diagram
+Spiegazione consigliata: https://www.visual-paradigm.com/guide/uml-unified-modeling-language/uml-class-diagram-tutorial/.
+
 ![[43.png]]
 
 **Class Diagram (Diagramma delle Classi)** in UML è uno dei diagrammi più fondamentali e ampiamente utilizzati. Rappresenta la struttura statica del sistema mostrando le classi, i loro attributi, i metodi e le relazioni tra di esse.

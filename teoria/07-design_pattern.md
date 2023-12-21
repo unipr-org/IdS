@@ -1455,9 +1455,168 @@ I design pattern comportamentali, definiti dal Gang of Four (GoF), forniscono so
 ---
 
 ### Command
+Si tratta di un pattern <u>comportamentale basato su oggetti</u> e viene utilizzato quando si ha la necessità di disaccoppiare l’invocazione di un comando dai suoi dettagli implementativi, separando colui che invoca il comando da colui che esegue l’operazione.
+
+Tale operazione viene realizzata attraverso questa catena: $Client \to Invocatore \to Ricevitore$
+- Il <u>Client</u> non è tenuto a conoscere i dettagli del comando ma il suo compito è solo quello di chiamare il metodo dell’ Invocatore che si occuperà di intermediare l’operazione.
+- L’<u>Invocatore</u> ha l’obiettivo di incapsulare, nascondere i dettagli della chiamata come nome del metodo e parametri.
+- Il <u>Ricevitore</u> utilizza i parametri ricevuti per eseguire l’operazione
+
+Ma tra l’Invocatore ed il Ricevitore viene posto il Command ossia il comando da eseguire. Il Command è una semplice interfaccia che viene implementata da una o più classi concrete che invocano il Receiver.
+
+**Partecipanti e Struttura**
+Questo pattern è composto dai seguenti partecipanti:
+- Client: colui che richiede il comando ed imposta il Receiver.
+- Invoker: colui che effettua l’invocazione del comando.
+- Command: interfaccia generica per l’esecuzione del comando.
+- ConcreteCommand: implementazione del comando che consente di collegare l’Invoker con il Receiver.
+- Receiver: colui che riceve il comando e sa come eseguirlo.
+
+![[77.png]]
+
+**Tale pattern presenta i seguenti vantaggi/svantaggi:**
+1. <u>Riduce l’accoppiamento</u>: il Command disaccoppia l’Invoker dal Receiver, ossia colui che invoca da colui che esegue facendo in modo che i dettagli implementativi siano a conoscenza solo del Receiver.
+2. <u>Facile estendibilità</u>: è possibile aggiungere facilmente nuovi comandi implementando l’interfaccia Command
+
+#### Esempio - Command
+
+![[78.png]]
+
+Creiamo un’interfaccia Ordine che funge da comando, dopo di chè creiamo una classe magazzino che funge da richiesta. Inoltre creiamo le classi concrete Compra e Vendi che implementano l’interfaccia Ordine, la quale eseguirà la vera elaborazione dei comandi.
+
+Infine, creiamo la classe command che funge da invoker, la classe può prendere ed effettuare ordini. La classe identifica l’oggetto  che eseguirà il comando in funzione del tipo.
+
+Step 1: Creiamo l’interfaccia Ordine
+
+```java
+public interface Ordine {
+    void esegui();
+}
+```
+
+Step 2: Creiamo la classe Magazzino, che funge da richiesta
+
+```java
+public class Magazzino {
+
+    private String nome = "Prodotto_x";
+    private int quantità = 25;
+
+    public void compra(){
+        System.out.println("[MAGAZZINO]: [ NOME: " + nome + ", QUANTITA': " + quantità + " ] COMPRATO");
+    }
+    public void vendi(){
+        System.out.println("[MAGAZZINO]: [ NOME: " + nome + ", QUANTITA': " + quantità + " ] VENDUTO");
+    }
+    
+} // ! Magazzino
+```
+
+Step 3: Creiamo le classi concrete che estendono l’interfaccia
+
+```java
+public class Compra implements Ordine {
+    private Magazzino magazzino;
+
+    public Compra(Magazzino magazzino){
+        this.magazzino = magazzino;
+    }
+
+	@Override
+    public void esegui() {
+        magazzino.compra();
+    }
+}
+```
+
+```java
+public class Vendi implements Ordine {
+    private Magazzino magazzino;
+
+    public Vendi(Magazzino magazzino){
+        this.magazzino = magazzino;
+    }
+
+	@Override
+    public void esegui() {
+        magazzino.vendi();
+    }
+}
+```
+
+Step 4: Creiamo la classe Command
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class Command {
+    private List ordineList = new ArrayList();
+    
+    public void prendiOrdine(Ordine order){
+        ordineList.add(order);
+        System.out.println("[COMMAND]: prendiOrdine()::Ordine aggiunto alla lista!");
+    }
+    
+    public void piazzaOrdine(){
+        for (Ordine ordine : ordineList) {
+            ordine.esegui();
+        }
+        System.out.println("[COMMAND]: piazzaOrdine()::Ordini eseguiti!");
+        ordineList.clear();
+    }
+} // ! Command
+```
+
+Step 5: Creiamo il Client
+
+```java
+public class Client {
+    public static void main(String[] args) {
+        Magazzino magazzino = new Magazzino();
+
+        Ordine compraOrdine = new Compra(magazzino);
+        Ordine vendiOrdine = new Vendi(magazzino);
+
+        Command broker = new Command();
+        broker.prendiOrdine(compraOrdine);
+        broker.prendiOrdine(vendiOrdine);
+
+        broker.piazzaOrdine();
+    }
+}
+```
+
+Output
+
+```java
+[COMMAND]: prendiOrdine()::Ordine aggiunto alla lista!
+[COMMAND]: prendiOrdine()::Ordine aggiunto alla lista!
+[MAGAZZINO]: [ NOME: Prodotto_x, QUANTITA': 25 ] COMPRATO
+[MAGAZZINO]: [ NOME: Prodotto_x, QUANTITA': 25 ] VENDUTO
+[COMMAND]: piazzaOrdine()::Ordini eseguiti!
+```
+
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Interpreter
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Iterator
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Observer
+
+[_Torna all'indice_](#indice)
 
 ---
 
@@ -1548,7 +1707,7 @@ public class VisitorRettangoloArea implements Visitor {
     @Override
     public void visitRettangoloArea(ElementRettangolo element) {
         int area = element.getAltezza() * element.getLarghezza();
-        System.out.println("L'area del rettangolo e': "+ area);
+        System.out.println("L'area del rettangolo e': " + area);
     }
     @Override
     public void visitRettangoloPerimetro(ElementRettangolo element) {

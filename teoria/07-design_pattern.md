@@ -636,8 +636,9 @@ public class Singleton {
 }
 ```
 
-#### Inizializzazione pigra
+> Questo caso va bene se il singleton viene usato in un sistema non concorrente (single thread e un unico core).
 
+#### Inizializzazione concorrente
 ```java
 public class Singleton {
 	private static Singleton instance_ = null;
@@ -1398,10 +1399,61 @@ Last Logging
 ---
 
 ### Proxy
+Si tratta di un pattern <u>strutturale basato su oggetti</u> che viene utilizzato per accedere ad un un oggetto complesso tramite un oggetto semplice.
+
+Questo pattern può risultare utile se l’oggetto complesso:
+- richiede molte risorse computazionali;
+- richiede molto tempo per caricarsi;
+- è locato su una macchina remota e il traffico di rete determina latenze ed overhead;
+- non definisce delle policy di sicurezze e consente un accesso indiscriminato;
+- non viene mantenuto in cache ma viene rigenerato ad ogni richiesta;
+
+In tutti questi casi è possibile disposte delle politiche di gestione e/o di ottimizzazione.
+
+A seconda del contesto, viene aggiunto un prefisso per descrivere il caso di riferimento, esempio:
+- Virtual Proxy Pattern: ritarda la creazione e l’inizializzazione dell’oggetto poiché richiede grosse risorse (es: caricamento immagini).
+- Remote Proxy Pattern: fornisce una rappresentazione locale dell’oggetto remoto (es: accesso ad oggetto remoto tramite RMI).
+- Protection Proxy Pattern: fornisce un controllo sull’accesso dell’oggetto remoto (es: richiesta username/password per l’accesso).
+- Smart Proxy Pattern: fornisce una ottimizzazione dell’oggetto (es: caricamento in memoria dell’oggetto).
+
+Il proxy espone gli stessi metodi dell’oggetto complesso che maschera e questo permette di adattare facilmente l’oggetto senza richiedere modifiche.
+
+**Partecipanti e Struttura**
+Questo pattern è composto dai seguenti partecipanti:
+- Client: colui che effettua l’invocazione all’operazione di interesse.
+- SubjectInterface: definisce l’interfaccia utilizzata dal Client che viene implementata dal Proxy e dal RealSubject.
+- RealSubject: definisce l’oggetto reale di cui il Proxy avrà il compito di surrogare.
+- Proxy: definisce la classe che avrà il compito di surrogare l’oggetto reale mantenendo una Reference a tale oggetto, creando e distruggendo l’oggetto ed esponendo gli stessi metodi pubblici dell’oggetto reale definiti dall’interfaccia.
+
+Possiamo schematizzare in UML:
+
+![[76.png]]
+
+#### Esempio - Proxy
+Molti esempi sono presenti nel seguente capitolo [[04-aop]].
+
+[_Torna all'indice_](#indice)
 
 ---
 
 ## Behavioral Patterns
+
+I design pattern comportamentali, definiti dal Gang of Four (GoF), forniscono soluzioni per organizzare il comportamento delle classi e degli oggetti. Ecco una breve spiegazione di alcuni dei design pattern comportamentali principali:
+
+1.  **Command (Comando):** Il pattern Command incapsula una richiesta come un oggetto, consentendo di parametrizzare client con richieste diverse, accodare richieste, o supportare operazioni annullabili. Consiste di tre componenti principali: il Client (chi emette la richiesta), il Command (l'oggetto che incapsula la richiesta), e il Receiver (l'oggetto che effettua l'azione).
+    
+2.  **Interpreter (Interprete):** Il pattern Interpreter fornisce un modo per interpretare il linguaggio di un sistema. Definisce una grammatica per il linguaggio e un interprete che utilizza questa grammatica per interpretare frasi del linguaggio. È utile quando c'è la necessità di eseguire operazioni su alberi di sintassi astratta.
+    
+3.  **Iterator (Iteratore):** L'Iterator pattern fornisce un modo per accedere sequenzialmente agli elementi di una collezione senza esporre i dettagli interni della collezione. Un oggetto iteratore è utilizzato per attraversare gli elementi di una collezione in modo standard, indipendentemente dalla rappresentazione interna della collezione.
+    
+4.  **Observer (Osservatore):** Il pattern Observer definisce una dipendenza uno a molti tra oggetti in modo che quando uno oggetto cambia stato, tutti i suoi osservatori vengano notificati e aggiornati automaticamente. Gli osservatori si registrano per ricevere notifiche e vengono informati quando avviene un cambiamento nell'oggetto osservato.
+
+1.  **Visitor (Visitatore):** Il pattern Visitor rappresenta un'operazione da eseguire su elementi di una struttura di oggetti senza modificare le classi degli elementi. Definisce un'interfaccia Visitor con un metodo per ogni tipo di elemento che può essere visitato. Le classi concrete implementano questa interfaccia per definire il comportamento specifico quando un elemento viene visitato.
+
+[_Torna all'indice_](#indice)
+
+---
+
 ### Command
 ### Interpreter
 ### Iterator

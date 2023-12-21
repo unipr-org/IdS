@@ -1813,12 +1813,241 @@ $JAVA_HOME/bin/java patterns.interpreter.calcolatrice.Client
 ---
 
 ### Iterator
+Si tratta di un pattern <u>comportamentale basato su oggetti</u> e viene utilizzato quando, dato un aggregato di oggetti, si vuole accedere ai suoi elementi senza dover esporre la sua struttura. L’obiettivo di questo pattern è quello di disaccoppiare l’utilizzatore e l’implementatore dell’aggregazione di dati, tramite un oggetto intermedio che esponga sempre gli stessi metodi indipendentemente dall’aggregato di dati.
+
+E’ costituito da 3 soggetti: l’_Utilizzatore_ dei dati, l’_Iteratore_ che intermedia i dati e l’_Aggregatore_ che detiene i dati secondo una propria logica.
+
+**Partecipanti e Struttura**  
+Questo pattern è composto dai seguenti partecipanti:
+-   **Iterator**: colui che espone i metodi di accesso alla struttura dati.
+-   **ConcreteIterator**: implementa l’Iteratore e tiene il puntatore alla struttura dati.
+-   **Aggregator**: definisce l’interfaccia per creare un oggetto di tipo Iteratore.
+-   **ConcreteAggregator**: implementa l’interfaccia di creazione di un oggetto Iteratore.
+
+![[81.png]]
+
+**Tale pattern presenta i seguenti vantaggi/svantaggi:**
+- Unica interfaccia di accesso: l’accesso ai dati avviene tramite l’Iterator che espone un’unica interfaccia e nasconde le diverse implementazioni degli Aggregator.
+- Diversi iteratori di accesso: l’Aggregator può essere attraversato tramite diversi Iterator in cui ogni Iterator nasconde un algoritmo diverso.
+
+#### Esempio - Iterator
+Creeremo un’interfaccia Iterator che narra il metodo di navigazione e un’interfaccia Container che ritrasforma l’iteratore. Dopo di chè creeremo le classi concrete che implementano le due interfacce.
+
+Step 1: Creiamo le due interfacce
+```java
+public interface Container {
+    public Iterator getIterator();
+}
+```
+```java
+public interface Iterator {
+    public boolean hasNext();
+    public Object next();
+}
+```
+
+Step 2: Creiamo la classe Repository che implementa l’interfaccia Container
+
+Attenzione! La classe possiede all’interno un’altra classe il cui scopo è quello di implementare Iterator.
+
+```java
+public class NameRepository implements Container {
+   public String names[] = {"Robert" , "John" ,"Julie" , "Lora"};
+
+   @Override
+   public Iterator getIterator() {
+      return new InnerNameIterator();
+   }
+
+   private class InnerNameIterator implements Iterator {
+
+      int index;
+
+      @Override
+      public boolean hasNext() {
+         if(index < names.length)
+            return true;
+    
+         return false;
+      }
+
+      @Override
+      public Object next() {
+         if(this.hasNext())
+            return names[index++];
+        
+         return null;
+      }
+      
+   } // ! InnerNameIterator
+} // ! NameRepository
+```
+
+Step 3: Creiamo il main
+
+```java
+public class Main {
+    public static void main(String[] args) {
+        Repository repository = new Repository();
+
+        System.out.println("[MAIN]: Recupero nomi in Repository");
+        
+        for(Iterator iterator = repository.getIterator(); iterator.hasNext();){
+            String name = (String) iterator.next();
+            System.out.println("[MAIN]: Nome -> " + name);
+        }
+    }
+}
+```
+
+Output:
+
+```java
+[MAIN]: Recupero nomi in Repository
+[MAIN]: Nome -> Roberto
+[MAIN]: Nome -> Giovanni
+[MAIN]: Nome -> Giulia
+[MAIN]: Nome -> Andrea
+```
 
 [_Torna all'indice_](#indice)
 
 ---
 
 ### Observer
+Si tratta di un pattern <u>comportamentale basato su oggetti</u> che viene utilizzato quando si vuole realizzare una dipendenza uno-a-molti in cui il cambiamento di stato di un soggetto venga notificato a tutti i soggetti che si sono mostrati interessati.  
+Un esempio molto semplice è rappresentato dalle newsletters in cui gli utenti interessati a degli argomenti inseriscono il loro indirizzo email ed a fronte di novità inerenti gli argomenti, riceveranno una email di notifica. In questo modo viene applicata una gestione ad eventi, cioè al verificarsi di una notizia i soggetti interessati verranno informati tramite email. In questo modo l’interessato evita di fare polling, cioè evita di fare continue richieste al soggetto osservato per sapere se è avvenuto o meno un cambiamento ma al contrario verrà notificato in push dal soggetto osservato nel caso in cui dovesse interviene una modifica.
+
+Questo pattern viene impegato in molte librerie, nei toolkit delle GUI e nel pattern architetturale MVC.
+
+Nel pattern MVC abbiamo la presenza di 3 soggetti: il Model, la View ed il Controller. Questi soggetti svolgono compiti diversi e tra di loro è presente una separazione di responsabilità c.d. “separation of concern”. Ma c’è da dire che tra di loro esiste un forte legame in merito al cambiamento di stato. In particolare il Controller è interessato ai cambiamenti di stato della View, mentre la View è interessata ai cambiamenti di stato del Model. Questo comporta che nel caso in cui dovessero avvenire dei cambiamenti il Model notifica alla View mentre la View notifica al Controller. Quindi il pattern Observer trova applicazione 2 volte nell’MVC su coppie di soggetti diversi (Model-View e View-Controller). La View svolge un ruolo doppio poichè si trova ad essere _osservata_ dal Controller e nello stesso tempo ad essere _osservatore_ nei confronti del Model. A differenza del Model e del Controller che invece giocano un ruolo singolo , infatti il Model è _osservato_ dalla View mentre il Controller è un _osservatore_ della View.
+
+![[82.png]]
+
+Il ruolo di osservatore è il ruolo svolto da colui che si mostra interessato ai cambiamenti di stato, c.d. Observer. Il ruolo di osservato è il ruolo svolto da colui che viene monitorato, c.d. Subject o Observable.
+
+**Partecipanti e Struttura**  
+Questo pattern è composto dai seguenti partecipanti:
+1.  **Subject**: espone l’interfaccia che consente agli osservatori di iscriversi e cancellarsi; mantiene una reference a tutti gli osservatori iscritti
+2.  **Observer**: espone l’interfaccia che consente di aggiornare gli osservatori in caso di cambio di stato del soggetto osservato.
+3.  **ConcreteSubject**: mantiene lo stato del soggetto osservato e notifica gli osservatori in caso di un cambio di stato.
+4.  **ConcreteObserver**: implementa l’interfaccia dell’Observer definendo il comportamento in caso di cambio di stato del soggetto osservato
+
+**Tale pattern presenta i seguenti vantaggi/svantaggi:**
+-   <u>Astratto accoppiamento tra Subject e Observer</u>: il Subject sa che una lista di Observer sono interessati al suo stato ma non conosce le classi concrete degli Observer, pertanto non vi è un accoppiamento forte tra di loro.
+-   <u>Notifica diffusa</u>: il Subject deve notificare a tutti gli Observer il proprio cambio di stato, gli Observer sono responsabili di aggiungersi e rimuoversi dalla lista.
+
+  
+Vediamo come si presenta il Pattern Observer utilizzando il Class Diagram in UML:
+
+![[83.png]]
+
+#### Esempio - Observer
+Nnelle librerie Java il _Subject_ e l’_Observer_ sono già presenti con le classi _java.util.Observable e java.util.Observer_.
+
+![[84.png]]
+
+Pertanto, per non reinventare la ruota ogni volta, possiamo utilizzare queste classi per il nostro esempio. 
+
+Vediamo come si presenta il nostro Class Diagram in UML:
+
+![[85.png]]
+
+Creiamo la classe ConcreteObserver implementando l’interfaccia Observer che definisce il metodo `update()` con 2 parametri: il soggetto osservato Observable ed un Object utile a passare degli argomenti.
+
+```java
+import java.util.Observable;
+import java.util.Observer;
+ 
+public class ConcreteObserver implements Observer {
+ 
+    @Override
+    public void update(Observable o, Object arg) {
+        System.out.println("Sono " + this + ": il Subject e stato modificato!");
+    }
+	// In questo caso o == this
+}
+```
+
+Modifichiamo la classe ConcreteSubject in modo che estenda la classe Observable. Nel metodo `setState()` occorre invocare anche il metodo `setChanged()` che esprime la volontà di notificare gli osservatori. Infatti se commentiamo questo metodo, gli osservatori non saranno notificati nonostante l’invocazione del metodo `notifyObservers().` Ciò avviene in quanto nel metodo `notifyObservers()` è presente una semplice condizione `if (!changed)` che forza l’uscita dal metodo qualora il cambio non venga confermato.
+
+```java
+import java.util.Observable;
+ 
+public class ConcreteSubject extends Observable {
+ 
+    private boolean state;
+
+	@Override
+    public void setState(boolean state) {
+        this.state = state;
+        setChanged();
+        notifyObservers();
+    }
+
+	@Override
+    public boolean getState() {
+        return this.state;
+    }
+ 
+} // ! ConcreteSubject
+```
+
+Adesso vediamo il codice del metodo `notifyObservers()` della classe `java.util.Observable`:
+
+```java
+public void notifyObservers(Object arg) {
+    Object[] arrLocal;
+    
+    synchronized (this) {
+        if (!changed)
+            return;
+        
+        arrLocal = obs.toArray();
+        clearChanged();
+    }
+    
+    for (int i = arrLocal.length - 1; i >= 0; i--)
+        ((Observer) arrLocal[i]).update(this, arg);
+}
+```
+
+Creiamo il codice del Client importando `java.util.Observer` e rinominando il metodo `deleteObserver()` invece di `removeObserver()` dell’esempio precedente:
+
+```java
+import java.util.Observer;
+ 
+public class Client {
+ 
+    public static void main(String[] args) {
+        ConcreteSubject subject = new ConcreteSubject();
+        Observer observer1 = new ConcreteObserver();
+        Observer observer2 = new ConcreteObserver();
+ 
+        //aggiungo 2 observer che saranno notificati
+        subject.addObserver(observer1);
+        subject.addObserver(observer2);
+ 
+        //modifico lo stato
+        subject.setState(true);
+ 
+        //rimuovo il primo observer che non sarà + notificato
+        subject.deleteObserver(observer1);
+ 
+        //modifico lo stato
+        subject.setState(false);
+ 
+    }
+} // ! Client
+```
+
+Output:
+```java
+$JAVA_HOME/bin/java patterns.Client
+Sono patterns.observer.ConcreteObserver@f62373: il Subject e' stato modificato!
+Sono patterns.observer.ConcreteObserver@19189e1: il Subject e' stato modificato!
+Sono patterns.observer.ConcreteObserver@f62373: il Subject e' stato modificato!
+```
 
 [_Torna all'indice_](#indice)
 

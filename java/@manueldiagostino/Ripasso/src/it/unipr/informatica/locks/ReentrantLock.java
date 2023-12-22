@@ -72,21 +72,11 @@ public class ReentrantLock implements Lock {
 		
 		@Override
 		public void await() throws InterruptedException {
-<<<<<<< HEAD
 			unlock();
 			try {
 				synchronized (condition_) {
 					condition_.wait();
 				}
-=======
-			try {
-				unlock();
-			
-				synchronized (condition_) {
-					condition_.wait();
-				}
-			
->>>>>>> upstream/main
 			} finally {
 				lock();
 			}

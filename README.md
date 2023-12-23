@@ -2,10 +2,11 @@
 Corso _"Ingegneria del Software"_ presso l'Università degli Studi di Parma (9 CFU).
 
 ```
-Guida directroty:
+Guida directory:
 .
 ├── esami
 ├── esempi-anni-passati
+├── esercizi
 ├── java
 │   ├── @manueldiagostino
 │   ├── @merendamattia

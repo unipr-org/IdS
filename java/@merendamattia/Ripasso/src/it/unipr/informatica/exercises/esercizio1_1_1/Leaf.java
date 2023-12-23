@@ -21,15 +21,15 @@ public class Leaf extends Component{
 	public void operation() {
 		System.out.println(this + " doing something...");
 	}
-
-	@Override
-	public String print() {
-		return "\t\t" + this.toString();
-	}
 	
 	@Override
 	public String toString() {
 		return type + " - " + name;
+	}
+
+	@Override
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
 	}
 
 } // ! Leaf

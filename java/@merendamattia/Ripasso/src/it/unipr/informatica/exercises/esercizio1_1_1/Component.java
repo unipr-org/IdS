@@ -7,14 +7,10 @@ public abstract class Component {
 	public abstract void add(Component item);
 	public abstract boolean remove(Component item);
 	public abstract void operation();
-	public abstract String print();
-	
-	@Override
-	public String toString() {
-		return type + " - " + name;
-	}
-	
+	public abstract void accept(Visitor visitor); 
+		
 	public enum ComponentType {
 		LEAF, DISTRICT, REGION, COUNTRY
 	}
-}
+
+} // ! Component

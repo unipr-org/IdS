@@ -1,7 +1,6 @@
 package it.unipr.informatica.exercises.esercizio1_1_1;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 public class Country extends Composite {
@@ -34,17 +33,18 @@ public class Country extends Composite {
 	public void operation() {
 		System.out.println(this + " doing something...");
 	}
-
+	
 	@Override
-	public String print() {
-		String result = this.toString();
-		
-		Iterator<Component> it = children.iterator();
-		while(it.hasNext()) {
-			result += "\n\t" + it.next().print();
-		}
-		
-		return result;
+	public void accept(Visitor visitor) {
+		visitor.visit(this);
+        for (Component child : children) {
+            child.accept(visitor);
+        }
+	}
+	
+	@Override
+	public String toString() {
+		return type + " - " + name;
 	}
 
 } // ! Country

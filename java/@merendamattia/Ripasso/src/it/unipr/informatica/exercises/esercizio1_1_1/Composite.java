@@ -6,4 +6,5 @@ public abstract class Composite extends Component {
 	protected Collection<Component> children;
 	
 	public abstract Collection<Component> getChildren();
-}
+	
+} // ! Composite

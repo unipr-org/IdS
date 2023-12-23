@@ -29,12 +29,13 @@ public class Main {
 		r2.add(d2);
 		c1.add(r2);
 		
-		System.out.println(c1.print());
+		c1.accept(new VisitorImpl());
 		
 		r2.remove(d2);
 		
-		System.out.println("After remove...");
-		System.out.println(c1.print());
+		System.out.println("\nRemoving " + d2 + "...\n");
+		
+		c1.accept(new VisitorImpl());
 		
 	}
 	

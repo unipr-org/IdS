@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 
 public class District extends Composite {
-
+	
 	public District(String name) {
 		this.name = name;
 		this.type = ComponentType.DISTRICT;
@@ -37,9 +37,13 @@ public class District extends Composite {
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
-        for (Component child : children) {
-            child.accept(visitor);
-        }
+		
+		Iterator it = new IteratorSimple(this);
+		
+		while(!it.isDone()) {
+			Component child = (Component) it.next();
+			child.accept(visitor);
+		}
 	}
 	
 	@Override

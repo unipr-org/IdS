@@ -1,6 +1,6 @@
 package it.unipr.informatica.exercises.esercizio1_1_1;
 
-public class Leaf extends Component{
+public class Leaf extends Component {
 
 	public Leaf(String name) {
 		this.name = name;

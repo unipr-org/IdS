@@ -4,6 +4,7 @@ public class VisitorImpl implements Visitor {
 
 	@Override
 	public void visit(Component item) {
+		
 		// Formattazione pigra
 		
 		if(item instanceof Country)

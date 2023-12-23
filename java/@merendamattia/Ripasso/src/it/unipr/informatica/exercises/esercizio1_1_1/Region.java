@@ -37,9 +37,13 @@ public class Region extends Composite {
 	@Override
 	public void accept(Visitor visitor) {
 		visitor.visit(this);
-        for (Component child : children) {
-            child.accept(visitor);
-        }
+		
+		Iterator it = new IteratorSimple(this);
+		
+		while(!it.isDone()) {
+			Component child = (Component) it.next();
+			child.accept(visitor);
+		}
 	}
 	
 	@Override

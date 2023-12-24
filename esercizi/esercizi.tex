@@ -192,6 +192,19 @@
 
         Scrivere un'implementazione in Java del sistema descritto fornendone una descrizione tramite class diagram UML.
     \end{Exercise}
+    \begin{Exercise}
+        Si consideri la seguente interfaccia Java che descrive una struttura dati \textit{queue}:
+        \begin{lstlisting}
+            public interface Queue<T> {
+                public void enqueue(T elem);
+                public T dequeue();
+                public void clear();
+                public boolean isEmpty();
+            }
+        \end{lstlisting}
+        L'interfaccia in questione deve essere implementata dalla classe \textbf{SimpleQueue}, che offre un costruttore senza paramentri per la creazione di una coda vuota. La coda vuole permettere l'operazione di \textit{undo} per l'ultima modifica effettuata.
+        Descrivere la classe descritta mediante un class diagram UML e fornirne un implementazione in Java. 
+    \end{Exercise}
 
 
     %% END COMMAND SECTION

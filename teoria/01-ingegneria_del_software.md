@@ -10,7 +10,7 @@ Un linguaggio logico e' un linguaggio formale con l'aggiunta di:
 - Assiomi, che consideriamo sempre veri.
 - Regole di inferenza, che cercano di ottenere nuove verita' dagli assiomi.
 
-I linguaggi logici possno essere usati per dimostrare i teoremi.
+I linguaggi logici possono essere usati per dimostrare i teoremi.
 
 ### Categorie
 I linguaggi logici si dividono in due categorie:
@@ -35,7 +35,7 @@ Un letterale e' un simbolo proposizionale o la sua negazione.
 ### Sintassi
 E' l'insieme di tutte le formule ben formate.
 Tutti i simboli proposizionali sono proposizioni (top e bottom inclusi).
-Se A e B sono proposizioni, allora anche allora i risultati ottenute dalle combinazioni con i simboli atomici sono anch'essi delle proposizioni.
+Se A e B sono proposizioni, allora anche i risultati ottenuti dalle combinazioni con i simboli atomici sono anch'essi delle proposizioni.
 Tutto il resto non sono proposizioni.
 
 ### Semantica
@@ -53,9 +53,9 @@ Data un'interpretazione $I$ su $P$, l'interpretazione $G_I$ di un'arbitraria pro
 ---
 
 ### Modelli e soddisfacibilità
-Data una interpretazione $I$ e una proposizione $A$
-- $I$ soddisfa $A \;(\models)$ se e soltanto se $G_I(A)=T$
-- $I$ non soddisfa $A \;(\nvDash)$ se e soltanto se $G_I(A)=F$
+Data una interpretazione $I$ e una proposizione $A$,
+- $I$ soddisfa $A \;(\models)$ se e soltanto se $G_I(A)=T$,
+- $I$ non soddisfa $A \;(\nvDash)$ se e soltanto se $G_I(A)=F$.
 
 Una interpretazione $I$ e' un modello per una proposizione $A$ se e soltanto se $I \models A$.
 Una proposizione $A$ e' soffisfabile se e soltanto se esiste una interpretazione $I$ tale che $I \models A$.
@@ -332,7 +332,7 @@ Un percorso $\pi$ in una struttura Kripke $K$ da uno stato $s_0\subseteq S$ e' u
 
 ---
 
-### Strutture Kripke complesse
+#### Strutture Kripke complesse
 Le strutture Kripke complesse le otteniamo da una composizione di strutture Kripke semplici.
 
 Le strutture Kripke possono essere combinate usando composizioni:

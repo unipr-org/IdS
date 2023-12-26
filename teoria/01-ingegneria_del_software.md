@@ -203,6 +203,7 @@ dove $B = \{ F, T\}$, mappa ogni simbolo proposizionale a un valore di B per ogn
 > O e' vera o e' falsa, non esiste il "forse".
 
 Data una interpretazione $I$ su $P$, l'interpretazione $$G_I : LTL[\;P\;] \;\times \; ℕ \to B$$ di un'arbitraria proposizione LTL in $LTL[\;P\;]$ puo' essere calcolata come segue: 
+
 ![[12.png]]
 ![[13.png]]
 
@@ -221,13 +222,14 @@ Data una interpretazione $M$, un momento nel tempo $i \in ℕ$, e una proposizio
 Un'interpretazione $M$ e' un modello per una proposizione $A$ se e solo se esiste qualche $i \in ℕ$ tale che $<M,i> \;\models\; A$ .
 
 Una proposizione LTL $A$ e':
-- Soddisfabile se e solo se esiste un modello per A
+- Soddisfabile se e solo se esiste un modello per $A$.
 - Una tautologia ($\models A$) se e solo se per ogni interpretazione $M$ e ogni momento nel tempo $i \in ℕ$, $<M,i> \;\models\; A$.
 
 ---
 
 ### Modelli
 Data una interpretazione $M$ definita su un insieme di simboli proposizionali $P$, le seguenti regole possono essere usate per vericare se $<M,i> \;\models\; A$  ($M$ soddisfa $A$ in $i$): 
+
 ![[15.png]]![[16.png]]
 
 [_Torna all'indice_](#Indice)
@@ -238,7 +240,9 @@ Data una interpretazione $M$ definita su un insieme di simboli proposizionali $P
 Due proposizioni LTL $A$ e $B$ sono equivalenti logiche ($A \Leftrightarrow B$) se e solo se $\models(A \equiv B).$
 > Per ogni interpretazione $M$ e in ogni momento del tempo $i \in ℕ$, $<M,i> \;\models\; A$ se e solo se $<M,i> \;\models\; B$.
 
-Altre equivalenze logiche: ![[17.png]] ![[18.png]]
+Altre equivalenze logiche: 
+
+![[17.png]] ![[18.png]]
 
 [_Torna all'indice_](#Indice)
 
@@ -250,16 +254,23 @@ Un tableaux LTL e' un grafo etichettato, il quale non contiene nodi con la stess
 > $\{A,B\} = \{A,B,B,A,B,B\}$ stessi insiemi.
 
 #### Forma negata LTL
-Come prima cosa dobbiamo trasformare le proposizioni LTL in forma negata usando le seguenti equivalenze logiche: ![[19.png]]
+Come prima cosa dobbiamo trasformare le proposizioni LTL in forma negata usando le seguenti equivalenze logiche: 
+
+![[19.png]]
 
 #### Forme congiuntive e disgiuntive LTL
-Come per il tableaux proposizionale, anche qui valgono le regole delle forme congiuntive e disgiuntive: ![[20.png]]
+Come per il tableaux proposizionale, anche qui valgono le regole delle forme congiuntive e disgiuntive: 
+
+![[20.png]]
 
 #### Regole temporali (temporal rules)
-Una volta che ho portato le proposizioni LTL in forma negata, devo applicare dalla radice le regole temporali per trasformare gli operatori temporali in "next" ($X$): ![[21.png]]
+Una volta che ho portato le proposizioni LTL in forma negata, devo applicare dalla radice le regole temporali per trasformare gli operatori temporali in "next" ($X$): 
+
+![[21.png]]
 
 #### Regola del loop (loop rule)
 La loop rule e' l'ultima regola che deve essere applicata se nessun'altra regola precedente e' applicabile: 
+
 ![[22.png]]
 
 > Nota bene: il controllo del loop e' sufficiente per assicurare la terminazione della costruzione del tableaux.
@@ -277,15 +288,15 @@ Una eventualita' $E$ e' una proposizione LTL strutturata come F$E$ o AU$E$.
 
 Una eventualita' F$E$ o AU$E$ e' soddisfatta in un nodo $n$ se esiste un percorso che parte da $n$ la cui etichetta contiene $E$.
 
-Dato un tableau completo, un nodo puo' essere cancellato se:
+Dato un tableaux completo, un nodo puo' essere cancellato se:
 - Il nodo e' contradditorio.
 - L'etichetta di un nodo contiene una eventualita' che non e' soddisfatta nel nodo.
 - Tutti i figli di un nodo sono marcati come cancellati.
 
-Un tableau completo e' detto chiuso se e solo se la sua radice puo' essere cancellata.
-Un insieme di proposizioni LTL che etichetta la radice di un tableau completo e' unsatisfiable se e solo se il tableau e' chiuso.
+Un tableaux completo e' detto chiuso se e solo se la sua radice puo' essere cancellata.
+Un insieme di proposizioni LTL che etichetta la radice di un tableaux completo e' unsatisfiable se e solo se il tableaux e' chiuso.
 
-> Dato un tableau competo, se non e' chiuso e' aperto.
+> Dato un tableaux competo, se non e' chiuso e' aperto.
 
 I percorsi che partono dalla radice in un tableau aperto forniscono informazioni sui modelli dell'insieme di proposizioni LTL che etichettano la radice del tableau.
 
@@ -334,10 +345,13 @@ Un percorso $\pi$ in una struttura Kripke $K$ da uno stato $s_0\subseteq S$ e' u
 
 #### Strutture Kripke complesse
 Le strutture Kripke complesse le otteniamo da una composizione di strutture Kripke semplici.
-
 Le strutture Kripke possono essere combinate usando composizioni:
-- Sincrone: ![[26.png]]
-- Asincrone: ![[27.png]]
+- Sincrone: 
+ 
+![[26.png]]
+- Asincrone: 
+
+![[27.png]]
 
 [_Torna all'indice_](#Indice)
 
@@ -346,26 +360,32 @@ Le strutture Kripke possono essere combinate usando composizioni:
 ## Safety, Liveness, Fairness
 Gran parte della popolarità della logica temporale è stata raggiunta perché diversi concetti relativi ai sistemi software concorrenti possono essere formalmente espressi e studiati.
 Di solito, le proprietà dei software concorrenti che vengono studiate usano logiche temporali e sono suddivise in 3 categorie:
-- Proprieta' safety (affidabilita')
-- Proprieta' liveness
-- Proprieta' fairness
+- Proprieta' safety (affidabilita').
+- Proprieta' liveness.
+- Proprieta' fairness.
 
 Le proprieta' safety sono richieste per assicurare che qualcosa di brutto non avvenga mai.
 $$G\; \neg \;(\text{ temperature} > 100 \;)$$
 Le proprieta' liveness sono richieste per assicurare che qualcosa di buono succedera'.
 $$G\;(\text{started} \to F\; \text{terminated})$$
-le proprieta' fairness (forti) sono richieste per assicurare che se qualcosa viene richiesto infinitamente spesso, allora verrà servito infinitamente spesso.
+Le proprieta' fairness (forti) sono richieste per assicurare che se qualcosa viene richiesto infinitamente spesso, allora verrà servito infinitamente spesso.
 $$GF\text{ ready} \to GF\text{ execute}$$
 
 ### Esempi proprieta' con la mutua esclusione
-1. Safety ![[28.png]]
+1. **Safety **
+ 
+![[28.png]]
 
-2. Liveness ![[29.png]] ![[30.png]]
+2. **Liveness** 
+   
+![[29.png]] ![[30.png]]
 
-3. Fairness ![[31.png]]
+3. **Fairness** 
+   
+![[31.png]]
 
-4. Fairness forte (strong) ![[32.png]]
+4. **Fairness forte (strong) **
+   
+![[32.png]]
 
 [_Torna all'indice_](#Indice)
-
----

@@ -268,6 +268,11 @@ Una volta che ho portato le proposizioni LTL in forma negata, devo applicare dal
 
 ![[21.png]]
 
+#### Step rule
+La step rule e' la regola da applicare dopo che ho trasformato tutti gli operatori temporali in "next".
+
+![[96.png]]
+
 #### Regola del loop (loop rule)
 La loop rule e' l'ultima regola che deve essere applicata se nessun'altra regola precedente e' applicabile: 
 

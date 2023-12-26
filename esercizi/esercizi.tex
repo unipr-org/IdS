@@ -1,9 +1,9 @@
 \documentclass[12pt,a4paper]{article}
 \usepackage{hyperref}
 \hypersetup{
-  colorlinks=true,
-  linkcolor=blue,
-  urlcolor=cyan,
+    colorlinks=true,
+    linkcolor=blue,
+    urlcolor=cyan,
 }
 \urlstyle{same}
 % \usepackage[condensed,math]{kurier}
@@ -26,20 +26,20 @@
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \lstset{frame=tb,
-  language=Java,
-  aboveskip=3mm,
-  belowskip=3mm,
-  showstringspaces=false,
-  columns=flexible,
-  basicstyle={\small\ttfamily},
-  numbers=none,
-  numberstyle=\tiny\color{gray},
-  keywordstyle=\color{blue},
-  commentstyle=\color{dkgreen},
-  stringstyle=\color{mauve},
-  breaklines=true,
-  breakatwhitespace=true,
-  tabsize=4
+    language=Java,
+    aboveskip=3mm,
+    belowskip=3mm,
+    showstringspaces=false,
+    columns=flexible,
+    basicstyle={\small\ttfamily},
+    numbers=none,
+    numberstyle=\tiny\color{gray},
+    keywordstyle=\color{blue},
+    commentstyle=\color{dkgreen},
+    stringstyle=\color{mauve},
+    breaklines=true,
+    breakatwhitespace=true,
+    tabsize=4
 }
 
 % Language setting
@@ -114,7 +114,7 @@
 		\Large
 		\begin{tabbing}
 			\hspace*{1em}\= \hspace*{8em} \= \kill % set the tabbings
-			\> Nome:\>  \textbf{Di Agostino Manuel} \\
+			\> Nome:\>  \textbf{Di Agostino Manuel}, \textbf{Simone Colli} \\
 			\> Insegnamento:\>  Ingegneria del software  \\
 			\> Anno:  \> 2023/2024
 		\end{tabbing}
@@ -150,7 +150,7 @@
     \end{Exercise}
 
     %% END COMPOSITE SECTION
-    \subsection{Decorator pattern}
+    \subsection{Decorator pattern}\label{patter:decorator}
     \begin{Exercise}[origin={Ispirato ad un esempio del libro GoF}]
         I flussi sono un'astrazione fondamentale nella maggior parte delle strutture di I/O. Un flusso può fornire un'interfaccia per convertire oggetti in una sequenza di byte o caratteri. Questo ci consente di trascrivere un oggetto su un file o su una stringa in memoria per il recupero successivo. Un modo diretto per farlo è definire una classe astratta \texttt{Stream} con le sottoclassi \texttt{MemoryStream} e \texttt{FileStream}.
         Il corpo della classe \texttt{Stream} è il seguente:
@@ -175,8 +175,8 @@
     \end{Exercise}
 
     %% END DECORATOR SECTION
-    \subsection{Command pattern}
-    \begin{Exercise}
+    \subsection{Command pattern}\label{patter:command}
+    \begin{Exercise}\label{command:ex1}
         Si vuole realizzare la logica applicativa di un editor di testo che permetta di manipolare file testuali in codifica \texttt{ASCII} standard a \texttt{7 bit}. È previsto che l'interfaccia \texttt{EditableFile} esponga una serie di funzionalità:
         \begin{itemize}
             \item \textbf{creazione} del file, a partire da un nome scelto dall'utente
@@ -219,5 +219,21 @@
         \item visita in ampiezza per livelli, a partire da un determinato nodo e con una profondità massima, utile al motore di rendering della mappa
     \end{itemize}
     \end{Exercise}
-	
+
+    \subsection{Abstract factory pattern}\label{pattern:abstract_factory}
+    \begin{Exercise}
+    
+    [Richiede l'\hyperref[composite:ex1]{esercizio \ref{composite:ex1}}]
+    
+    Sulla struttura dati implementata in \hyperref[composite:ex1]{\ref{composite:ex1}} è richiesto di delegare la creazione dei vari \texttt{Component} ad un'abstract factory.
+    \end{Exercise}
+
+    \subsection{Proxy pattern}\label{pattern:proxy}
+    \begin{Exercise}
+    
+    [Richiede l'\hyperref[command:ex1]{esercizio \ref{command:ex1}}]
+    
+    A partire dalla logica applicativa dell'editor di testo in \hyperref[command:ex1]{\ref{command:ex1}} è richiesto di ottimizzare l'utilizzo gli accessi in lettura e scrittura sul file utilizzando un proxy
+    \end{Exercise}
+    
 \end{document}

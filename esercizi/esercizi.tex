@@ -1,11 +1,4 @@
 \documentclass[12pt,a4paper]{article}
-\usepackage{hyperref}
-\hypersetup{
-    colorlinks=true,
-    linkcolor=blue,
-    urlcolor=cyan,
-}
-\urlstyle{same}
 % \usepackage[condensed,math]{kurier}
 % \usepackage[T1]{fontenc}
 \usepackage{svg}
@@ -18,6 +11,11 @@
 \usepackage{svg}
 \usepackage{rotating}
 
+\usepackage[lastexercise,answerdelayed]{exercise}
+\renewcounter{Exercise}[subsection]
+\counterwithin{Exercise}{subsection}
+\renewcommand{\ExerciseName}{Esercizio}
+
 \usepackage{listings}
 \usepackage{color}
 
@@ -26,20 +24,20 @@
 \definecolor{mauve}{rgb}{0.58,0,0.82}
 
 \lstset{frame=tb,
-    language=Java,
-    aboveskip=3mm,
-    belowskip=3mm,
-    showstringspaces=false,
-    columns=flexible,
-    basicstyle={\small\ttfamily},
-    numbers=none,
-    numberstyle=\tiny\color{gray},
-    keywordstyle=\color{blue},
-    commentstyle=\color{dkgreen},
-    stringstyle=\color{mauve},
-    breaklines=true,
-    breakatwhitespace=true,
-    tabsize=4
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  keywordstyle=\color{blue},
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4
 }
 
 % Language setting
@@ -53,11 +51,7 @@
 % Useful packages
 \usepackage{amsmath}
 \usepackage{graphicx}
-
-\usepackage[lastexercise,answerdelayed]{exercise}
-\renewcounter{Exercise}[subsection]
-\counterwithin{Exercise}{subsection}
-\renewcommand{\ExerciseName}{Esercizio}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
 \title{}
 \author{}
@@ -95,7 +89,7 @@
 			\vspace{1.5cm}
 			
 			\textbf{}
-            \includegraphics[width=0.4\textwidth]{unipr_logo.jpg}
+            \includegraphics[width=0.4\textwidth]{images/unipr_logo.jpg}
 			
 			\vfill
 			
@@ -114,58 +108,82 @@
 		\Large
 		\begin{tabbing}
 			\hspace*{1em}\= \hspace*{8em} \= \kill % set the tabbings
-			\> Nome:\>  \textbf{Di Agostino Manuel}, \textbf{Simone Colli} \\
-			\> Insegnamento:\>  Ingegneria del software  \\
+			\> Nome:\>  \textbf{Di Agostino Manuel}, \textbf{Colli Simone} \\
+			\> Insegnamento:\>  Ingegneria del Software  \\
 			\> Anno:  \> 2023/2024
 		\end{tabbing}
 		
 	\end{titlepage}
-	\clearpage
-	
+
+\tableofcontents
+\clearpage
 	
 \section{Design patterns}
-    \subsection{Composite pattern}\label{patter:composite}
+    \subsection{Composite pattern}
     
-    \begin{Exercise}\label{composite:ex1}
-    Si vuole modellare la mappa di un videogioco \textit{open-world} utilizzando una struttura dati ad albero; a seconda del livello di zoom dell'interfaccia è infatti possibile osservare una versione più dettagliata della mappa, corrispondente ad un particolare nodo dell'albero.
-    Esistono tre categorie di nodi:
-    \begin{itemize}
-        \item \textbf{foglia}: non ulteriormente espandibile, corrisponde ad un preciso punto fisso sulla mappa, importante per la logica del gioco;
-        \item \textbf{distretto}: identifica zone più ampie, ad esempio un quartiere cittadino formato dalla composizione di nodi foglie;
-        \item \textbf{regione}: aggrega più distretti contigui;
-        \item \textbf{stato}: il livello più alto nella gerarchia considerata.
-    \end{itemize}
-    Ad ogni nodo sono inoltre sempre associati un \textit{nome} e una \textit{tipologia} conforme alla seguente interfaccia:
-
-    \begin{lstlisting}
-        public enum NodeType {
-            LEAF,
-            DISTRICT,
-            REGION,
-            COUNTRY
-        }
-    \end{lstlisting}
-    
-    Realizzare un class diagram UML che descriva la struttura della soluzione e fornire un'implementazione in Java che ne soddisfi i requisiti.
+    \begin{Exercise}[label=composite-ex1]
+        Si vuole modellare la mappa di un videogioco \textit{open-world} utilizzando una struttura dati ad albero; a seconda del livello di zoom dell'interfaccia è infatti possibile osservare una versione più dettagliata della mappa, corrispondente ad un particolare nodo dell'albero.
+        Esistono quattro categorie di nodi:
+        \begin{itemize}
+            \item \textbf{foglia}: non ulteriormente espandibile, corrisponde ad un preciso punto fisso sulla mappa, importante per la logica del gioco;
+            \item \textbf{distretto}: identifica zone più ampie, ad esempio un quartiere cittadino formato dalla composizione di nodi foglie;
+            \item \textbf{regione}: aggrega più distretti contigui;
+            \item \textbf{stato}: il livello più alto nella gerarchia considerata.
+        \end{itemize}
+        Ad ogni nodo sono inoltre sempre associati un \textit{nome} e una \textit{tipologia} conforme alla seguente interfaccia:
+        \begin{lstlisting}
+    public enum NodeType {
+        LEAF,
+        DISTRICT,
+        REGION,
+        COUNTRY
+    }
+        \end{lstlisting}
+        
+        Realizzare un class diagram UML che descriva la struttura della soluzione e fornire un'implementazione in Java che ne soddisfi i requisiti.
     \end{Exercise}
 
     %% END COMPOSITE SECTION
-    \subsection{Decorator pattern}\label{patter:decorator}
+    \subsection{Iterator pattern}
+    \begin{Exercise}
+    \small\textbf{[Richiede \hyperlink{composite-ex1}{\ref{composite-ex1}}]} \\
+        È necessario implementare una serie di attraversamenti della struttura dati descritta nell'esercizio \hyperlink{composite-ex1}{\ref{composite-ex1}}; in particolare si vogliono fornire degli \textit{Iteratori} che, dato un \textit{Nodo}, permettano di consultare gli elementi del sottoalbero da esso identificato secondo un determinato criterio.
+        Tutti gli iteratori in questione devono essere conformi alla seguente interfaccia:
+        \begin{lstlisting}
+    public interface Iterator {
+        public Object first();
+        public Object next();
+        public Object currentItem();
+        public boolean isDone();
+    }
+        \end{lstlisting}
+        Si richiede l'implementazione dei seguenti iteratori:
+        \begin{itemize}
+            \item visita in \textbf{profondità}
+            \item visita in \textbf{ampiezza}
+            \item visita dei soli nodi del \textbf{tipo specificato} in fase di costruzione dell'iteratore (\texttt{NodeType})
+            \item visita in \textbf{ampiezza} per livelli, a partire da un determinato nodo e \textbf{con una profondità massima}, utile al motore di rendering della mappa
+        \end{itemize}
+    
+    \end{Exercise}
+
+    %% END ITERATOR SECTION
+    \subsection{Decorator pattern}
     \begin{Exercise}[origin={Ispirato ad un esempio del libro GoF}]
         I flussi sono un'astrazione fondamentale nella maggior parte delle strutture di I/O. Un flusso può fornire un'interfaccia per convertire oggetti in una sequenza di byte o caratteri. Questo ci consente di trascrivere un oggetto su un file o su una stringa in memoria per il recupero successivo. Un modo diretto per farlo è definire una classe astratta \texttt{Stream} con le sottoclassi \texttt{MemoryStream} e \texttt{FileStream}.
         Il corpo della classe \texttt{Stream} è il seguente:
         \begin{lstlisting}
-            public abstract class Stream {
-                // private data section
-                
-                public void PutInt() {
-                    // impl
-                }
-                public void PutString() {
-                    // impl
-                }
-                public abstract void HandleBufferFull();
-            }
+    public abstract class Stream {
+        // private data section
+        
+        public void PutInt() {
+            // impl
+        }
+        public void PutString() {
+            // impl
+        }
+        public abstract void HandleBufferFull();
+    }
         \end{lstlisting}
         Le classi \texttt{MemoryStream} e \texttt{FileStream} si occupano di ridefinire il metodo astratto \texttt{HandleBufferFull()} per scrivere direttamente sulla memoria RAM e rispettivamente su file.
         
@@ -176,7 +194,7 @@
 
     %% END DECORATOR SECTION
     \subsection{Command pattern}\label{patter:command}
-    \begin{Exercise}\label{command:ex1}
+    \begin{Exercise}\label{command-ex1}
         Si vuole realizzare la logica applicativa di un editor di testo che permetta di manipolare file testuali in codifica \texttt{ASCII} standard a \texttt{7 bit}. È previsto che l'interfaccia \texttt{EditableFile} esponga una serie di funzionalità:
         \begin{itemize}
             \item \textbf{creazione} del file, a partire da un nome scelto dall'utente
@@ -202,38 +220,55 @@
                 public boolean isEmpty();
             }
         \end{lstlisting}
-        L'interfaccia in questione deve essere implementata dalla classe \textbf{SimpleQueue}, che offre un costruttore senza paramentri per la creazione di una coda vuota. La coda vuole permettere l'operazione di \textit{undo} per l'ultima modifica effettuata.
-        Descrivere la classe descritta mediante un class diagram UML e fornirne un implementazione in Java. 
+        L'interfaccia in questione deve essere migliorata attraverso l'interfaccia \textbf{UndoQueue}, aggiungendo la funzionalità di undo per l'ultima modifica effettuata. Fornire un implementazione della suddetta usando la classe \textbf{SimpleQueue}, che offre un costruttore senza paramentri per la creazione di una coda vuota.
+        Descrivere la struttura mediante un class diagram UML e fornirne un implementazione in Java. 
     \end{Exercise}
-
 
     %% END COMMAND SECTION
     \subsection{Visitor pattern}\label{pattern:visitors}
     \begin{Exercise}
-    
-    [Richiede l'\hyperref[composite:ex1]{esercizio \ref{composite:ex1}}]
-    
-    Sulla struttura dati implementata in \hyperref[composite:ex1]{\ref{composite:ex1}} sono richieste le seguenti azioni:
+    \small\textbf{[Richiede \hyperlink{composite-ex1}{\ref{composite-ex1}}]} \\
+    A partire dalla struttura dati implementata in \hyperlink{composite-ex1}{\ref{composite-ex1}} è richiesta l'aggiunta delle seguenti azioni:
     \begin{itemize}
         \item possibilità di creare elenchi dei nodi suddivisi per categoria (\texttt{LEAF}, \texttt{DISTRICT}, \texttt{REGION}, \texttt{COUNTRY})
-        \item visita in ampiezza per livelli, a partire da un determinato nodo e con una profondità massima, utile al motore di rendering della mappa
+        \item stampa del nodo specializzata per tipo, nel formato \texttt{[NodeType] NodeName}
     \end{itemize}
+    Non è possibile modificare il codice originario, se non aggiungendo il metodo \texttt{accept(Visitor v)} alle classi di tipo \texttt{Node}.
     \end{Exercise}
-
+    
+    %% END VISITOR SECTION
     \subsection{Abstract factory pattern}\label{pattern:abstract_factory}
     \begin{Exercise}
-    
-    [Richiede l'\hyperref[composite:ex1]{esercizio \ref{composite:ex1}}]
-    
-    Sulla struttura dati implementata in \hyperref[composite:ex1]{\ref{composite:ex1}} è richiesto di delegare la creazione dei vari \texttt{Component} ad un'abstract factory.
+    \small\textbf{[Richiede l'\hyperref[composite-ex1]{esercizio \ref{composite-ex1}}]}\\
+    Sulla struttura dati implementata in \hyperref[composite-ex1]{\ref{composite-ex1}} è richiesto di delegare la creazione dei vari nodi (\texttt{LEAF}, \texttt{DISTRICT}, \texttt{REGION}, \texttt{COUNTRY}) ad un'abstract factory.
+    Ipotizzando che i nodi implementino un interfaccia Component (o estendano una classe base con lo stesso nome), implementare un \textbf{ConcreteComponetFactory} che deve implementare la seguente interfaccia:
+    \begin{lstlisting}
+    public interface ComponentAbstractFactory {
+        public Component createLeaf();
+        public Component createDistrict();
+        public Component createRegion();
+        public Component createCountry();
+    }
+    \end{lstlisting}
     \end{Exercise}
-
+    
+    %% END ABSTRACT FACTORY
     \subsection{Proxy pattern}\label{pattern:proxy}
     \begin{Exercise}
-    
-    [Richiede l'\hyperref[command:ex1]{esercizio \ref{command:ex1}}]
-    
-    A partire dalla logica applicativa dell'editor di testo in \hyperref[command:ex1]{\ref{command:ex1}} è richiesto di ottimizzare l'utilizzo gli accessi in lettura e scrittura sul file utilizzando un proxy
+    \small\textbf{[Richiede l'\hyperref[command-ex1]{esercizio \ref{command-ex1}}]}\\
+    A partire dalla logica applicativa dell'editor di testo in \hyperref[command-ex1]{\ref{command-ex1}} è richiesto di ottimizzare l'utilizzo limitando gli accessi in lettura e scrittura sul file utilizzando un proxy.
     \end{Exercise}
-    
+    %% END PROXY
+\clearpage
+
+\section{Tableaux}
+    \subsection{Tableaux proposizionali}
+    \begin{Exercise}
+    Svolgere i seguenti tableaux:
+        \begin{figure}[h!]
+            \centering
+            \includegraphics[width=0.6\textwidth]{images/es_tableaux.jpeg}
+            \label{fig:enter-label}
+        \end{figure}
+    \end{Exercise}
 \end{document}

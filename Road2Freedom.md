@@ -201,7 +201,7 @@ private static class InnerInvocationHandler implements InvocationHandler {
 	private Object mutex;
 	private Thread currentThread;
 	
-		public InnerInvocationHandler(Object target){ /* ... */ }
+	public InnerInvocationHandler(Object target){ /* ... */ }
 	
 	private void log(String msg) {
 		synchronized (mutex) {

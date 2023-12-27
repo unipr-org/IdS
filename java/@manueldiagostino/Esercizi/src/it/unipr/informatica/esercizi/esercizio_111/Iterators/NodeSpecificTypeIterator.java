@@ -6,9 +6,9 @@ import java.util.Stack;
 
 import javax.management.RuntimeErrorException;
 
-import it.unipr.informatica.esercizi.esercizio_111.NodeType;
 import it.unipr.informatica.esercizi.esercizio_111.Abstractions.Node;
 import it.unipr.informatica.esercizi.esercizio_111.Abstractions.NodeComposite;
+import it.unipr.informatica.esercizi.esercizio_111.Implementations.NodeType;
 
 /**
  * @author Di Agostino Manuel

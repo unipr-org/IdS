@@ -2,7 +2,7 @@ package it.unipr.informatica.esercizi.esercizio_111.Abstractions;
 
 import java.util.Collection;
 
-import it.unipr.informatica.esercizi.esercizio_111.NodeType;
+import it.unipr.informatica.esercizi.esercizio_111.Implementations.NodeType;
 
 /**
  * @author Di Agostino Manuel

@@ -7,11 +7,11 @@ import java.util.Stack;
 public class SimpleUndoQueue<T> implements UndoQueue<T>{
 
 	private List<T> queue;
-	private Stack<Runnable> undoCmdStack;
+	private Stack<Command> undoCmdStack;
 	
 	public SimpleUndoQueue(){
 		queue = new ArrayList<T>();
-		undoCmdStack = new Stack<Runnable>();
+		undoCmdStack = new Stack<Command>();
 	}
 	
 	@Override
@@ -20,13 +20,10 @@ public class SimpleUndoQueue<T> implements UndoQueue<T>{
 			throw new IllegalArgumentException("elem == null");
 		
 		queue.add(elem);
-		Runnable cmd = new Runnable() {
+		
+		Command enqueueUndo = new Command() {
 			@Override
-			public void run() {
-				this.removeBack();
-			}
-
-			private void removeBack() {
+			public void execute() {
 				List<T> newQueue = new ArrayList<T>();
 				
 				for(int i = 0; i < queue.size() - 1; i++)
@@ -35,7 +32,8 @@ public class SimpleUndoQueue<T> implements UndoQueue<T>{
 				queue = newQueue;
 			}
 		};
-		undoCmdStack.push(cmd);
+		
+		undoCmdStack.push(enqueueUndo);
 	}
 
 	@Override
@@ -51,23 +49,20 @@ public class SimpleUndoQueue<T> implements UndoQueue<T>{
 		
 		queue = newQueue;
 		
-		Runnable cmd = new Runnable() {
+		Command dequeueUndo = new Command() {
 			@Override
-			public void run() {
-				this.addFront(result);
-			}
-
-			private void addFront(T elem) {
+			public void execute() {
 				List<T> newQueue = new ArrayList<T>();
-				newQueue.add(elem);
+				newQueue.add(result);
 				
 				for(int i = 0; i < queue.size(); i++)
 					newQueue.add(queue.get(i));
 				
-				queue = newQueue;
+				queue = newQueue;	
 			}
 		};
-		undoCmdStack.push(cmd);
+		
+		undoCmdStack.push(dequeueUndo);
 		
 		return result;
 	}
@@ -84,7 +79,8 @@ public class SimpleUndoQueue<T> implements UndoQueue<T>{
 
 	@Override
 	public void undo() {
-		new UndoCommand(undoCmdStack.pop()).execute();
+		if(undoCmdStack.size() > 0)
+			undoCmdStack.pop().execute();
 	}
 	
 	@Override

@@ -1,11 +1,19 @@
 package it.unipr.informatica.esercizi.esercizio_111;
 import java.util.Collection;
 
+import javax.swing.plaf.synth.SynthOptionPaneUI;
+
 import it.unipr.informatica.esercizi.esercizio_111.Abstractions.*;
+import it.unipr.informatica.esercizi.esercizio_111.Implementations.Country;
+import it.unipr.informatica.esercizi.esercizio_111.Implementations.District;
+import it.unipr.informatica.esercizi.esercizio_111.Implementations.Leaf;
+import it.unipr.informatica.esercizi.esercizio_111.Implementations.NodeType;
+import it.unipr.informatica.esercizi.esercizio_111.Implementations.Region;
 import it.unipr.informatica.esercizi.esercizio_111.Iterators.Iterator;
 import it.unipr.informatica.esercizi.esercizio_111.Iterators.NodeBreadthFirstIterator;
 import it.unipr.informatica.esercizi.esercizio_111.Iterators.NodeDeepFirstIterator;
 import it.unipr.informatica.esercizi.esercizio_111.Iterators.NodeSpecificTypeIterator;
+import it.unipr.informatica.esercizi.esercizio_111.Visitors.*;
 
 /**
  * @author Di Agostino Manuel
@@ -163,7 +171,44 @@ Node root = new Country("Country 1");
 		}
 	}
 	
+	public void testCategoryVisitor() {
+		NodeComposite root = new Country("Italia");
+		NodeComposite abruzzo = new Region("Abruzzo");
+		NodeComposite calabria = new Region("Calabria");
+		NodeComposite emilia = new Region("Emilia Romagna");
+		root.add(abruzzo);
+		root.add(calabria);
+		root.add(emilia);
+		
+		abruzzo.add(new Leaf("Teramo"));
+		abruzzo.add(new Leaf("Chieti"));
+		abruzzo.add(new Leaf("Pescara"));
+		abruzzo.add(new Leaf("L'Aquila"));
+		
+		emilia.add(new Leaf("Parma"));
+		
+		calabria.add(new Leaf("Catanzaro"));
+		calabria.add(new Leaf("Catanzaro Lido"));
+		
+		CategoryVisitor categoryVisitor = new CategoryVisitor();
+		PrintVisitor printVisitor = new PrintVisitor();
+		
+		System.out.println("Albero:");
+		Iterator it = new NodeBreadthFirstIterator(root);
+		
+		while (!it.isDone()) {
+			Node node = (Node) it.next();
+			node.accept(printVisitor);
+			node.accept(categoryVisitor);
+		}
+		
+		System.out.println("LEAFS: " + categoryVisitor.leafs);
+		System.out.println("DISTRICTS: " + categoryVisitor.districts);
+		System.out.println("REGIONS: " + categoryVisitor.regions);
+		System.out.println("COUNTRIES: " + categoryVisitor.countries);
+	}
+	
 	public static void main(String[] args) {
-		new Main().testSpecificNodeType();
+		new Main().testCategoryVisitor();
 	}
 }

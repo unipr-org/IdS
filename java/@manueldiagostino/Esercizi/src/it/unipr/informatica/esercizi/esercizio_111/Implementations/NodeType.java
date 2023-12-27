@@ -1,4 +1,4 @@
-package it.unipr.informatica.esercizi.esercizio_111;
+package it.unipr.informatica.esercizi.esercizio_111.Implementations;
 
 /**
  * @author Di Agostino Manuel

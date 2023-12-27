@@ -1,6 +1,9 @@
 package it.unipr.informatica.esercizi.esercizio_111.Abstractions;
 
-import it.unipr.informatica.esercizi.esercizio_111.NodeType;
+import it.unipr.informatica.esercizi.esercizio_111.Implementations.NodeType;
+import it.unipr.informatica.esercizi.esercizio_111.Iterators.Iterator;
+import it.unipr.informatica.esercizi.esercizio_111.Iterators.NodeBreadthFirstIterator;
+import it.unipr.informatica.esercizi.esercizio_111.Visitors.Visitor;
 
 /**
  * @author Di Agostino Manuel
@@ -44,4 +47,6 @@ public abstract class Node {
 		
 		return res;
 	}
+	
+	public abstract void accept(Visitor v);
 }

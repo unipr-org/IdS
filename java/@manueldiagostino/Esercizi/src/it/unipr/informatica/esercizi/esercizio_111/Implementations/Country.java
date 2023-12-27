@@ -1,21 +1,22 @@
-package it.unipr.informatica.esercizi.esercizio_111;
+package it.unipr.informatica.esercizi.esercizio_111.Implementations;
 
 import java.util.Collection;
 import java.util.LinkedList;
 
 import it.unipr.informatica.esercizi.esercizio_111.Abstractions.Node;
 import it.unipr.informatica.esercizi.esercizio_111.Abstractions.NodeComposite;
+import it.unipr.informatica.esercizi.esercizio_111.Visitors.Visitor;
 
 /**
  * @author Di Agostino Manuel
  * https://github.com/manueldiagostino
  */
-public class Region extends NodeComposite {
+public class Country extends NodeComposite {
 	protected Collection<Node> _children;
 	
-	public Region(String name) {
+	public Country(String name) {
 		this._name = name;
-		this._type = NodeType.REGION;
+		this._type = NodeType.COUNTRY;
 		this._children = new LinkedList<Node>();
 	}
 
@@ -56,5 +57,14 @@ public class Region extends NodeComposite {
 	public void setName(String name) {
 		this._name = name;
 	}
+	
+	@Override
+	public String toString() {
+		return "[COUNTRY] " + _name;
+	}
 
+	@Override
+	public void accept(Visitor v) {
+		v.visitCountry(this);
+	}
 }

@@ -1,10 +1,11 @@
-package it.unipr.informatica.esercizi.esercizio_111;
+package it.unipr.informatica.esercizi.esercizio_111.Implementations;
 
 import java.util.Collection;
 import java.util.LinkedList;
 
 import it.unipr.informatica.esercizi.esercizio_111.Abstractions.Node;
 import it.unipr.informatica.esercizi.esercizio_111.Abstractions.NodeComposite;
+import it.unipr.informatica.esercizi.esercizio_111.Visitors.Visitor;
 
 /**
  * @author Di Agostino Manuel
@@ -56,5 +57,14 @@ public class District extends NodeComposite {
 	public void setName(String name) {
 		this._name = name;
 	}
+	
+	@Override
+	public String toString() {
+		return "[DISTRICT] " + _name;
+	}
 
+	@Override
+	public void accept(Visitor v) {
+		v.visitDistrict(this);
+	}
 }

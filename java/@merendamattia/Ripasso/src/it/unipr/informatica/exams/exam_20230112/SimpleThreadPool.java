@@ -67,7 +67,8 @@ public class SimpleThreadPool implements ExecutorService {
 					Runnable task = tasks.take();
 					task.run();
 				} catch (InterruptedException e) {
-					System.err.println("Thread" + ID + " " + e.getCause());
+					if(!shutdown)
+						System.err.println("Thread" + ID + " " + e.getCause());
 				}
 			}
 		}

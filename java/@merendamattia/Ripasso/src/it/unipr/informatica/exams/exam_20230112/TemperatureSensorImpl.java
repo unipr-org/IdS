@@ -10,6 +10,7 @@ public class TemperatureSensorImpl implements TemperatureSensor {
 	private List<TemperatureObserver> observer;
 	private Object mutex;
 	private ExecutorService pool;
+	private Thread thermometer;
 	
 	public TemperatureSensorImpl(int ID) {
 		this.ID = ID;
@@ -18,6 +19,7 @@ public class TemperatureSensorImpl implements TemperatureSensor {
 		this.observer = new ArrayList<TemperatureObserver>();
 		this.mutex = new Object();
 		this.pool = Executors.getInstance();
+		this.thermometer = new Thermometer();
 	}
 	
 	@Override
@@ -35,29 +37,10 @@ public class TemperatureSensorImpl implements TemperatureSensor {
 	}
 
 	@Override
-	public void start() {		
-		new Thread(() -> {
-			while(true) {
-				synchronized (mutex) {
-					if(isDone)
-						return;
-					
-					temperature = Math.random() * 10;
-					notifyAllObserver();
-				}
-				
-
-				try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					System.err.println(Thread.currentThread().getName() + " interrupted while waiting for a new temperature");
-					return;
-				}
-			}
-		}).start();
-		
-//		System.out.println("Starting sensor: " + id);
-//		reader.start();
+	public void start() {
+		synchronized (mutex) {
+			thermometer.start();	
+		}
 	}
 
 	@Override
@@ -92,7 +75,14 @@ public class TemperatureSensorImpl implements TemperatureSensor {
 	@Override
 	public void notifyAllObserver() {
 		for (TemperatureObserver ob: observer) {
-			pool.execute(() -> ob.update(this));
+			Runnable up = new Runnable() {
+				@Override
+				public void run() {
+					ob.update(TemperatureSensorImpl.this);
+				}
+				
+			};
+			pool.execute(up);
 		}
 	}
 	
@@ -102,5 +92,27 @@ public class TemperatureSensorImpl implements TemperatureSensor {
 			return "[Sensor" + ID + ", temperature = " + temperature + "]";	
 		}
 	}
+	
+	private class Thermometer extends Thread {
+		@Override
+		public void run() {
+			while(true) {
+				synchronized (mutex) {
+					if(isDone)
+						return;
+					temperature = Math.random() * 10;
+				}
+				
+				notifyAllObserver();
+				
+				try {
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					System.err.println(Thread.currentThread().getName() + " interrupted while waiting for a new temperature");
+					return;
+				}
+			}
+		}
+	} // ! Thermometer
 
 } // ! TemperatureSensorImpl

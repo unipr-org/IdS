@@ -1,4 +1,4 @@
-package it.unipr.informatica.exams.exam_20230112;
+package it.unipr.informatica.exams.exam_20230112.lab;
 
 public class ArrayBlockingQueue<T> implements BlockingQueue<T> {
 	private Object[] queue;

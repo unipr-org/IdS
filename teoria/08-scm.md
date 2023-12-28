@@ -347,7 +347,7 @@ In sintesi, il branching nel Copy/Merge Work Model è fondamentale per gestire i
 
 ---
 
-### 3-way merging
+### 3-Way merging
 Il 3-way merging è un processo utilizzato nei sistemi di controllo versione per integrare le modifiche apportate in due branch o versioni divergenti di un file o di un insieme di file. Questo approccio coinvolge tre "versioni" o "snapshot" del codice sorgente:
 
 1.  **Versione "Base" (Base Version):**

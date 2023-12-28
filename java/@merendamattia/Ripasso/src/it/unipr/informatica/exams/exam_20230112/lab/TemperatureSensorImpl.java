@@ -1,4 +1,4 @@
-package it.unipr.informatica.exams.exam_20230112;
+package it.unipr.informatica.exams.exam_20230112.lab;
 
 import java.util.ArrayList;
 import java.util.List;

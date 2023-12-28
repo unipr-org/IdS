@@ -1,4 +1,4 @@
-package it.unipr.informatica.exams.exam_20230207;
+package it.unipr.informatica.exams.exam_20230207.teoria;
 
 public abstract class CuncurrentRunner {
 	private static Object mutex = new Object();

@@ -4,11 +4,11 @@
 ---
 
 ## Linguaggi logici
-Un linguaggio formale e' descitto da una sintassi (insieme delle formule ben formate) e da una semantica (interpretazione delle formule).
+Un linguaggio formale è descritto da una sintassi (insieme delle formule ben formate) e da una semantica (interpretazione delle formule).
 
 Un linguaggio logico e' un linguaggio formale con l'aggiunta di:
 - Assiomi, che consideriamo sempre veri.
-- Regole di inferenza, che cercano di ottenere nuove verita' dagli assiomi.
+- Regole di inferenza, che cercano di ottenere nuove verità dagli assiomi.
 
 I linguaggi logici possono essere usati per dimostrare i teoremi.
 
@@ -30,21 +30,21 @@ Il linguaggio e' basato su simboli proposizionali, i quali sono atomici e posson
 Esempio: $p$ significa che "Alice ama Bob".
 
 Le proposizioni sono ottenute combinando i simboli proposizionali con i simboli atomici (connettivi) $\vee, \wedge, \neg, \to, \equiv$.
-Un letterale e' un simbolo proposizionale o la sua negazione.
+Un letterale è un simbolo proposizionale o la sua negazione.
 
 ### Sintassi
-E' l'insieme di tutte le formule ben formate.
+È l'insieme di tutte le formule ben formate.
 Tutti i simboli proposizionali sono proposizioni (top e bottom inclusi).
 Se A e B sono proposizioni, allora anche i risultati ottenuti dalle combinazioni con i simboli atomici sono anch'essi delle proposizioni.
 Tutto il resto non sono proposizioni.
 
 ### Semantica
-La semantica della logica proposizionale e' intesa come la ragione sulla verita' o sulla falsita' delle proposizioni. <u>Ai simboli proposizionali deve essere assegnato un valore di verità per garantire che il valore di verità di una proposizione complessa possa essere calcolato.</u>
+La semantica della logica proposizionale è intesa come la ragione sulla verità o sulla falsità delle proposizioni. <u>Ai simboli proposizionali deve essere assegnato un valore di verità per garantire che il valore di verità di una proposizione complessa possa essere calcolato.</u>
 
-Un'interpretazione e' una funzione che assegna un valore di verita' per ogni simbolo in P. Si dice *totale* se calcola ogni valore del dominio.
+Un'interpretazione è una funzione che assegna un valore di verità per ogni simbolo in P. Si dice *totale* se calcola ogni valore del dominio.
 Esempio: $\;I : P \to B, \;\;B = \{ \;F, \;T \;\}$
 
-Data un'interpretazione $I$ su $P$, l'interpretazione $G_I$ di un'arbitraria proposizione in $Prop[\;p\;]$ puo' essere calcolata come segue: 
+Data un'interpretazione $I$ su $P$, l'interpretazione $G_I$ di un'arbitraria proposizione in $Prop[\;p\;]$ può essere calcolata come segue: 
 
 ![[IdS/teoria/images/1.png]]
 

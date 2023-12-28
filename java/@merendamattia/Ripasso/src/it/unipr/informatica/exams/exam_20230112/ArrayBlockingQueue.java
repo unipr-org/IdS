@@ -4,64 +4,91 @@ public class ArrayBlockingQueue<T> implements BlockingQueue<T> {
 	private Object[] queue;
 	private int size;
 	private int capacity;
-	private Lock lock;
-	private Condition isNotEmpty;
-	private Condition isNotFull;
 	
 	public ArrayBlockingQueue() {
 		this.queue = new Object[256];
 		this.capacity = 256;
 		this.size = 0;
-		this.lock = new ReentrantLock();
-		this.isNotEmpty = lock.newCondition();
-		this.isNotFull = lock.newCondition();
+		
+//		for(int i = 0; i < capacity; i++)
+//			queue[i] = new Object();
 	}
 	
+	@SuppressWarnings("unchecked")
 	@Override
 	public T take() throws InterruptedException {
-		lock.lock();
-		if(isEmpty())
-			isNotEmpty.await();
+		T result;
 		
-		@SuppressWarnings("unchecked")
-		T result = (T) queue[0];
-		
-		Object[] newQueue = new Object[capacity];
-		
-		for(int i = 1; i < size; i++)
-			newQueue[i - 1] = queue[i];
-		
-		--size;
-		queue = newQueue;
-		System.out.println(size);
-		
-		isNotFull.signal();
-		lock.unlock();
+		synchronized (queue) {
+			while(size == 0)
+				queue.wait();
+			
+			
+			result = (T) queue[0];
+			
+			for(int i = 0; i < size - 1; i++)
+				queue[i] = queue[i + 1];
+			
+			queue[size - 1] = null;
+			--size;
+			
+			
+			if(size == 0)
+				queue.notifyAll();
+		}
 		
 		return result;
 	}
 
 	@Override
 	public void put(T item) throws InterruptedException {
-		lock.lock();
-		
-		if(size == capacity)
-			isNotFull.await();
-		
-		queue[size] = item;
-		++size;
-		
-		isNotEmpty.signal();
-		
-		lock.unlock();
+		synchronized (queue) {
+			while(size == capacity)
+				queue.wait();
+			
+			queue[size] = item;
+			++size;
+			
+			if(size == 1)
+				queue.notify();
+		}
 	}
 
 	@Override
 	public boolean isEmpty() {
-		lock.lock();
-		boolean result = size == 0;
-		lock.unlock();
-		return result;
+		synchronized (queue) {
+			return size == 0;
+		}
+	}
+	
+	@Override
+	public String toString() {
+		String res = "[";
+		for (int i = 0; i < size - 1; i++)
+			res += queue[i] + ", ";
+			
+			
+		res += "" + queue[size - 1];
+		res += "]";
+		
+		return res;
+	}
+	
+	public static void main(String[] args) throws InterruptedException {
+		ArrayBlockingQueue<Integer> queue = new ArrayBlockingQueue<Integer>();
+		queue.put(1);
+		queue.put(2);
+		queue.put(3);
+		System.out.println(queue);
+		
+		queue.take();
+		queue.put(4);
+		System.out.println(queue);
+		queue.take();
+		queue.take();
+		queue.put(5);
+
+		System.out.println(queue);
 	}
 
 } // ! ArrayBlockingQueue<T>

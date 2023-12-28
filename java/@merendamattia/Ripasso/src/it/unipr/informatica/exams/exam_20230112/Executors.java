@@ -2,6 +2,7 @@ package it.unipr.informatica.exams.exam_20230112;
 
 public class Executors {
 	private static ExecutorService INSTANCE = null;
+	
 	public static ExecutorService getInstance() {
 		if(INSTANCE == null) {
 			synchronized (ExecutorService.class) {

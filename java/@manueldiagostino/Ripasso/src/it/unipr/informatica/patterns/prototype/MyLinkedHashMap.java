@@ -14,9 +14,9 @@ public class MyLinkedHashMap extends HashMap {
 	    MyLinkedHashMap myLinkedHashMap = (MyLinkedHashMap) super.clone();
 	    myLinkedHashMap.hashMap = new LinkedHashMap<Object, Object>();
 	    
-	    for (Object obj : hashMap.keySet()) {
-	    	myLinkedHashMap.hashMap.put(obj.clone(), hashMap.get(obj).clone());
-		}
+//	    for (Object obj : hashMap.keySet()) {
+//	    	myLinkedHashMap.hashMap.put(obj.clone(), hashMap.get(obj).clone());
+//		}
 	    
 	    return myLinkedHashMap;
 	}

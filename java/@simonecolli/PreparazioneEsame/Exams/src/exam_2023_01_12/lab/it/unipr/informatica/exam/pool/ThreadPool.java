@@ -1,9 +1,5 @@
 package exam_2023_01_12.lab.it.unipr.informatica.exam.pool;
 
-
-import java.util.Iterator;
-
-import exam_2023_01_12.lab.it.unipr.informatica.exam.Main;
 import exam_2023_01_12.lab.it.unipr.informatica.exam.concurrency.abstracts.BlockingQueue;
 import exam_2023_01_12.lab.it.unipr.informatica.exam.concurrency.concrete.UnlimitedBlockingQueue;
 
@@ -30,8 +26,11 @@ public class ThreadPool implements Executor{
 	public void shutdown() {
 		synchronized (tasks_) {
 			shutdown_ = true;
-			System.out.println("shutdown: " + shutdown_);
+//			System.out.println("shutdown: " + shutdown_);
 		}
+		for(int i = 0; i < N; ++i) {
+			executors_[i].interrupt();
+		}	
 	}
 	
 	@Override
@@ -44,7 +43,7 @@ public class ThreadPool implements Executor{
 		synchronized (tasks_) {
 			try {
 				tasks_.put(task);
-				System.out.println("task added");
+//				System.out.println("task added");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}					
@@ -58,17 +57,19 @@ public class ThreadPool implements Executor{
 			while (true) {
 				Runnable task;
 				synchronized (tasks_) {
-					System.out.println("tasks empty: " + tasks_.isEmpty());
-					System.out.println("shutdown_: " + shutdown_);
+//					System.out.println("tasks empty: " + tasks_.isEmpty());
+//					System.out.println("shutdown_: " + shutdown_);
 					if(shutdown_ && tasks_.isEmpty())
 						break;
 				}
 				try {
 					task = tasks_.take();
+					task.run();
 				} catch (InterruptedException e) {
-					throw new RuntimeException(e.getMessage());
+					if(!shutdown_)
+						throw new RuntimeException(e.getMessage());
 				}
-				task.run();
+				
 				
 			}
 			

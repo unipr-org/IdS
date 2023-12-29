@@ -22,7 +22,7 @@ public class Actor {
 	}
 	
 	public void deliver(Message message) {
-		System.out.println("Actor" + ID + " message received: " + message.getValue());
+		System.out.println("[Actor" + ID + "] message received: " + message.getValue());
 		
 		if(message.getValue() < 1)
 			return;
@@ -39,33 +39,31 @@ public class Actor {
 	
 	public void stop() {
 		shutdown = true;
-		exec.interrupt();
-		System.out.println("Actor" + ID + " terminated");
 	}
 	
 	private class MainExecution extends Thread {
 		@Override
 		public void run() {
 			
-			System.out.println("Actor" + ID + " started");
+			System.out.println("[Actor" + ID + " Thread] started");
 			
 			while(!shutdown) {
 				
 				int K = (int) (Math.random() * 10) + 1;
-				System.out.println("Actor" + ID + " try to get " + K + " resources");
+				System.out.println("[Actor" + ID + " Thread] try to get " + K + " resources");
 				
-				Resource[] resources = dispatcher.getResources(K);
+				Resource[] resources = dispatcher.acquireResources(K);
 				
-				System.out.println("Actor" + ID + " get " + K + " resources");
+				System.out.println("[Actor" + ID + " Thread] get " + K + " resources");
 				
-				BlockingQueue<Resource> resourcesUsed = new ArrayBlockingQueue<Resource>(K);
+				Resource[] resourcesUsed = new Resource[K];
 				
 				int S = 0;
 				
 				for(int i = 0; i < K; i++) {
 					Resource item = resources[i];
 					S += item.use();
-					resourcesUsed.put(item);
+					resourcesUsed[i] = item;
 				}
 				
 				try {
@@ -82,7 +80,10 @@ public class Actor {
 				dispatcher.releaseResources(resourcesUsed);
 			}
 			
+			System.out.println("[Actor" + ID + " Thread] terminated");
+			interrupt();
+			
 		}
-	}
+	} // ! MainExecution
 
 } // ! ActorImpl

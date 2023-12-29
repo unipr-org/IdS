@@ -7,8 +7,8 @@ public class Dispatcher {
 	private Object mutex;
 	
 	public Dispatcher(int num_actors, int num_resources) {
-		if(num_actors < 1 || num_actors < 1)
-			throw new IllegalArgumentException("num_actors < 1 || num_actors < 1");
+		if(num_actors < 1 || num_resources < 1)
+			throw new IllegalArgumentException("num_actors < 1 || num_resources < 1");
 		
 		this.NUM_ACTORS = num_actors;
 		this.NUM_RESOURCES = num_resources;
@@ -16,11 +16,11 @@ public class Dispatcher {
 		this.resources = ActorResourceFactory.createResources(num_resources);
 	}
 	
-	public Resource[] getResources(int num_resources) {
+	public Resource[] acquireResources(int num_resources) {
 		synchronized (mutex) {
 			try {
 				
-				System.out.println("resources.size()" + resources.size() + ", num_resources " + num_resources);
+				System.out.println("[INFO] resources avaiable: " + resources.size() + ", resources requested: " + num_resources);
 				
 				while(resources.size() < num_resources)
 					mutex.wait();
@@ -30,25 +30,25 @@ public class Dispatcher {
 			
 			Resource[] res = new Resource[num_resources];
 			
-			System.out.println("Resoutces avaiable (before get): " + resources.size());
+			System.out.println("[ACQUIRE] Resources avaiable (before): " + resources.size());
 			
 			for(int i = 0; i < num_resources; i++)
 				res[i] = resources.take();
 			
-			System.out.println("Resoutces avaiable (after get): " + resources.size());
+			System.out.println("[ACQUIRE] Resources avaiable (after): " + resources.size());
 			
 			return res;
 		}
 	}
 	
-	public void releaseResources(BlockingQueue<Resource> item) {
+	public void releaseResources(Resource[] item) {
 		synchronized (mutex) {
-			System.out.println("Resoutces avaiable (before release): " + resources.size());
+			System.out.println("[RELEASE] Resources avaiable (before): " + resources.size());
 			
-			for(int i = 0; i < item.size(); i++)
-				resources.put(item.take());
+			for(int i = 0; i < item.length; i++)
+				resources.put(item[i]);
 			
-			System.out.println("Resoutces avaiable (after release): " + resources.size());
+			System.out.println("[RELEASE] Resources avaiable (after): " + resources.size());
 			
 			mutex.notifyAll();
 		}

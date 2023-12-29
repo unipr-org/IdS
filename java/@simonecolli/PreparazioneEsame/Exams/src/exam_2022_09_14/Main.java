@@ -1,10 +1,10 @@
-package exam_22_09_14;
+package exam_2022_09_14;
 
 
-import exam_22_09_14.abstracts.Worker;
-import exam_22_09_14.abstracts.WorkerAbstractFactory;
-import exam_22_09_14.concretes.ResourceManagerSingleton;
-import exam_22_09_14.concretes.WorkerFactory;
+import exam_2022_09_14.abstracts.Worker;
+import exam_2022_09_14.abstracts.WorkerAbstractFactory;
+import exam_2022_09_14.concretes.ResourceManagerSingleton;
+import exam_2022_09_14.concretes.WorkerFactory;
 
 public class Main {
 	public static void main(String[] args) {

@@ -1,11 +1,11 @@
-package exam_22_09_14.concretes;
+package exam_2022_09_14.concretes;
 
 
-import exam_22_09_14.abstracts.Resource;
-import exam_22_09_14.abstracts.ResourceManager;
-import exam_22_09_14.concurrency.Condition;
-import exam_22_09_14.concurrency.Lock;
-import exam_22_09_14.concurrency.ReentrantLock;
+import exam_2022_09_14.abstracts.Resource;
+import exam_2022_09_14.abstracts.ResourceManager;
+import exam_2022_09_14.concurrency.Condition;
+import exam_2022_09_14.concurrency.Lock;
+import exam_2022_09_14.concurrency.ReentrantLock;
 
 public class ResourceManagerSingleton {
 	

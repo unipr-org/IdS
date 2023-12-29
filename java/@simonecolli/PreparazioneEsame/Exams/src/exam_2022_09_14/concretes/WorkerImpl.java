@@ -1,6 +1,6 @@
-package exam_22_09_14.concretes;
+package exam_2022_09_14.concretes;
 
-import exam_22_09_14.abstracts.Worker;
+import exam_2022_09_14.abstracts.Worker;
 
 public class WorkerImpl implements Worker{
 	private int id_;

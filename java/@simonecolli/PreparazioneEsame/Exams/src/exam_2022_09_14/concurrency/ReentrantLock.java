@@ -1,4 +1,4 @@
-package exam_22_09_14.concurrency;
+package exam_2022_09_14.concurrency;
 
 public class ReentrantLock implements Lock{
 	

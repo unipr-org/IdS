@@ -1,6 +1,6 @@
-package exam_22_09_14.concretes;
+package exam_2022_09_14.concretes;
 
-import exam_22_09_14.abstracts.Resource;
+import exam_2022_09_14.abstracts.Resource;
 
 public class ResourceImpl implements Resource {
 	

@@ -109,6 +109,8 @@ L'utilizzo di workspaces indipendenti combinato con pratiche di sviluppo basate 
 
 ![[86.png]]
 
+Cosa accade quando viene introdotta una nuova modifica nel repository/file server? Si è costretti ad introdurla manualmente su ogni workspace privato, con conseguente rischio di incompatibilità nel caso quella determinata copia sia fortemente personalizzata per quel determinato cliente; questo problema prende il nome di **doppia manutenzione**.
+
 [_Torna all'indice_](#indice)
 
 ---
@@ -127,28 +129,15 @@ Il problema della Doppia Manutenzione si riferisce alla necessità di apportare 
 
 **Soluzione: Repository "Copy-Write":**
 
-La soluzione principale per affrontare il problema della Doppia Manutenzione è l'implementazione di una strategia di gestione delle versioni nota come "Copy-Write" o "Branch by Abstraction". Questo approccio coinvolge l'utilizzo di una sola repository principale da cui derivano le diverse varianti, evitando di mantenere copie separate per ogni versione.
-
-1.  **Caratteristiche della Repository "Copy-Write":**
-    
-    -   **Branching Logico:** Piuttosto che creare una copia fisica del codice per ogni versione, si crea un "branch" logico all'interno della repository principale. Questo branch rappresenta l'evoluzione comune di tutte le varianti.
-        
-    -   **Introduzione di Abstract Layer:** Viene introdotto un livello astratto (Abstract Layer) che rappresenta le differenze specifiche di ciascuna variante. Questo strato astratto consente di separare le modifiche generiche da quelle specifiche delle varianti.
-        
-2.  **Vantaggi della Repository "Copy-Write":**
-    
-    -   **Condivisione di Codice Comune:** Le modifiche apportate alla versione generica sono automaticamente condivise con tutte le varianti tramite il branch logico comune.
-        
-    -   **Riduzione dell'Overhead:** Elimina la necessità di mantenere copie separate del codice per ogni variante, riducendo l'overhead di gestione e manutenzione.
-        
-    -   **Facilità di Manutenzione:** Le correzioni di bug, gli aggiornamenti e le nuove funzionalità sono applicate in modo coerente su tutte le varianti, semplificando la manutenzione.
-        
-    -   **Minimizzazione dei Rischi:** Riduce il rischio di errori e incongruenze dovuti alla gestione manuale delle diverse versioni.
-        
-
-Implementare una repository "Copy-Write" richiede una pianificazione e una progettazione oculata per definire il livello astratto e garantire una gestione delle versioni efficace. Tuttavia, questa strategia è una soluzione potente per ridurre la complessità e i rischi associati alla gestione di versioni multiple di un'applicazione software.
+L'utilizzo di un repository centrale condiviso e sincronizzato tra i vari workspaces privati permette di ottenere facilmente le nuove modifiche. I passi da eseguire sono i seguenti:
+1. *Copy* del contenuto della repo in uno spazio di lavoro privato
+2. Introduzione della modifica nel proprio workspace
+3. *Write* dei contenuti modificati nel repository centrale 
+4. Notifica agli altri workspaces che possono scaricare le nuove features.
 
 ![[87.png]]
+
+L'adozione di un sistema di questo tipo non permette però di risolvere i problemi legati ad una eventuale modifica concorrente agli stessi files: cosa succede se da un lato viene introdotto un bug-fix nel workspace privato A e contemporaneamente il workspace B scrive nel repository lo stesso file (senza il bug-fix perchè basato su una copia più vecchia)? 
 
 [_Torna all'indice_](#indice)
 
@@ -187,11 +176,17 @@ La principale soluzione per gestire gli aggiornamenti simultanei è l'implementa
     -   **Gestione delle Versioni:** Offre un sistema strutturato per gestire diverse versioni del software in modo ordinato.
         
     -   **Reversibilità delle Modifiche:** Permette di tornare a versioni precedenti del software in caso di necessità.
-        
+
+I passaggi da effettuare sono i seguenti:
+1. *Copy* del contenuto della repository nel workspace privato
+2. Introduzione delle modifiche
+3. *Add* della nuova versione nel repository, contenente le modifiche introdotte nel privato.
 
 L'utilizzo di un sistema di controllo versione, come Git, SVN o Mercurial, è considerato una best practice nell'ambito dello sviluppo del software. Questi strumenti forniscono un'infrastruttura robusta per gestire gli aggiornamenti simultanei, riducendo i rischi di conflitti e semplificando la gestione del codice sorgente in un ambiente collaborativo.
 
 ![[88.png]]
+
+Aver introdotto un sistema di versionamento permette quindi di associare ogni nuova modifica ad una determinata versione della repository; questo però non vieta di aggiungere una versione dei files modificati che si basava su una copia obsoleta, mancante delle nuove features introdotte dall'ultima caricata (sovrascrittura). Le moderne soluzioni di SCM permettono di risolvere anche questo problema attraverso tecniche che esploreremo nei paragrafi seguenti.
 
 [_Torna all'indice_](#indice)
 

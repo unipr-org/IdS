@@ -2,6 +2,8 @@ package it.unipr.informatica.exercise;
 
 import it.unipr.informatica.exercise.abstractions.Monitor;
 import it.unipr.informatica.exercise.abstractions.MonitorSet;
+import it.unipr.informatica.exercise.abstractions.Launcher;
+import it.unipr.informatica.exercise.implementations.LauncherImpl;
 import it.unipr.informatica.exercise.implementations.MonitorImpl;
 import it.unipr.informatica.exercise.implementations.MonitorSetImpl;
 
@@ -23,15 +25,15 @@ public class Exercise04 {
 	
 	public static void main(String[] args) throws InterruptedException {
 		MonitorSet ms = new MonitorSetImpl();
+		Launcher l = new LauncherImpl();
+		
 		for (int i=0; i<100; ++i) {
 			
 			Runnable runnable = () -> {
 				work();
 			};
 			
-			Thread t = new Thread(runnable);
-			ms.add(new MonitorImpl(t));
-			t.start();
+			ms.add(l.launch(runnable));
 		}
 		
 		ms.await();

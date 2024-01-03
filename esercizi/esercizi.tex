@@ -53,6 +53,9 @@
 \usepackage{graphicx}
 \usepackage[colorlinks=true, allcolors=blue]{hyperref}
 
+\graphicspath{./images}
+
+
 \title{}
 \author{}
 \date{}
@@ -89,7 +92,7 @@
 			\vspace{1.5cm}
 			
 			\textbf{}
-            \includegraphics[width=0.4\textwidth]{images/unipr_logo.jpg}
+            \includegraphics[width=0.4\textwidth]{images/uniprLogo.jpg}
 			
 			\vfill
 			
@@ -121,7 +124,7 @@
 \section{Design patterns}
     \subsection{Composite pattern}
     
-    \begin{Exercise}[label=composite-ex1]
+    \begin{Exercise}\label{composite:ex1}
         Si vuole modellare la mappa di un videogioco \textit{open-world} utilizzando una struttura dati ad albero; a seconda del livello di zoom dell'interfaccia è infatti possibile osservare una versione più dettagliata della mappa, corrispondente ad un particolare nodo dell'albero.
         Esistono quattro categorie di nodi:
         \begin{itemize}
@@ -146,8 +149,8 @@
     %% END COMPOSITE SECTION
     \subsection{Iterator pattern}
     \begin{Exercise}
-    \small\textbf{[Richiede \hyperlink{composite-ex1}{\ref{composite-ex1}}]} \\
-        È necessario implementare una serie di attraversamenti della struttura dati descritta nell'esercizio \hyperlink{composite-ex1}{\ref{composite-ex1}}; in particolare si vogliono fornire degli \textit{Iteratori} che, dato un \textit{Nodo}, permettano di consultare gli elementi del sottoalbero da esso identificato secondo un determinato criterio.
+    \small\textbf{[Richiede \hyperlink{composite:ex1}{\ref{composite:ex1}}]} \\
+        È necessario implementare una serie di attraversamenti della struttura dati descritta nell'esercizio \hyperlink{composite:ex1}{\ref{composite:ex1}}; in particolare si vogliono fornire degli \textit{Iteratori} che, dato un \textit{Nodo}, permettano di consultare gli elementi del sottoalbero da esso identificato secondo un determinato criterio.
         Tutti gli iteratori in questione devono essere conformi alla seguente interfaccia:
         \begin{lstlisting}
     public interface Iterator {
@@ -185,7 +188,9 @@
         public abstract void HandleBufferFull();
     }
         \end{lstlisting}
-        Le classi \texttt{MemoryStream} e \texttt{FileStream} si occupano di ridefinire il metodo astratto \texttt{HandleBufferFull()} per scrivere direttamente sulla memoria RAM e rispettivamente su file.
+        
+        
+        Le classi \texttt{MemoryStream} e \texttt{FileStream} ridefiniscono il metodo \texttt{HandleBufferFull()} per scrivere direttamente sulla memoria RAM e rispettivamente su file.
         
         Supponiamo che la classe astratta \texttt{Stream} manipoli il buffer di caratteri del flusso tramite codifica \texttt{UTF-8}; si aggiunga la funzionalità di conversione di codifica del testo in \texttt{ASCII} standard a \texttt{7 bit} senza intaccare le classi/interfacce sopra citate, utilizzando dunque il \textit{Decorator pattern}.
 
@@ -194,7 +199,7 @@
 
     %% END DECORATOR SECTION
     \subsection{Command pattern}\label{patter:command}
-    \begin{Exercise}\label{command-ex1}
+    \begin{Exercise}\label{command:ex1}
         Si vuole realizzare la logica applicativa di un editor di testo che permetta di manipolare file testuali in codifica \texttt{ASCII} standard a \texttt{7 bit}. È previsto che l'interfaccia \texttt{EditableFile} esponga una serie di funzionalità:
         \begin{itemize}
             \item \textbf{creazione} del file, a partire da un nome scelto dall'utente
@@ -227,8 +232,8 @@
     %% END COMMAND SECTION
     \subsection{Visitor pattern}\label{pattern:visitors}
     \begin{Exercise}
-    \small\textbf{[Richiede \hyperlink{composite-ex1}{\ref{composite-ex1}}]} \\
-    A partire dalla struttura dati implementata in \hyperlink{composite-ex1}{\ref{composite-ex1}} è richiesta l'aggiunta delle seguenti azioni:
+    \small\textbf{[Richiede \hyperlink{composite:ex1}{\ref{composite:ex1}}]} \\
+    A partire dalla struttura dati implementata in \hyperlink{composite:ex1}{\ref{composite:ex1}} è richiesta l'aggiunta delle seguenti azioni:
     \begin{itemize}
         \item possibilità di creare elenchi dei nodi suddivisi per categoria (\texttt{LEAF}, \texttt{DISTRICT}, \texttt{REGION}, \texttt{COUNTRY})
         \item stampa del nodo specializzata per tipo, nel formato \texttt{[NodeType] NodeName}
@@ -237,10 +242,10 @@
     \end{Exercise}
     
     %% END VISITOR SECTION
-    \subsection{Abstract factory pattern}\label{pattern:abstract_factory}
+    \subsection{Abstract factory pattern}\label{pattern:abstractFactory}
     \begin{Exercise}
-    \small\textbf{[Richiede l'\hyperref[composite-ex1]{esercizio \ref{composite-ex1}}]}\\
-    Sulla struttura dati implementata in \hyperref[composite-ex1]{\ref{composite-ex1}} è richiesto di delegare la creazione dei vari nodi (\texttt{LEAF}, \texttt{DISTRICT}, \texttt{REGION}, \texttt{COUNTRY}) ad un'abstract factory.
+    \small\textbf{[Richiede l'\hyperref[composite:ex1]{esercizio \ref{composite:ex1}}]}\\
+    Sulla struttura dati implementata in \hyperref[composite:ex1]{\ref{composite:ex1}} è richiesto di delegare la creazione dei vari nodi (\texttt{LEAF}, \texttt{DISTRICT}, \texttt{REGION}, \texttt{COUNTRY}) ad un'abstract factory.
     Ipotizzando che i nodi implementino un interfaccia Component (o estendano una classe base con lo stesso nome), implementare un \textbf{ConcreteComponetFactory} che deve implementare la seguente interfaccia:
     \begin{lstlisting}
     public interface ComponentAbstractFactory {
@@ -252,14 +257,52 @@
     \end{lstlisting}
     \end{Exercise}
     
+    
+    
     %% END ABSTRACT FACTORY
     \subsection{Proxy pattern}\label{pattern:proxy}
     \begin{Exercise}
-    \small\textbf{[Richiede l'\hyperref[command-ex1]{esercizio \ref{command-ex1}}]}\\
-    A partire dalla logica applicativa dell'editor di testo in \hyperref[command-ex1]{\ref{command-ex1}} è richiesto di ottimizzare l'utilizzo limitando gli accessi in lettura e scrittura sul file utilizzando un proxy.
+    \small\textbf{[Richiede l'\hyperref[command:ex1]{esercizio \ref{command:ex1}}]}\\
+    A partire dalla logica applicativa dell'editor di testo in \hyperref[command:ex1]{\ref{command:ex1}} è richiesto di ottimizzare l'utilizzo limitando gli accessi in lettura e scrittura sul file utilizzando un proxy.
     \end{Exercise}
     %% END PROXY
-\clearpage
+    
+
+    
+    \subsection{Interpreter pattern}\label{pattern:interpreter}
+	\newcommand{\alt}[0]{{\;|\;}}    
+    
+    \begin{Exercise}
+    Si prenda in considerazione la seguente grammatica BNF:
+    
+	\begin{align*}
+	Prop \:\longrightarrow\: &Atom \alt Formula \\
+	Formula \:\longrightarrow\: &(Formula) \alt \lnot Fomula \alt\\
+			 & Formula \land Formula \alt Formula \lor Formula \alt\\
+			 & Formula \Rightarrow Formula \alt Formula \Leftrightarrow Formula \\
+	Atom \:\longrightarrow\: &\text{\{a string\}} \alt \bot \alt \top
+	\end{align*}
+	
+	modellante il linguaggio $\mathcal{L}_{lp}$ della \textit{logica proposizionale}.
+	
+	Nell’ipotesi di disporre di un modulo $\mathcal{P}_{lp}$ in grado di
+	costruire una struttura ad oggetti partendo dal testo di uno script
+	(analizzatore lessicale, analizzatore sintattico e analizzatore 
+	semantico),	rispondere alle seguenti domande eventualmente utilizzando 
+	i package \texttt{java.lang}, \texttt{java.util} e \texttt{java.io}:
+	
+	\begin{enumerate}
+	\item\label{bnf:lp} Scrivere le interfacce Java del package
+		\texttt{it.unipr.informatica.exercise.l8.model} necessarie a 
+		$\mathcal{P}_{lp}$ per 
+		descrivere uno script scritto in L8 sapendo già che verrà utilizzato 
+		il design pattern visitor con queste interfacce.
+	
+	\item Scrivere una classe Java \texttt{it.unipr.informatica.exercise.lp.LPInterpreter} che utilizzi il
+design pattern visitor per interpretare uno script del linguaggio $\mathcal{L}_{lp}$ ricevuto mediante oggetti che implementano le interfacce realizzate al punto \ref{bnf:lp}.
+	\end{enumerate}
+    
+    \end{Exercise}
 
 \section{Tableaux}
     \subsection{Tableaux proposizionali}
@@ -267,8 +310,10 @@
     Svolgere i seguenti tableaux:
         \begin{figure}[h!]
             \centering
-            \includegraphics[width=0.6\textwidth]{images/es_tableaux.jpeg}
-            \label{fig:enter-label}
+            \includegraphics[width=0.6\textwidth]{images/esTableaux.jpeg}
+            \label{fig:esTableaux1}
         \end{figure}
     \end{Exercise}
+    
+    
 \end{document}

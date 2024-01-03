@@ -276,11 +276,11 @@
     Si prenda in considerazione la seguente grammatica BNF:
     
 	\begin{align*}
-	Prop \:\longrightarrow\: &Atom \alt Formula \\
-	Formula \:\longrightarrow\: &(Formula) \alt \lnot Fomula \alt\\
-			 & Formula \land Formula \alt Formula \lor Formula \alt\\
-			 & Formula \Rightarrow Formula \alt Formula \Leftrightarrow Formula \\
-	Atom \:\longrightarrow\: &\text{\{a string\}} \alt \bot \alt \top
+	Formula \:\longrightarrow\: &(Formula) \alt \,\texttt{not}\, Fomula \alt\\
+			 & Formula \,\texttt{and}\, Formula \alt Formula \,\texttt{or}\, Formula \alt\\
+			 & Formula \,\texttt{->}\, Formula \alt Formula \,\texttt{<->}\, Formula \alt\\
+			 & Atom \\
+	Atom \:\longrightarrow\: &\text{\{an alphanumeric string, except \texttt{and}, \texttt{or}, \texttt{not}\}} \alt \bot \alt \top
 	\end{align*}
 	
 	modellante il linguaggio $\mathcal{L}_{lp}$ della \textit{logica proposizionale}.

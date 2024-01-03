@@ -1,4 +1,4 @@
-package it.unipr.informatica.exams.exam_20230207.teoria;
+package it.unipr.informatica.exams.exam_20230207.teoria.es2;
 
 public class Main {
 	private void go() {

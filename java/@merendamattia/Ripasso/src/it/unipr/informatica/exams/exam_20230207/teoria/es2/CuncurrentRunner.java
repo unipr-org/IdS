@@ -1,4 +1,4 @@
-package it.unipr.informatica.exams.exam_20230207.teoria;
+package it.unipr.informatica.exams.exam_20230207.teoria.es2;
 
 public abstract class CuncurrentRunner {
 	private static Object mutex = new Object();
@@ -55,5 +55,5 @@ public abstract class CuncurrentRunner {
 				}
 			}
 		}
-	}
+	} // ! TaskAdapter
 }

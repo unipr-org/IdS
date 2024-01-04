@@ -214,7 +214,7 @@ Data una interpretazione $I$ su $P$, l'interpretazione $$G_I : LTL[\;P\;] \;\tim
 
 ---
 
-### Soddisfacibilita' e Tautologie
+### Soddisfacibilità e Tautologie
 Data una interpretazione $M$, un momento nel tempo $i \in ℕ$, e una proposizione LTL $A$:
 - $<M,i> \;\models\; A$ ($M$ soddisfa $A$ in $i$) se e solo se $G_M(A,i)=T$
 - $<M,i> \;\nvDash\; A$ ($M$ non soddisfa $A$ in $i$) se e solo se $G_M(A,i)=F$
@@ -222,13 +222,13 @@ Data una interpretazione $M$, un momento nel tempo $i \in ℕ$, e una proposizio
 Un'interpretazione $M$ e' un modello per una proposizione $A$ se e solo se esiste qualche $i \in ℕ$ tale che $<M,i> \;\models\; A$ .
 
 Una proposizione LTL $A$ e':
-- Soddisfabile se e solo se esiste un modello per $A$.
+- Soddisfacibile se e solo se esiste un modello per $A$.
 - Una tautologia ($\models A$) se e solo se per ogni interpretazione $M$ e ogni momento nel tempo $i \in ℕ$, $<M,i> \;\models\; A$.
 
 ---
 
 ### Modelli
-Data una interpretazione $M$ definita su un insieme di simboli proposizionali $P$, le seguenti regole possono essere usate per vericare se $<M,i> \;\models\; A$  ($M$ soddisfa $A$ in $i$): 
+Data una interpretazione $M$ definita su un insieme di simboli proposizionali $P$, le seguenti regole possono essere usate per verificare se $<M,i> \;\models\; A$  ($M$ soddisfa $A$ in $i$): 
 
 ![[15.png]]![[16.png]]
 
@@ -274,11 +274,11 @@ La step rule e' la regola da applicare dopo che ho trasformato tutti gli operato
 ![[96.png]]
 
 #### Regola del loop (loop rule)
-La loop rule e' l'ultima regola che deve essere applicata se nessun'altra regola precedente e' applicabile: 
+La loop rule è l'ultima regola che deve essere applicata se nessun'altra regola precedente è applicabile: 
 
 ![[22.png]]
 
-> Nota bene: il controllo del loop e' sufficiente per assicurare la terminazione della costruzione del tableaux.
+> Nota bene: il controllo del loop è sufficiente per assicurare la terminazione della costruzione del tableaux.
 
 #### Esempio 
 ![[23.png]]
@@ -287,19 +287,19 @@ La loop rule e' l'ultima regola che deve essere applicata se nessun'altra regola
 
 ---
 
-### LTL Soddisfacibilita' 
-Una eventualita' $E$ e' una proposizione LTL strutturata come F$E$ o AU$E$.
-> "Alla fine di una questione succedera' qualcosa".
+### LTL Soddisfacibilità
+Una eventualità $E$ è una proposizione LTL strutturata come F$E$ o AU$E$.
+> "Alla fine di una questione succederà qualcosa".
 
-Una eventualita' F$E$ o AU$E$ e' soddisfatta in un nodo $n$ se esiste un percorso che parte da $n$ la cui etichetta contiene $E$.
+Una eventualità F$E$ o AU$E$ è soddisfatta in un nodo $n$ se esiste un percorso che parte da $n$ la cui etichetta contiene $E$.
 
-Dato un tableaux completo, un nodo puo' essere cancellato se:
-- Il nodo e' contradditorio.
-- L'etichetta di un nodo contiene una eventualita' che non e' soddisfatta nel nodo.
+Dato un tableaux completo, un nodo può essere cancellato se:
+- Il nodo è contraddittorio.
+- L'etichetta di un nodo contiene una eventualità che non e' soddisfatta nel nodo.
 - Tutti i figli di un nodo sono marcati come cancellati.
 
-Un tableaux completo e' detto chiuso se e solo se la sua radice puo' essere cancellata.
-Un insieme di proposizioni LTL che etichetta la radice di un tableaux completo e' unsatisfiable se e solo se il tableaux e' chiuso.
+Un tableaux completo e' detto chiuso se e solo se la sua radice può essere cancellata.
+Un insieme di proposizioni LTL che etichetta la radice di un tableaux completo è unsatisfiable se e solo se il tableaux è chiuso.
 
 > Dato un tableaux competo, se non e' chiuso e' aperto.
 

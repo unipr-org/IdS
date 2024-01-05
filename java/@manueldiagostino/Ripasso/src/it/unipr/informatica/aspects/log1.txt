@@ -1,0 +1,16 @@
+[2024/01/05 11:29:40.961 main java.util.LinkedList] In add [1]
+[2024/01/05 11:29:40.962 main java.util.LinkedList] Out add returned true
+[2024/01/05 11:29:40.962 main java.util.LinkedList] In add [2]
+[2024/01/05 11:29:40.962 main java.util.LinkedList] Out add returned true
+[2024/01/05 11:29:40.963 main java.util.LinkedList] In add [3]
+[2024/01/05 11:29:40.963 main java.util.LinkedList] Out add returned true
+[2024/01/05 11:29:40.963 main java.util.LinkedList] In add [4]
+[2024/01/05 11:29:40.963 main java.util.LinkedList] Out add returned true
+[2024/01/05 11:29:40.964 main java.util.LinkedList] In removeFirst null
+[2024/01/05 11:29:40.964 main java.util.LinkedList] Out removeFirst returned 1
+[2024/01/05 11:29:40.964 main java.util.LinkedList] In removeLast null
+[2024/01/05 11:29:40.964 main java.util.LinkedList] Out removeLast returned 4
+[2024/01/05 11:29:40.965 main java.util.LinkedList] In removeLast null
+[2024/01/05 11:29:40.965 main java.util.LinkedList] Out removeLast returned 3
+[2024/01/05 11:29:40.965 main java.util.LinkedList] In removeLast null
+[2024/01/05 11:29:40.965 main java.util.LinkedList] Out removeLast returned 2

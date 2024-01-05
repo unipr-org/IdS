@@ -1,8 +1,7 @@
 package it.unipr.informatica.esercizi.esercizio_142.Command;
 
 import java.awt.IllegalComponentStateException;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Deque;
 
 /**
  * @author Di Agostino Manuel
@@ -10,9 +9,9 @@ import java.util.List;
  */
 public class DequeueCommand<T> implements Command{
 	private T dequeuedElement;
-	private List<T> target;
+	private Deque<T> target;
 
-	public DequeueCommand(List<T> targetQueue) {
+	public DequeueCommand(Deque<T> targetQueue) {
 		this.dequeuedElement = null;
 		this.target = targetQueue;
 	}

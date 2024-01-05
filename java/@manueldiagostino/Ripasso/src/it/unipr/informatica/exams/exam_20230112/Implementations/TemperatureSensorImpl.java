@@ -9,32 +9,31 @@ import it.unipr.informatica.exams.exam_20230112.pool.ThreadPool;
 import it.unipr.informatica.exams.exam_20230112.pool.ThreadPoolsHandler;
 
 /**
- * @author Di Agostino Manuel
- * https://github.com/manueldiagostino
+ * @author Di Agostino Manuel https://github.com/manueldiagostino
  */
-public class TemperatureSensorImpl implements TemperatureSensor{
+public class TemperatureSensorImpl implements TemperatureSensor {
 	private final int id;
 	private double temperature;
 	private final Object mutex;
-	
+
 	private Thread thermometer;
 	private boolean stop;
-	
+
 	private List<TemperatureObserver> observers;
 	private ThreadPool threadPool;
-	
+
 	public TemperatureSensorImpl(int id) {
 		this.id = id;
 		this.temperature = 0;
 		this.mutex = new Object();
-		
+
 		this.stop = false;
 		this.thermometer = new Thermometer();
-		
+
 		this.observers = new LinkedList<TemperatureObserver>();
 		this.threadPool = ThreadPoolsHandler.newThreadPool();
 	}
-	
+
 	@Override
 	public int getID() {
 		return this.id;
@@ -46,19 +45,18 @@ public class TemperatureSensorImpl implements TemperatureSensor{
 			return temperature;
 		}
 	}
-	
-	
+
 	private void updateAll() {
-		synchronized (observers) {			
+		synchronized (observers) {
 			for (TemperatureObserver o : observers) {
 				Runnable runnable = new Runnable() {
-					
+
 					@Override
 					public void run() {
 						o.update(TemperatureSensorImpl.this);
 					}
 				};
-				
+
 				threadPool.execute(runnable);
 			}
 		}
@@ -76,7 +74,7 @@ public class TemperatureSensorImpl implements TemperatureSensor{
 		synchronized (mutex) {
 			this.stop = true;
 			this.thermometer.interrupt();
-			
+
 			this.observers.clear();
 			this.threadPool.shutdown();
 		}
@@ -95,44 +93,44 @@ public class TemperatureSensorImpl implements TemperatureSensor{
 			observers.remove(o);
 		}
 	}
-	
+
 	private class Thermometer extends Thread {
 		@Override
 		public void run() {
 			while (true) {
-				if (stop) {					
-					//System.out.println("Thermometer stopped");
+				if (stop) {
+					// System.out.println("Thermometer stopped");
 					return;
 				}
-				
+
 				double res = Math.random();
-				boolean bernoullian = res>=0.5 ? true : false;
-				
-				synchronized (mutex) {					
+				boolean bernoullian = res >= 0.5 ? true : false;
+
+				synchronized (mutex) {
 					if (bernoullian)
-						temperature = 15.0 + res*3.4;
+						temperature = 15.0 + res * 3.4;
 					else
-						temperature = 15.0 - res*3.4;
+						temperature = 15.0 - res * 3.4;
 				}
-				
+
 				updateAll();
-				
+
 				try {
 					Thread.sleep(1000);
 				} catch (InterruptedException e) {
-					//System.out.println("Thermometer interrupted");
+					// System.out.println("Thermometer interrupted");
 				}
 			}
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		TemperatureSensorImpl s0 = new TemperatureSensorImpl(0);
 		TemperatureObserver o0 = new PrintObserver();
-		
+
 		s0.attach(o0);
 		s0.start();
-		
+
 		try {
 			System.out.println("Main sleeping");
 			Thread.sleep(60000);

@@ -7,8 +7,7 @@ import it.unipr.informatica.exercises.esercizio_111.Abstractions.Node;
 import it.unipr.informatica.exercises.esercizio_111.Implementations.NodeType;
 
 /**
- * @author Di Agostino Manuel
- * https://github.com/manueldiagostino
+ * @author Di Agostino Manuel https://github.com/manueldiagostino
  */
 public class CategoryVisitor implements Visitor {
 	public List<Node> leafs = new LinkedList<Node>();
@@ -17,7 +16,7 @@ public class CategoryVisitor implements Visitor {
 	public List<Node> countries = new LinkedList<Node>();
 
 	public void visitLeaf(Node node) {
-		leafs.add(node);		
+		leafs.add(node);
 	}
 
 	public void visitDistrict(Node node) {

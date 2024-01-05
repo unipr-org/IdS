@@ -1,4 +1,4 @@
-package it.informatica.unipr.aspects;
+package it.unipr.informatica.aspects;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;

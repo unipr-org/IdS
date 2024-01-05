@@ -1,4 +1,4 @@
-package it.informatica.unipr.aspects;
+package it.unipr.informatica.aspects;
 
 import java.io.FileNotFoundException;
 import java.io.PrintStream;
@@ -7,10 +7,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Deque;
+import java.util.LinkedList;
+import java.util.List;
 
 public class LoggingAspect {
-	private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("YYYY_MM-dd HH:mm:ss,SSS");
+	private static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("YYYY-MM-dd HH:mm:ss,SSS");
 	private static PrintStream outputStream_;
 	
 	public static <T> T attach(T target) {
@@ -80,5 +84,17 @@ public class LoggingAspect {
 				throw throwable;
 			}			
 		}		
+	}
+	
+	public static void main(String[] args) {
+		Deque<Integer> list = new LinkedList<Integer>();
+		list = LoggingAspect.attach(list);
+	
+		System.out.println(list.add(1));
+		System.out.println(list.add(2));
+		System.out.println(list.add(3));
+		System.out.println(list.removeFirst());
+		System.out.println(list.removeFirst());
+		System.out.println(list.removeFirst());
 	}
 }

@@ -8,12 +8,11 @@ import it.unipr.informatica.exercises.esercizio_111.Abstractions.NodeComposite;
 import it.unipr.informatica.exercises.esercizio_111.Visitors.Visitor;
 
 /**
- * @author Di Agostino Manuel
- * https://github.com/manueldiagostino
+ * @author Di Agostino Manuel https://github.com/manueldiagostino
  */
 public class Country extends NodeComposite {
 	protected Collection<Node> _children;
-	
+
 	public Country(String name) {
 		this._name = name;
 		this._type = NodeType.COUNTRY;
@@ -28,13 +27,13 @@ public class Country extends NodeComposite {
 	@Override
 	public Collection<Node> remove(String name) {
 		LinkedList<Node> res = new LinkedList<Node>();
-		
+
 		for (Node n : _children)
 			if (n.getName().equals(name)) {
 				res.add(n);
 				_children.remove(n);
 			}
-		
+
 		return res;
 	}
 
@@ -42,7 +41,7 @@ public class Country extends NodeComposite {
 	public Collection<Node> getChildren() {
 		return this._children;
 	}
-	
+
 	@Override
 	public NodeType getType() {
 		return this._type;
@@ -57,7 +56,7 @@ public class Country extends NodeComposite {
 	public void setName(String name) {
 		this._name = name;
 	}
-	
+
 	@Override
 	public String toString() {
 		return "[COUNTRY] " + _name;

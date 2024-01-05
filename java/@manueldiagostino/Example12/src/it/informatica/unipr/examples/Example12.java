@@ -6,7 +6,7 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import it.informatica.unipr.aspects.LoggingAspect;
+import it.unipr.informatica.aspects.LoggingAspect;
 
 
 /**

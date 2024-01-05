@@ -3,8 +3,7 @@ package it.unipr.informatica.patterns.builder.implementations;
 import it.unipr.informatica.patterns.builder.abstractions.PersonBuilder;
 
 /**
- * @author Di Agostino Manuel
- * https://github.com/manueldiagostino
+ * @author Di Agostino Manuel https://github.com/manueldiagostino
  */
 public class StudentBuilder implements PersonBuilder {
 	private String name;
@@ -15,18 +14,18 @@ public class StudentBuilder implements PersonBuilder {
 	private String employment;
 	private String teaching;
 	private String registrationNumber;
-	
+
 	private StudentBuilder() {
 		// Blank
 	}
-	
+
 	public static StudentBuilder newStudentBuilder() {
 		return new StudentBuilder();
 	}
-	
+
 	@Override
 	public PersonBuilder name(String name) {
-		this.name = name; 
+		this.name = name;
 		return this;
 	}
 
@@ -44,13 +43,13 @@ public class StudentBuilder implements PersonBuilder {
 
 	@Override
 	public PersonBuilder faculty(String faculty) {
-		this.faculty = faculty; 
+		this.faculty = faculty;
 		return this;
 	}
 
 	@Override
 	public PersonBuilder university(String university) {
-		this.university = university; 
+		this.university = university;
 		return this;
 	}
 
@@ -59,7 +58,7 @@ public class StudentBuilder implements PersonBuilder {
 		// TODO Auto-generated method stub
 		return this;
 	}
-	
+
 	@Override
 	public PersonBuilder registrationNumber(String registrationNumber) {
 		this.registrationNumber = registrationNumber;
@@ -71,15 +70,9 @@ public class StudentBuilder implements PersonBuilder {
 		this.teaching = teaching;
 		return this;
 	}
-	
+
 	public Student build() {
-		return new Student(
-				name,
-				surname,
-				dateOfBirth,
-				faculty,
-				university,
-				registrationNumber);
+		return new Student(name, surname, dateOfBirth, faculty, university, registrationNumber);
 	}
 
 }

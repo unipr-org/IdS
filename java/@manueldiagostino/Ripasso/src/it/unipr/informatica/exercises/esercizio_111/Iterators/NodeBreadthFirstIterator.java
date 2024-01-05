@@ -1,6 +1,7 @@
 package it.unipr.informatica.exercises.esercizio_111.Iterators;
 
 import java.util.Collection;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -8,22 +9,21 @@ import it.unipr.informatica.exercises.esercizio_111.Abstractions.Node;
 import it.unipr.informatica.exercises.esercizio_111.Abstractions.NodeComposite;
 
 /**
- * @author Di Agostino Manuel
- * https://github.com/manueldiagostino
+ * @author Di Agostino Manuel https://github.com/manueldiagostino
  */
 public class NodeBreadthFirstIterator implements Iterator {
 	protected Node _root;
 	protected Node _currentItem;
-	protected Stack<Node> _stack;
-	
+	protected Deque<Node> _stack;
+
 	public NodeBreadthFirstIterator(Node root) {
 		_root = root;
 		_currentItem = _root;
-		
-		_stack = new Stack<Node>();
+
+		_stack = new LinkedList<Node>();
 		_stack.push(_root);
 	}
-	
+
 	@Override
 	public Object first() {
 		return this._root;
@@ -32,16 +32,16 @@ public class NodeBreadthFirstIterator implements Iterator {
 	@Override
 	public Object next() {
 		Node nextNode = _stack.removeFirst();
-		
+
 		Collection<Node> children;
 		if (nextNode.getComposite() != null) {
-			NodeComposite nextNodeComposite = (NodeComposite)(nextNode);
+			NodeComposite nextNodeComposite = (NodeComposite) (nextNode);
 			children = nextNodeComposite.getChildren();
-			
+
 			for (Node n : children)
-				_stack.push(n);			
+				_stack.push(n);
 		}
-		
+
 		_currentItem = nextNode;
 		return nextNode;
 	}

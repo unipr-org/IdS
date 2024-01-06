@@ -1,21 +1,21 @@
 package it.unipr.informatica.exercises.esercizio_142.Command;
 
 import java.awt.IllegalComponentStateException;
+import java.util.Deque;
 import java.util.List;
 
 /**
- * @author Di Agostino Manuel
- * https://github.com/manueldiagostino
+ * @author Di Agostino Manuel https://github.com/manueldiagostino
  */
 public class EnqueueCommand<T> implements Command {
 	private T enqueuedElement;
-	private List<T> target;
-	
-	public EnqueueCommand(List<T> targetQueue, T elem) {
+	private Deque<T> target;
+
+	public EnqueueCommand(Deque<T> targetQueue, T elem) {
 		enqueuedElement = elem;
 		target = targetQueue;
 	}
-	
+
 	@Override
 	public void execute() {
 		target.addLast(enqueuedElement);
@@ -25,7 +25,7 @@ public class EnqueueCommand<T> implements Command {
 	public void undo() {
 		if (enqueuedElement == null)
 			throw new IllegalComponentStateException("enqueuedElement == null");
-		
+
 		target.removeLast();
 	}
 

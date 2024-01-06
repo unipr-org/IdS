@@ -1,6 +1,7 @@
 package it.unipr.informatica.esercizi.esercizio_111.Iterators;
 
 import java.util.Collection;
+import java.util.Deque;
 import java.util.LinkedList;
 import java.util.Stack;
 
@@ -14,13 +15,13 @@ import it.unipr.informatica.esercizi.esercizio_111.Abstractions.NodeComposite;
 public class NodeBreadthFirstIterator implements Iterator {
 	protected Node _root;
 	protected Node _currentItem;
-	protected Stack<Node> _stack;
+	protected Deque<Node> _stack;
 	
 	public NodeBreadthFirstIterator(Node root) {
 		_root = root;
 		_currentItem = _root;
 		
-		_stack = new Stack<Node>();
+		_stack = new LinkedList<Node>();
 		_stack.push(_root);
 	}
 	

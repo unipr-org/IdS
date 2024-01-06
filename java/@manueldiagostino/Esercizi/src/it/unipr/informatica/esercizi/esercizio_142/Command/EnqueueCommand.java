@@ -1,7 +1,7 @@
 package it.unipr.informatica.esercizi.esercizio_142.Command;
 
 import java.awt.IllegalComponentStateException;
-import java.util.List;
+import java.util.Deque;
 
 /**
  * @author Di Agostino Manuel
@@ -9,9 +9,9 @@ import java.util.List;
  */
 public class EnqueueCommand<T> implements Command {
 	private T enqueuedElement;
-	private List<T> target;
+	private Deque<T> target;
 	
-	public EnqueueCommand(List<T> targetQueue, T elem) {
+	public EnqueueCommand(Deque<T> targetQueue, T elem) {
 		enqueuedElement = elem;
 		target = targetQueue;
 	}

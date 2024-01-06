@@ -3,8 +3,7 @@ package it.unipr.informatica.exercises.esercizio_111.Visitors;
 import it.unipr.informatica.exercises.esercizio_111.Abstractions.Node;
 
 /**
- * @author Di Agostino Manuel
- * https://github.com/manueldiagostino
+ * @author Di Agostino Manuel https://github.com/manueldiagostino
  */
 public class PrintVisitor implements Visitor {
 
@@ -15,7 +14,7 @@ public class PrintVisitor implements Visitor {
 
 	@Override
 	public void visitDistrict(Node node) {
-		System.out.println("\t\t[DISTRICT] " + node.getName());		
+		System.out.println("\t\t[DISTRICT] " + node.getName());
 	}
 
 	@Override
@@ -25,7 +24,7 @@ public class PrintVisitor implements Visitor {
 
 	@Override
 	public void visitCountry(Node node) {
-		System.out.println("[COUNTRY] " + node.getName());		
+		System.out.println("[COUNTRY] " + node.getName());
 	}
 
 }

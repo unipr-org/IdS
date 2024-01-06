@@ -4,10 +4,10 @@
 ---
 
 ## Test-Driven Development (TDD)
-1.  **Costi nello Sviluppo del Software:**
+1.  **Costi nello sviluppo del software:**
     -   I costi del software spesso dominano i costi complessivi di un sistema, superando i costi hardware.
     -   I costi di manutenzione, distribuiti nel corso degli anni di utilizzo del sistema, costituiscono una parte significativa delle spese legate al software.
-2.  **Costi di Manutenzione:**
+2.  **Costi di manutenzione:**
     -   I costi di manutenzione superano i costi di sviluppo nei progetti software.
     -   Il riutilizzo strutturato di framework e librerie software ben testati e documentati mira a ridurre i costi di manutenzione.
 3.  **Introduzione del Test-Driven Development (TDD):**
@@ -36,13 +36,13 @@
 ---
 
 ## Costi dei Sistemi Software
-1.  **Divisione dei Costi:**
+1.  **Divisione dei costi:**
     -   I costi di un sistema software sono tipicamente suddivisi in due categorie principali:
-        -   **Costi Diretti:** Direttamente associati alle attività svolte per il sistema.
+        -   **Costi diretti:** Direttamente associati alle attività svolte per il sistema.
             -   Esempi: Costi degli sviluppatori, costi degli strumenti di sviluppo, costi di librerie e framework esterni, ecc.
         -   **Costi Indiretti:** Associati a tutte le attività necessarie per supportare le attività svolte per il sistema.
             -   Esempi: Costi di consulenti amministrativi, costi di consulenti legali, ecc.
-2.  **Rapporto tra Costi Diretti e Indiretti:**
+2.  **Rapporto tra costi diretti e indiretti:**
     -   Di solito, i costi indiretti rappresentano una percentuale significativa rispetto ai costi diretti.
     -   La percentuale di costi indiretti rispetto ai costi diretti può variare, ma generalmente oscilla tra il 50% (per le piccole e medie imprese) e il 100% (per le grandi imprese).
 
@@ -56,13 +56,13 @@
 
 ## Evoluzione e Manutenzione del Software
 
-1.  **Necessità dell'Evoluzione del Software:**
+1.  **Necessità dell'evoluzione del software:**
     -   I sistemi software devono evolvere perché:
         -   I requisiti iniziali non sono stati catturati correttamente.
         -   I requisiti cambiano durante il ciclo di vita del sistema.
-2.  **Inevitabilità dell'Evoluzione:**
+2.  **Inevitabilità dell'evoluzione:**
     -   L'evoluzione di un sistema software è inevitabile, anche se i requisiti iniziali sono stati catturati correttamente e lo sviluppo iniziale ha prodotto un buon prodotto.
-3.  **Attività di Manutenzione:**
+3.  **Attività di manutenzione:**
     -   Le attività di manutenzione sono svolte per far evolvere un sistema software contemporaneamente al suo utilizzo. Queste attività comprendono:
         -   **Manutenzione Correttiva (Corrective Maintenance):** Risolvere anomalie o difetti emersi durante l'uso.
         -   **Manutenzione Perfezionante (Perfective Maintenance):** Migliorare le qualità rilevanti del sistema, anche se non ci sono difetti evidenti.
@@ -76,18 +76,18 @@
         -   Sono rilevanti anche a causa del lungo periodo di tempo in cui il sistema è operativo.
 5.  **Ripartizione dei Costi di Manutenzione:**
     -   I costi di manutenzione sono normalmente suddivisi nei seguenti modi:
-        -   **Costi di Manutenzione Correttiva:** Circa il 20%.
-        -   **Costi di Manutenzione Perfezionante:** Circa il 60%.
-        -   **Costi di Manutenzione Adattativa:** Circa il 20%.
-6.  **Riduzione dei Costi di Manutenzione Perfezionante:**
+        -   **Costi di manutenzione correttiva:** Circa il 20%.
+        -   **Costi di manutenzione perfettiva:** Circa il 60%.
+        -   **Costi di manutenzione adattativa:** Circa il 20%.
+6.  **Riduzione dei Costi di manutenzione perfettiva:**
     -   È quindi necessario dedicare molto sforzo alla riduzione dei costi di manutenzione perfezionante assicurando un'analisi accurata e test del software prima del suo rilascio.
 
 > **Esempio:** Supponiamo che un software di contabilità aziendale venga costantemente aggiornato per soddisfare nuove regolamentazioni fiscali. Questo processo di adattamento richiederà costi di manutenzione adattativa. Tuttavia, una fase di analisi e test accurati iniziali potrebbe ridurre i costi associati alle modifiche successive, migliorando così l'efficienza del processo di manutenzione.
 
-7.  **Studi sui Costi di Manutenzione:**
+7.  **Studi sui costi di manutenzione:**
     -   Studi ben noti sui costi di manutenzione nei sistemi implementati forniscono evidenze empiriche che la maggior parte delle anomalie potrebbe essere individuata attraverso revisioni sistematiche degli artefatti del progetto.
         -   In particolare, il testing strutturato e accurato è un buon modo per garantire che le anomalie non si propaghino ai sistemi implementati.
-8.  **Dati Interessanti sulla Necessità di Testing Strutturato:**
+8.  **Dati interessanti sulla necessità di testing strutturato:**
     -   Alcuni dati interessanti per quantificare la necessità di testing strutturato includono:
         -   1 anomalia su 10 trovate durante il testing si propaga al sistema implementato.
         -   Il costo di risolvere un'anomalia aumenta di un fattore 10 se il sistema è già implementato.
@@ -103,15 +103,15 @@
 
 ## Testing
 Alcune considerazioni fondamentali sul testing del software:
-1.  **Sufficiente Copertura dei Casi di Test:**
+1.  **Sufficiente copertura dei casi di test:**
     -   Se il comportamento di una parte di un sistema viene testato in un numero sufficientemente elevato di casi, è possibile considerare accettabile il comportamento di tale parte anche nei (auspicabilmente pochi) casi rimanenti.
     -   L'obiettivo è coprire una vasta gamma di scenari possibili per garantire che il software funzioni correttamente in varie condizioni.
-2.  **Limitazioni del Testing:**
+2.  **Limitazioni del testing:**
     -   Sebbene il testing sia un mezzo efficace per individuare anomalie, non può dimostrare che una parte di un sistema è corretta al 100%.
     -   Il testing può fornire un elevato grado di fiducia, ma non è esaustivo nel dimostrare la correttezza assoluta di un sistema.
-3.  **Divisione del Testing:**
-    -   **Testing in the Small (o Unit Testing):** Si concentra sul test delle singole parti (unità) del software. L'obiettivo è assicurarsi che ciascuna unità funzioni correttamente.
-    -   **Testing in the Large:** Coinvolge il test dell'intero sistema. L'obiettivo è garantire che tutte le parti del sistema funzionino correttamente quando sono integrate.
+3.  **Divisione del testing:**
+    -   **Testing in the small (o Unit Testing):** Si concentra sul test delle singole parti (unità) del software. L'obiettivo è assicurarsi che ciascuna unità funzioni correttamente.
+    -   **Testing in the large:** Coinvolge il test dell'intero sistema. L'obiettivo è garantire che tutte le parti del sistema funzionino correttamente quando sono integrate.
 
 ![[42.jpeg]]
 
@@ -148,20 +148,20 @@ L'acceptance testing viene solitamente eseguito dagli utenti finali. Gli utenti 
 
 ---
 
-## Testing in the Small & in the Large
-1.  **Testing in the Large:**
+## Testing in the small & in the slrge
+1.  **Testing in the large:**
     -   Tratta il sistema come una scatola nera.
     -   Il testing è mirato a verificare che il comportamento del sistema sia conforme alle aspettative.
     -   Il set di casi di test è selezionato utilizzando gli artefatti prodotti per specificare i requisiti del sistema.
     -   Questo approccio si concentra sulla funzionalità del sistema nel suo complesso, senza esaminare internamente il codice sorgente.
-2.  **Testing in the Small:**
+2.  **Testing in the small:**
     -   Tratta il sistema come una scatola bianca.
     -   Esamina una parte sufficientemente piccola del sistema ispezionando il codice consegnato.
     -   Il set di casi di test è selezionato utilizzando il codice considerato.
     -   Tipicamente, si suddivide in:
-        -   **Testing delle Istruzioni (Statement Testing):** Verifica che ogni istruzione nel codice venga eseguita almeno una volta.
-        -   **Testing dei Rami (Branch Testing):** Garantisce che ogni ramo nel flusso di controllo del programma venga attraversato.
-        -   **Testing di Branch e Condizione (Branch and Condition Testing):** Assicura che ogni condizione e ogni ramo vengano valutati in tutte le possibili combinazioni.
+        -   **Testing delle istruzioni (Statement Testing):** Verifica che ogni istruzione nel codice venga eseguita almeno una volta.
+        -   **Testing dei rami (Branch Testing):** Garantisce che ogni ramo nel flusso di controllo del programma venga attraversato.
+        -   **Testing di branch e condizione (Branch and Condition Testing):** Assicura che ogni condizione e ogni ramo vengano valutati in tutte le possibili combinazioni.
 
 [_Torna all'indice_](#indice)
 
@@ -169,13 +169,13 @@ L'acceptance testing viene solitamente eseguito dagli utenti finali. Gli utenti 
 Il concetto di **Statement Testing**, anche chiamato **Coverage Testing**, è basato sull'idea che nessuna parte del codice può essere considerata testata se non è stata eseguita. In altre parole, per rilevare eventuali anomalie, è necessario eseguire almeno una volta le parti del codice che le producono.
 
 Principali punti chiave:
-1.  **Coverage Testing:**
+1.  **Coverage testing:**
     -   Il termine "coverage" si riferisce al grado di copertura del codice sorgente da parte dei test.
     -   L'obiettivo è eseguire abbastanza test da garantire che tutte le istruzioni del codice siano state eseguite almeno una volta.
-2.  **Esecuzione del Codice:**
+2.  **Esecuzione del codice:**
     -   L'esecuzione del codice è fondamentale per identificare e correggere anomalie.
     -   Solo le parti del codice che sono effettivamente eseguite possono rivelare anomalie durante il testing.
-3.  **Set di Test:**
+3.  **Set di test:**
     -   Un insieme di casi di test $T$ può essere utilizzato per eseguire il **Statement Testing** di un codice $C$.
     -   Dopo l'esecuzione di tutti i casi di test in $T$, ogni istruzione in $C$ dovrebbe essere stata eseguita almeno una volta.
 
@@ -187,16 +187,16 @@ Principali punti chiave:
 Il concetto di **Branch Testing**, spesso chiamato **Path Coverage Testing**, si concentra sull'analisi di tutti i percorsi di esecuzione del codice, puntando a coprire tutti i rami decisionali.
 
 Principali punti chiave:
-1.  **Path Coverage Testing:**
+1.  **Path coverage testing:**
     -   Il termine "path coverage" si riferisce al fatto che l'obiettivo è coprire tutti i percorsi di esecuzione possibili nel codice.
     -   Si tratta di un'approfondita analisi dei percorsi di esecuzione all'interno del codice.
-2.  **Rami Decisionali:**
+2.  **Rami decisionali:**
     -   I rami decisionali si verificano quando il flusso del programma deve prendere una decisione, ad esempio in una struttura di controllo come un'istruzione `if` o un ciclo `for`.
     -   L'obiettivo del Branch Testing è garantire che tutti i rami decisionali siano stati attraversati almeno una volta.
-3.  **Set di Test:**
+3.  **Set di test:**
     -   Un insieme di casi di test $T$ può essere utilizzato per eseguire il **Branch Testing** di un codice $C$.
     -   Dopo l'esecuzione di tutti i casi di test in $T$, tutti i percorsi di esecuzione in $C$ dovrebbero essere stati attraversati almeno una volta.
-4.  **Anomalie Complesse:**
+4.  **Anomalie complesse:**
     -   Poiché alcune anomalie possono derivare da percorsi di esecuzione intricati, il Branch Testing è utile per identificare tali situazioni.
 
 > Il **Branch Testing** è progettato per coprire tutti i rami decisionali del codice, contribuendo a rilevare anomalie associate a percorsi di esecuzione complessi e garantendo una copertura più completa del flusso del programma.
@@ -212,7 +212,7 @@ Punti chiave:
     -   Il termine "condition coverage" indica che l'obiettivo è coprire tutte le condizioni nel codice durante l'esecuzione dei test.
 2.  **Percorsi di Esecuzione Intricati:**
     -   Gli errori possono spesso derivare da percorsi di esecuzione complessi causati da diverse condizioni interrelate.
-    -   Il Branch and Condition Testing è progettato per affrontare questa complessità, garantendo che tutte le condizioni siano state considerate.
+    -   Il Branch and condition testing è progettato per affrontare questa complessità, garantendo che tutte le condizioni siano state considerate.
 3.  **Set di Test:**
     -   Un insieme di casi di test $T$ può essere utilizzato per eseguire il Branch and Condition Testing di un codice $C$.
     -   Dopo l'esecuzione di tutti i casi di test in $T$, tutte le condizioni in $C$ dovrebbero essere state considerate, tenendo conto di tutte le cause per i loro valori di verità.

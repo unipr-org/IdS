@@ -5,7 +5,7 @@
  */
 package it.unipr.informatica.examples.esempio14;
 
-import it.unipr.informatica.aspects.interfaces.Active;
+import it.unipr.informatica.aspects.model.Active;
 import it.unipr.informatica.concurrent.pool.Callback;
 import it.unipr.informatica.concurrent.pool.Future;
 

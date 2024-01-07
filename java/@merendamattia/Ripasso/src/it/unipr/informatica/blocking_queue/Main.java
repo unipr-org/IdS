@@ -1,5 +1,7 @@
 package it.unipr.informatica.blocking_queue;
 
+import it.unipr.informatica.blocking_queue.model.BlockingQueue;
+
 public class Main {
 	private void go() {
 		try {

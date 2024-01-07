@@ -13,7 +13,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import it.unipr.informatica.aspects.interfaces.ReloadableHandler;
+import it.unipr.informatica.aspects.model.ReloadableHandler;
 
 public class ReloadableAspect {
 	public static <T> ReloadableHandler<T> newHandler(Class<T> reloadableInterface, String className,

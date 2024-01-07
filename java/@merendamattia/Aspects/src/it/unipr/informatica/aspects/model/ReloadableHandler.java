@@ -3,7 +3,7 @@
  *
  * (c) 2022-2023 Federico Bergenti. All Rights Reserved.
  */
-package it.unipr.informatica.aspects.interfaces;
+package it.unipr.informatica.aspects.model;
 
 public interface ReloadableHandler<T> {
 	public T newInstance() throws ClassNotFoundException, IllegalAccessException, InstantiationException;

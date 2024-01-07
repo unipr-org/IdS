@@ -6,7 +6,7 @@
 package it.unipr.informatica.examples.esempio14;
 
 import it.unipr.informatica.aspects.ActiveAspect;
-import it.unipr.informatica.aspects.interfaces.ActiveHandler;
+import it.unipr.informatica.aspects.model.ActiveHandler;
 import it.unipr.informatica.concurrent.pool.Future;
 
 public class Esempio14 {

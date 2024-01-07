@@ -1,4 +1,4 @@
-package it.unipr.informatica.aspects;
+package it.unipr.informatica.aspects.model;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

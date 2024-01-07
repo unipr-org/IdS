@@ -17,7 +17,7 @@ import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.Serializable;
 
-import it.unipr.informatica.aspects.interfaces.PersistentHandler;
+import it.unipr.informatica.aspects.model.PersistentHandler;
 
 public class PersistentAspect {
 

@@ -1,8 +1,9 @@
 package it.unipr.informatica.blocking_queue;
 
-import it.unipr.informatica.locks.Lock;
 import it.unipr.informatica.locks.ReentrantLock;
-import it.unipr.informatica.locks.Condition;
+import it.unipr.informatica.locks.model.Condition;
+import it.unipr.informatica.locks.model.Lock;
+import it.unipr.informatica.blocking_queue.model.BlockingQueue;
 
 public class ArrayBlockingQueue<T> implements BlockingQueue<T> {
 	private Object[] queue;

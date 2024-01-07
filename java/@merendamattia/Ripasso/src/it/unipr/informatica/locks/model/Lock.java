@@ -1,4 +1,4 @@
-package it.unipr.informatica.locks;
+package it.unipr.informatica.locks.model;
 
 public interface Lock {
 	public void lock();

@@ -1,5 +1,8 @@
 package it.unipr.informatica.locks;
 
+import it.unipr.informatica.locks.model.Condition;
+import it.unipr.informatica.locks.model.Lock;
+
 public class ReentrantLock implements Lock {
 	private Thread owner;
 	private Object mutex;

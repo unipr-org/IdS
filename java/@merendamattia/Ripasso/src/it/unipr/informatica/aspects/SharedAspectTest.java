@@ -3,6 +3,9 @@ package it.unipr.informatica.aspects;
 import java.util.LinkedList;
 import java.util.Queue;
 
+import it.unipr.informatica.aspects.model.LoggingAspect;
+import it.unipr.informatica.aspects.model.SharedAspect;
+
 public class SharedAspectTest {
 
 	private void go() {

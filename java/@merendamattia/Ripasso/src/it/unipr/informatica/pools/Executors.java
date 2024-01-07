@@ -1,5 +1,7 @@
 package it.unipr.informatica.pools;
 
+import it.unipr.informatica.pools.model.ExecutorService;
+
 public class Executors {
 	public static ExecutorService newThreadPool(int workers) {
 		return new SimpleThreadPool(workers);

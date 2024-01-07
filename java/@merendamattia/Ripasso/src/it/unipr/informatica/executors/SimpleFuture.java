@@ -1,5 +1,7 @@
 package it.unipr.informatica.executors;
 
+import it.unipr.informatica.executors.model.Future;
+
 public class SimpleFuture<T> implements Future<T> {
 
 	private Object mutex;

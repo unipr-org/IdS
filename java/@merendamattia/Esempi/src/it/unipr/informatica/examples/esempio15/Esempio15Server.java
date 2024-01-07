@@ -7,7 +7,7 @@ package it.unipr.informatica.examples.esempio15;
 
 import it.unipr.informatica.aspects.LoggingAspect;
 import it.unipr.informatica.aspects.RemoteAspect;
-import it.unipr.informatica.aspects.interfaces.RemoteHandler;
+import it.unipr.informatica.aspects.model.RemoteHandler;
 
 public class Esempio15Server {
 	private void go() {

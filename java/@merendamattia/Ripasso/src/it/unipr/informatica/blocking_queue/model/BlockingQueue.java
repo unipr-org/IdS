@@ -1,4 +1,4 @@
-package it.unipr.informatica.blocking_queue;
+package it.unipr.informatica.blocking_queue.model;
 
 public interface BlockingQueue<T> {
 	public T take() throws InterruptedException;

@@ -1,4 +1,4 @@
-package it.unipr.informatica.executors;
+package it.unipr.informatica.executors.model;
 
 public interface Callback<T> {
 	public void onSuccess(T value);

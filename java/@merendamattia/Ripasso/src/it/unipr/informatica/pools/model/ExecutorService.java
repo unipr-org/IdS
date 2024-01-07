@@ -1,6 +1,9 @@
-package it.unipr.informatica.pools;
+package it.unipr.informatica.pools.model;
 
 import it.unipr.informatica.executors.*;
+import it.unipr.informatica.executors.model.Callable;
+import it.unipr.informatica.executors.model.Callback;
+import it.unipr.informatica.executors.model.Future;
 
 public interface ExecutorService extends Executor {
 	public void shutdown();

@@ -6,7 +6,7 @@
 package it.unipr.informatica.examples.esempio16;
 
 import it.unipr.informatica.aspects.ReloadableAspect;
-import it.unipr.informatica.aspects.interfaces.ReloadableHandler;
+import it.unipr.informatica.aspects.model.ReloadableHandler;
 
 public class Esempio16 {
 	private void go() {

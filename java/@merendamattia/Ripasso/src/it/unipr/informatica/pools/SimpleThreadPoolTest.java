@@ -4,6 +4,10 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import it.unipr.informatica.executors.*;
+import it.unipr.informatica.executors.model.Callable;
+import it.unipr.informatica.executors.model.Callback;
+import it.unipr.informatica.executors.model.Future;
+import it.unipr.informatica.pools.model.ExecutorService;
 
 public class SimpleThreadPoolTest {
 

@@ -1,4 +1,4 @@
-package it.unipr.informatica.locks;
+package it.unipr.informatica.locks.model;
 
 public interface Condition {
 	public void await() throws InterruptedException;

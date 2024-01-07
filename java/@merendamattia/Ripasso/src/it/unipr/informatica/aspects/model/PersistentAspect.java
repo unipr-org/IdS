@@ -1,4 +1,4 @@
-package it.unipr.informatica.aspects;
+package it.unipr.informatica.aspects.model;
 
 import java.io.IOException;
 import java.io.InputStream;

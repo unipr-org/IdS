@@ -1,7 +1,8 @@
 package it.unipr.informatica.aspects;
 
+import it.unipr.informatica.aspects.model.LoggingAspect;
 import it.unipr.informatica.blocking_queue.ArrayBlockingQueue;
-import it.unipr.informatica.blocking_queue.BlockingQueue;
+import it.unipr.informatica.blocking_queue.model.BlockingQueue;
 
 public class LoggingAspectTest {
 	private void go() {

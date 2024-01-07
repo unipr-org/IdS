@@ -3,6 +3,9 @@ package it.unipr.informatica.aspects;
 import java.util.ArrayList;
 import java.util.List;
 
+import it.unipr.informatica.aspects.model.PersistentAspect;
+import it.unipr.informatica.aspects.model.PersistentHandler;
+
 public class PersistentAspectTest {
 	private void printAndAddIntegers(List<Integer> list) {
 		printIntegers(list);

@@ -4,12 +4,11 @@ import it.unipr.informatica.patterns.abstractFactory.abstractions.AbstractAnimal
 import it.unipr.informatica.patterns.abstractFactory.abstractions.Animal;
 
 /**
- * @author Di Agostino Manuel
- * https://github.com/manueldiagostino
+ * @author Di Agostino Manuel https://github.com/manueldiagostino
  */
 public class SingletonItalianAnimalsFactory {
 	static volatile ItalianAnimalsFactory instance;
-	
+
 	public static ItalianAnimalsFactory getInstance() {
 		if (instance == null)
 			synchronized (SingletonItalianAnimalsFactory.class) {
@@ -18,7 +17,7 @@ public class SingletonItalianAnimalsFactory {
 			}
 		return instance;
 	}
-	
+
 	public static class ItalianAnimalsFactory implements AbstractAnimalsFactory {
 
 		@Override
@@ -35,9 +34,9 @@ public class SingletonItalianAnimalsFactory {
 		public Animal createLandAnimal() {
 			return new Sheep("Sheep Susanne");
 		}
-		
+
 		private ItalianAnimalsFactory() {
-			
+
 		}
 	}
 }

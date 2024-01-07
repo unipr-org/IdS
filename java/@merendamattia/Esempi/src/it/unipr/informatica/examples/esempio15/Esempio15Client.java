@@ -5,10 +5,10 @@
  */
 package it.unipr.informatica.examples.esempio15;
 
-import it.unipr.informatica.aspects.interfaces.Active;
 import it.unipr.informatica.aspects.ActiveAspect;
-import it.unipr.informatica.aspects.interfaces.ActiveHandler;
 import it.unipr.informatica.aspects.RemoteAspect;
+import it.unipr.informatica.aspects.model.Active;
+import it.unipr.informatica.aspects.model.ActiveHandler;
 import it.unipr.informatica.concurrent.pool.Callback;
 import it.unipr.informatica.concurrent.pool.Future;
 

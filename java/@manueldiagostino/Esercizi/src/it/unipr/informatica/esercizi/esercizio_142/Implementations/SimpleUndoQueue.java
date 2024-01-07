@@ -1,7 +1,7 @@
 package it.unipr.informatica.esercizi.esercizio_142.Implementations;
 
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Deque;
 
 import javax.swing.text.html.HTMLDocument.HTMLReader.HiddenAction;
 
@@ -17,7 +17,7 @@ import it.unipr.informatica.esercizi.esercizio_142.Command.EnqueueCommand;
 public class SimpleUndoQueue<T> implements UndoQueue<T> {
 
 	private CommandHistory commandHistory;
-	private List<T> queue;
+	private Deque<T> queue;
 	
 	public SimpleUndoQueue() {
 		commandHistory = new CommandHistory();

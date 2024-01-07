@@ -1,7 +1,8 @@
 package it.informatica.unipr.examples;
 import java.util.LinkedList;
 import java.util.List;
-import it.informatica.unipr.aspects.SharedAspect;
+
+import it.unipr.informatica.aspects.SharedAspect;
 
 /**
  * @author Di Agostino Manuel

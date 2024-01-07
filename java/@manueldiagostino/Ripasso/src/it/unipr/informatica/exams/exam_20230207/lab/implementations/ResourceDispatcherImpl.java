@@ -6,12 +6,11 @@ import it.unipr.informatica.exams.exam_20230207.lab.concurrency.ArrayBlockingQue
 import it.unipr.informatica.exams.exam_20230207.lab.concurrency.BlockingQueue;
 
 /**
- * @author Di Agostino Manuel
- * https://github.com/manueldiagostino
+ * @author Di Agostino Manuel https://github.com/manueldiagostino
  */
 public class ResourceDispatcherImpl implements ResourcesDispatcher {
 	private BlockingQueue<Resource> resources;
-	
+
 	public ResourceDispatcherImpl() {
 		resources = null;
 	}
@@ -19,10 +18,10 @@ public class ResourceDispatcherImpl implements ResourcesDispatcher {
 	public void setResources(Resource[] resources) {
 		if (resources == null)
 			throw new IllegalArgumentException("resources == null");
-		
+
 		this.resources = new ArrayBlockingQueue<Resource>(resources.length);
-		
-		for (int i=0; i<resources.length; ++i) {
+
+		for (int i = 0; i < resources.length; ++i) {
 			try {
 				this.resources.put(resources[i]);
 			} catch (InterruptedException e) {
@@ -34,19 +33,19 @@ public class ResourceDispatcherImpl implements ResourcesDispatcher {
 
 	@Override
 	public Resource[] getResources(int k) throws InterruptedException {
-		if (k<1 || k>resources.capacity())
+		if (k < 1 || k > resources.capacity())
 			throw new IllegalArgumentException("Invalid argument for k: " + k);
 		if (resources == null)
 			throw new IllegalMonitorStateException("resources == null");
-		
+
 		synchronized (resources) { // garantisce di prendere k risorse tutte in una volta
 			while (this.resources.size() < k)
 				resources.wait();
-			
+
 			Resource[] res = new Resource[k];
-			for (int i=0; i<k; ++i)
+			for (int i = 0; i < k; ++i)
 				res[i] = this.resources.take();
-			
+
 			return res;
 		}
 	}
@@ -60,7 +59,7 @@ public class ResourceDispatcherImpl implements ResourcesDispatcher {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		
+
 		synchronized (resources) {
 			resources.notifyAll();
 		}

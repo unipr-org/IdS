@@ -1,10 +1,12 @@
 package it.unipr.informatica.pools;
 
 import it.unipr.informatica.blocking_queue.*;
-import it.unipr.informatica.executors.Callable;
-import it.unipr.informatica.executors.Callback;
-import it.unipr.informatica.executors.Future;
+import it.unipr.informatica.blocking_queue.model.BlockingQueue;
 import it.unipr.informatica.executors.SimpleFuture;
+import it.unipr.informatica.executors.model.Callable;
+import it.unipr.informatica.executors.model.Callback;
+import it.unipr.informatica.executors.model.Future;
+import it.unipr.informatica.pools.model.ExecutorService;
 
 public class SimpleThreadPool implements ExecutorService {
 

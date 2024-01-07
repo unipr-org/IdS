@@ -152,7 +152,7 @@ public class PersistenceAspect {
 
 ### Active Aspect
 Un oggetto attivo è un oggetto che esegue i propri metodi in un pool di thread dedicato. Ciò significa che i metodi di un oggetto attivo non vengono eseguiti nel thread che li ha invocati, ma in un thread diverso, che fa parte del pool di thread dedicato all'oggetto.
-Solo i metodi che implementano interfacce sono interessati perche' questi sono metodi esportati. Un proxy dinamico  e' sufficiente per intercettare tutte le invocazioni dei metodi interessati.
+Solo i metodi che implementano interfacce sono interessati perché questi sono metodi esportati. Un proxy dinamico è sufficiente per intercettare tutte le invocazioni dei metodi interessati.
 Un'interfaccia attiva è un'interfaccia che fornisce metodi con firme simili ai metodi nelle interfacce implementate dall'oggetto attivo. La differenza principale è che i metodi di un'interfaccia attiva restituiscono i risultati utilizzando futures e callback.
 
 Esempio: Consideriamo l'esempio di un oggetto attivo che rappresenta un server web. L'oggetto attivo implementa l'interfaccia `WebServer`, che definisce i metodi per gestire le richieste HTTP.

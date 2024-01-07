@@ -214,7 +214,7 @@ Data una interpretazione $I$ su $P$, l'interpretazione $$G_I : LTL[\;P\;] \;\tim
 
 ---
 
-### Soddisfacibilita' e Tautologie
+### Soddisfacibilità e Tautologie
 Data una interpretazione $M$, un momento nel tempo $i \in ℕ$, e una proposizione LTL $A$:
 - $<M,i> \;\models\; A$ ($M$ soddisfa $A$ in $i$) se e solo se $G_M(A,i)=T$
 - $<M,i> \;\nvDash\; A$ ($M$ non soddisfa $A$ in $i$) se e solo se $G_M(A,i)=F$
@@ -222,13 +222,13 @@ Data una interpretazione $M$, un momento nel tempo $i \in ℕ$, e una proposizio
 Un'interpretazione $M$ e' un modello per una proposizione $A$ se e solo se esiste qualche $i \in ℕ$ tale che $<M,i> \;\models\; A$ .
 
 Una proposizione LTL $A$ e':
-- Soddisfabile se e solo se esiste un modello per $A$.
+- Soddisfacibile se e solo se esiste un modello per $A$.
 - Una tautologia ($\models A$) se e solo se per ogni interpretazione $M$ e ogni momento nel tempo $i \in ℕ$, $<M,i> \;\models\; A$.
 
 ---
 
 ### Modelli
-Data una interpretazione $M$ definita su un insieme di simboli proposizionali $P$, le seguenti regole possono essere usate per vericare se $<M,i> \;\models\; A$  ($M$ soddisfa $A$ in $i$): 
+Data una interpretazione $M$ definita su un insieme di simboli proposizionali $P$, le seguenti regole possono essere usate per verificare se $<M,i> \;\models\; A$  ($M$ soddisfa $A$ in $i$): 
 
 ![[15.png]]![[16.png]]
 
@@ -249,7 +249,7 @@ Altre equivalenze logiche:
 ---
 
 ### Tableaux LTL
-I tableaux LTL sono grafi diretti (non alberi) usati per verificare la soddisfacibilita' di un insieme di proposizioni LTL. 
+I tableaux LTL sono grafi diretti (non alberi) usati per verificare la soddisfacibilità di un insieme di proposizioni LTL.
 Un tableaux LTL e' un grafo etichettato, il quale non contiene nodi con la stessa etichetta. Un nuovo nodo non viene aggiunto al grafo se la sua etichetta appare in un altro nodo.
 > $\{A,B\} = \{A,B,B,A,B,B\}$ stessi insiemi.
 
@@ -269,16 +269,16 @@ Una volta che ho portato le proposizioni LTL in forma negata, devo applicare dal
 ![[21.png]]
 
 #### Step rule
-La step rule e' la regola da applicare dopo che ho trasformato tutti gli operatori temporali in "next".
+La step rule è la regola da applicare dopo che ho trasformato tutti gli operatori temporali in "next".
 
 ![[96.png]]
 
 #### Regola del loop (loop rule)
-La loop rule e' l'ultima regola che deve essere applicata se nessun'altra regola precedente e' applicabile: 
+La loop rule è l'ultima regola che deve essere applicata se nessun'altra regola precedente è applicabile: 
 
 ![[22.png]]
 
-> Nota bene: il controllo del loop e' sufficiente per assicurare la terminazione della costruzione del tableaux.
+> Nota bene: il controllo del loop è sufficiente per assicurare la terminazione della costruzione del tableaux.
 
 #### Esempio 
 ![[23.png]]
@@ -287,23 +287,23 @@ La loop rule e' l'ultima regola che deve essere applicata se nessun'altra regola
 
 ---
 
-### LTL Soddisfacibilita' 
-Una eventualita' $E$ e' una proposizione LTL strutturata come F$E$ o AU$E$.
-> "Alla fine di una questione succedera' qualcosa".
+### LTL Soddisfacibilità
+Una eventualità $E$ è una proposizione LTL strutturata come F$E$ o AU$E$.
+> "Alla fine di una questione succederà qualcosa".
 
-Una eventualita' F$E$ o AU$E$ e' soddisfatta in un nodo $n$ se esiste un percorso che parte da $n$ la cui etichetta contiene $E$.
+Una eventualità F$E$ o AU$E$ è soddisfatta in un nodo $n$ se esiste un percorso che parte da $n$ la cui etichetta contiene $E$.
 
-Dato un tableaux completo, un nodo puo' essere cancellato se:
-- Il nodo e' contradditorio.
-- L'etichetta di un nodo contiene una eventualita' che non e' soddisfatta nel nodo.
+Dato un tableaux completo, un nodo può essere cancellato se:
+- Il nodo è contraddittorio.
+- L'etichetta di un nodo contiene una eventualità che non e' soddisfatta nel nodo.
 - Tutti i figli di un nodo sono marcati come cancellati.
 
-Un tableaux completo e' detto chiuso se e solo se la sua radice puo' essere cancellata.
-Un insieme di proposizioni LTL che etichetta la radice di un tableaux completo e' unsatisfiable se e solo se il tableaux e' chiuso.
+Un tableaux completo e' detto chiuso se e solo se la sua radice può essere cancellata.
+Un insieme di proposizioni LTL che etichetta la radice di un tableaux completo è unsatisfiable se e solo se il tableaux è chiuso.
 
-> Dato un tableaux competo, se non e' chiuso e' aperto.
+> Dato un tableaux competo, se non è chiuso è aperto.
 
-I percorsi che partono dalla radice in un tableau aperto forniscono informazioni sui modelli dell'insieme di proposizioni LTL che etichettano la radice del tableau.
+I percorsi che partono dalla radice in un tableaux aperto forniscono informazioni sui modelli dell'insieme di proposizioni LTL che etichettano la radice del tableaux.
 
 #### Esempi
 ![[24.png]]![[25.png]]
@@ -321,9 +321,9 @@ Un sistema concorrente consiste in un insieme di parti che vengono eseguiti conc
 
 La modellazione di un sistema ha lo scopo di costruire una specifica (possibilmente formale) del sistema per eliminare dettagli irrilevanti.
 La specifica e' descritta in termini di:
-- Stato di un sistema, il quale e' uno snapshot dei valori dei parametri che caratterizzano il sistema.
+- Stato di un sistema, il quale è uno snapshot dei valori dei parametri che caratterizzano il sistema.
 - Transizioni del sistema, che descrivono come lo stato di un sistema cambi nel tempo a seguito di azioni ed eventi.
-- Computazione del sistema, che e' la sequenza (possibilmente infinita) degli stati attivati dalle transizioni.
+- Computazione del sistema, che è la sequenza (possibilmente infinita) degli stati attivati dalle transizioni.
 
 ### Strutture Kripke
 Sono diagrammi di transizione che descrivono l'ambiente dinamico di un sistema reattivo.
@@ -333,10 +333,10 @@ Una struttura Kripke consiste in:
 - Un insieme non vuoto di proposizioni che etichettano gli stati.
 
 Un percorso in una struttura Kripke rappresenta una possibile computazione del sistema descritto (una struttura descrive un processo).
-> Piu' strutture rappresentano un programma.
+> Più strutture rappresentano un programma.
 
-Formalmente, una struttura Kripke e' una 5-upla $K=\;<S,I,R,P,L>$, in cui
-- $S$ e' un insieme non vuoto di stati,
+Formalmente, una struttura Kripke è una 5-upla $K=\;<S,I,R,P,L>$, in cui
+- $S$ è un insieme non vuoto di stati,
 - $I\subseteq S$ e' un insieme non vuoto di stati iniziali,
 - $R \subseteq S\times S$ e' una relazione di accessibilita', un insieme non vuoto di transizioni tale che $R$ sia left-total $$\forall \; s \subseteq S, \exists \; s' \subseteq S : (s,s') \subseteq R$$
 - $P$ sia un insieme numerabile di simboli proposizionali usati per costruire $Prop[\;P\;]$,

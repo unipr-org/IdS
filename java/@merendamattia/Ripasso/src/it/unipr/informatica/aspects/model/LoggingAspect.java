@@ -5,6 +5,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
 import java.sql.Timestamp;
 import java.time.Instant;
+import java.util.Arrays;
 
 public class LoggingAspect {
 	
@@ -35,7 +36,7 @@ public class LoggingAspect {
 		private void log(String msg) {			
 			synchronized (mutex) {
 				Timestamp now = Timestamp.from(Instant.now());
-				System.out.println("[" + now + "\t" + currentThread.getName() + "] " + msg);
+				System.out.printf("[%s\t%s] %s\n", now, currentThread.getName(), msg);
 			}
 		}
 		
@@ -46,7 +47,7 @@ public class LoggingAspect {
 			Object result = null;
 			
 			try {
-				log("In\t" + method.getName());
+				log("In\t" + method.getName() + ", args=" + Arrays.toString(args));
 				
 				result = method.invoke(target, args);
 				
@@ -54,7 +55,7 @@ public class LoggingAspect {
 			
 			} catch (Exception e) {
 				
-				log("Out\t" + method.getName() + ", exception=" + e.getCause());
+				log("Exc\t" + method.getName() + ", exception=" + e.getCause());
 				throw e;
 			}
 			

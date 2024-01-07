@@ -111,7 +111,9 @@
 		\Large
 		\begin{tabbing}
 			\hspace*{1em}\= \hspace*{8em} \= \kill % set the tabbings
-			\> Nome:\>  \textbf{Di Agostino Manuel}, \textbf{Colli Simone} \\
+			\> Autori:	\> \textbf{Di Agostino Manuel}, \\
+			\>			\>\textbf{Colli Simone}, \\
+			\>      	\>\textbf{Merenda Saverio Mattia} \\
 			\> Insegnamento:\>  Ingegneria del Software  \\
 			\> Anno:  \> 2023/2024
 		\end{tabbing}
@@ -145,8 +147,20 @@
         
         Realizzare un class diagram UML che descriva la struttura della soluzione e fornire un'implementazione in Java che ne soddisfi i requisiti.
     \end{Exercise}
-
+    
+    \begin{Exercise}\label{composite:ex2} 
+    Si vuole realizzare un \textbf{FileSystem} composto da:
+        \begin{itemize}
+            \item \textbf{Cartelle}: aggregano file o altre cartelle;
+            \item \textbf{File}: corrisponde ad un contenuto preciso del FileSystem.
+        \end{itemize}
+		Realizzare un class diagram UML che descriva la struttura della soluzione e 
+		fornirne un'implementazione in Java.
+    \end{Exercise}
     %% END COMPOSITE SECTION
+    
+    
+    
     \subsection{Iterator pattern}
     \begin{Exercise}
     \small\textbf{[Richiede \hyperlink{composite:ex1}{\ref{composite:ex1}}]} \\
@@ -215,7 +229,8 @@
 
         Scrivere un'implementazione in Java del sistema descritto fornendone una descrizione tramite class diagram UML.
     \end{Exercise}
-    \begin{Exercise}
+    
+    \begin{Exercise}[label=command-ex2]
         Si consideri la seguente interfaccia Java che descrive una struttura dati \textit{queue}:
         \begin{lstlisting}
             public interface Queue<T> {
@@ -228,8 +243,24 @@
         L'interfaccia in questione deve essere migliorata attraverso l'interfaccia \textbf{UndoQueue}, aggiungendo la funzionalità di undo per l'ultima modifica effettuata. Fornire un implementazione della suddetta usando la classe \textbf{SimpleQueue}, che offre un costruttore senza paramentri per la creazione di una coda vuota.
         Descrivere la struttura mediante un class diagram UML e fornirne un implementazione in Java. 
     \end{Exercise}
-
+    
+    \begin{Exercise}[label=command:ex3]
+    \small\textbf{[Richiede \hyperlink{composite:ex2}{\ref{composite:ex2}}]} \\
+    Si vuole realizzare un \textbf{FileManager} che permette all'utente di interagire con il \textbf{FileSystem(esercizio \hyperlink{composite:ex2}{\ref{composite:ex2}})}:
+        \begin{itemize}
+            \item \textbf{Cercare} all'interno del FileSystem: la ricerca avviene mediante nome del file desiderato a partire dalla posizione corrente;
+            \item \textbf{Cancellare un file}: la cancellazione avviene nella posizione corrente utilizzando il nome del file;
+            \item \textbf{Cancellare una cartella}: la cancellazione avviene nella posizione corrente utilizzando il nome della cartella, la cancellazione deve essere ricorsiva (bisogna eliminare anche i file contenuti all'interno);
+            \item \textbf{Creare un file}: la creazione permette di creare un file dato il nome;
+            \item \textbf{Creare una cartella}: la creazione permette di creare una cartella dato il nome.
+            \item \textbf{Annullare l'ultima modifica}: 
+        \end{itemize}
+        
+    \end{Exercise}
     %% END COMMAND SECTION
+    
+    
+    
     \subsection{Visitor pattern}\label{pattern:visitors}
     \begin{Exercise}
     \small\textbf{[Richiede \hyperlink{composite:ex1}{\ref{composite:ex1}}]} \\
@@ -239,9 +270,11 @@
         \item stampa del nodo specializzata per tipo, nel formato \texttt{[NodeType] NodeName}
     \end{itemize}
     Non è possibile modificare il codice originario, se non aggiungendo il metodo \texttt{accept(Visitor v)} alle classi di tipo \texttt{Node}.
-    \end{Exercise}
-    
+    \end{Exercise}    
     %% END VISITOR SECTION
+    
+    
+    
     \subsection{Abstract factory pattern}\label{pattern:abstractFactory}
     \begin{Exercise}
     \small\textbf{[Richiede l'\hyperref[composite:ex1]{esercizio \ref{composite:ex1}}]}\\
@@ -256,10 +289,10 @@
     }
     \end{lstlisting}
     \end{Exercise}
-    
-    
-    
     %% END ABSTRACT FACTORY
+    
+    
+    
     \subsection{Proxy pattern}\label{pattern:proxy}
     \begin{Exercise}
     \small\textbf{[Richiede l'\hyperref[command:ex1]{esercizio \ref{command:ex1}}]}\\
@@ -304,6 +337,8 @@ design pattern visitor per interpretare uno script del linguaggio $\mathcal{L}_{
     
     \end{Exercise}
 
+
+\clearpage
 \section{Tableaux}
     \subsection{Tableaux proposizionali}
     \begin{Exercise}
@@ -314,16 +349,26 @@ design pattern visitor per interpretare uno script del linguaggio $\mathcal{L}_{
             \label{fig:esTableaux1}
         \end{figure}
     \end{Exercise}
+       
+    
     
     \subsection{Tableaux LTL}
     \begin{Exercise}
     Svolgere i seguenti tableaux LTL:
-        \begin{figure}[h!]
-            \begin{itemize}
+        \begin{enumerate}
+        \begin{minipage}{0.49\linewidth}
             \item \(p \land GF \neg p\)
             \item $\neg p \land X \neg p \land (q \cup p)$
-        \end{itemize}
-        \end{figure}
+            \item \(G p \land F \neg q\)
+            \item \(G F p\)
+        \end{minipage}
+        \begin{minipage}{0.49\linewidth}
+            \item \(p \lor G q\)
+            \item \(G F(p \land X \neg p)\)
+            \item \(G \neg p \land q U p\)
+            \item $p \lor F(q \lor \neg p)$
+        \end{minipage}
+        \end{enumerate}
     \end{Exercise}
     
 \end{document}

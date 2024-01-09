@@ -37,11 +37,14 @@ public class C2Impl implements C2 {
 			};
 		}
 		
-		for (int i=0; i<c.length; ++i) {
-			new Thread(runnables[i]).start();
+		synchronized (mutexC2) {
+			for (int i=0; i<c.length; ++i) {
+				new Thread(runnables[i]).start();
+			}
+			
+			System.out.println("m returning");
+			return result;
 		}
-		
-		return result;
 	}
 	
 	
@@ -61,6 +64,7 @@ public class C2Impl implements C2 {
 					done = true;					
 				}
 				
+				System.out.println("k called");
 				mutexC2.notifyAll();
 			}
 		}

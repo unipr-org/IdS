@@ -9,8 +9,12 @@ import it.unipr.informatica.aspects.model.SharedAspect;
 public class SharedAspectTest {
 
 	private void go() {
+		Queue<String> queueShared = new LinkedList<>();
+		queueShared.add("pippo");
 		
-		Queue<String> queueShared = SharedAspect.attach(new LinkedList<>());
+		queueShared = SharedAspect.attach(queueShared);
+		queueShared.add("pluto");
+		
 		Queue<String> queue = LoggingAspect.attach(queueShared);
 		
 		for(int i = 0; i < 10; ++i) {

@@ -82,4 +82,4 @@ Buono studio!
 <a href="https://github.com/merendamattia/IdS/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=merendamattia/IdS" />
 </a>
-Made with [contrib.rocks](https://contrib.rocks).
+

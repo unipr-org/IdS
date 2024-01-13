@@ -145,7 +145,7 @@ I thread di un programma Java:
 - Hanno un provato thread-local storage.
 - Condividono l'oggetto heap.
 
-La java memory model descrive come i thread accedono ai loro tre tipi di memoria, e descrive come il contenuto delle memorie è effettivamente salvato nella gerarchia di memoria del sistema.
+La Java Memory Model descrive come i thread accedono ai loro tre tipi di memoria, e descrive come il contenuto delle memorie è effettivamente salvato nella gerarchia di memoria del sistema.
 
 > JVM decide come eseguire i thread sui vari core.
 > Tutti gli oggetti risiedono nell'heap. Solo i tipi primitivi stanno nello stack.

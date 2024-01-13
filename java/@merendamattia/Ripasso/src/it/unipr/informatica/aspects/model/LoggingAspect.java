@@ -22,28 +22,22 @@ public class LoggingAspect {
 		return (T) proxy;
 	}
 	
+	private static void log(String msg) {			
+		Timestamp now = Timestamp.from(Instant.now());
+		synchronized (LoggingAspect.class) {
+			System.out.printf("[%s\t%s] %s\n", now, Thread.currentThread().getName(), msg);
+		}
+	}
+	
 	private static class InnerInvocationHandler implements InvocationHandler {
 		private Object target;
-		private Object mutex;
-		private Thread currentThread;
 		
 		public InnerInvocationHandler(Object target){
 			this.target = target;
-			this.mutex = new Object();
-			this.currentThread = null;
-		}
-		
-		private void log(String msg) {			
-			synchronized (mutex) {
-				Timestamp now = Timestamp.from(Instant.now());
-				System.out.printf("[%s\t%s] %s\n", now, currentThread.getName(), msg);
-			}
 		}
 		
 		@Override
-		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-			currentThread = Thread.currentThread();		
-			
+		public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {			
 			Object result = null;
 			
 			try {

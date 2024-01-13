@@ -74,7 +74,7 @@ public class ActiveAspect {
         public void shutdown() {
             handler.shutdown();
         }
-    }
+    } // ! InnerActiveHandler
 
     // Classe interna che funge da InvocationHandler per il proxy
     private static class InnerInvocationHandler implements InvocationHandler {
@@ -126,7 +126,7 @@ public class ActiveAspect {
                 
                 return executorService.submit(() -> invokeMethod(passiveMethod, arguments));
             }
-        }
+        } 
 
         // Invoca il metodo passivo sull'oggetto target
         private Object invokeMethod(Method passiveMethod, Object[] arguments) throws Exception {
@@ -145,5 +145,5 @@ public class ActiveAspect {
                 throw exception;
             }
         }
-    }
-}
+    } // ! InnerInvocationHandler
+} // ! ActiveAspect

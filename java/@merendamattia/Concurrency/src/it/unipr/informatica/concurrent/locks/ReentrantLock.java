@@ -111,10 +111,6 @@ public class ReentrantLock implements Lock {
 				condition.notifyAll();
 			}
 		}
-	}
-	
-	
-	
-	
-	
-}
+	} // ! InnerCondition
+
+} // ! ReentrantLock

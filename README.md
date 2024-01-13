@@ -75,3 +75,11 @@ Buono studio!
 - [Repository Ingegneria del Software DennisTurco](https://github.com/DennisTurco/Ingegneria-del-Software)
 - [Design Patterns GoF di netpawn](https://github.com/netpawn/GoF_DPs_Java_Examples)
 - [Concorrenza in Java di netpawn](https://github.com/netpawn/ISW_Java_Concurrency)
+
+---
+
+## Contributors
+<a href="https://github.com/merendamattia/IdS/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=merendamattia/IdS" />
+</a>
+

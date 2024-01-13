@@ -1,0 +1,3595 @@
+#LyX file created by tex2lyx 2.3
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin /home/manuel/Documenti/UNI/23_24/git/IdS/esercizi/
+\textclass article
+\begin_preamble
+% \usepackage[condensed,math]{kurier}
+% \usepackage[T1]{fontenc}
+\usepackage{svg}
+\usepackage{tikz}
+\usepackage{stanli}
+\usepackage{afterpage}
+\usepackage{multirow}
+\usepackage{pgfpages}
+\usepackage{svg}
+\usepackage{rotating}
+
+
+\usepackage[lastexercise,answerdelayed]{exercise}
+\renewcounter{Exercise}[subsection]
+\counterwithin{Exercise}{subsection}
+\renewcommand{\ExerciseName}{Esercizio}
+
+\usepackage{listings}
+
+
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame=tb,
+  language=Java,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny,
+  keywordstyle=,
+  commentstyle=\color{dkgreen},
+  stringstyle=\color{mauve},
+  breaklines=true,
+  breakatwhitespace=true,
+  tabsize=4
+}
+
+% Language setting
+% Replace `english' with e.g. `spanish' to change the document language
+\usepackage[italian]{babel}
+
+
+% Set page size and margins
+% Replace `letterpaper' with `a4paper' for UK/EU standard size
+
+
+% Useful packages
+
+
+\graphicspath{./images}
+
+
+\title{}
+\author{}
+
+
+
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language italian
+\language_package default
+\inputencoding auto
+\fontencoding default
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize 12
+\spacing single
+\use_hyperref true
+\pdf_bookmarks 0
+\pdf_bookmarksnumbered 0
+\pdf_bookmarksopen 0
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks 0
+\pdf_pdfborder 0
+\pdf_colorlinks 1
+\pdf_backref section
+\pdf_pdfusetitle 0
+\pdf_quoted_options "allcolors=blue"
+\papersize a4paper
+\use_geometry true
+\use_package amsmath 2
+\use_package amssymb 0
+\use_package cancel 0
+\use_package esint 1
+\use_package mathdots 0
+\use_package mathtools 0
+\use_package mhchem 0
+\use_package stackrel 0
+\use_package stmaryrd 0
+\use_package undertilde 0
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date true
+\justification true
+\use_refstyle 0
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style french
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset FormulaMacro
+\newcommand{\subf}[2]{%
+		{\small\begin{tabular}[t]{@{}c@{}}
+				#1\\#2
+		\end{tabular}}%
+	}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{titlepage}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{center}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset VSpace 3cm*
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+Huge
+\end_layout
+
+\end_inset
+
+ 
+\series bold
+Esercizi di Ingegneria del software
+\series default
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace 0.3cm
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+Huge
+\end_layout
+
+\end_inset
+
+ 2023/2024
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace 0.8cm
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+large
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%INSTRUCTED BY: MRS. A.A.S.KAUSHLYA
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace 0.5cm
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+LARGE
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace 1.5cm
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\series bold
+
+\series default
+ 
+\begin_inset Graphics 
+	filename images/uniprLogo.jpg
+	width 40text%
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace vfill
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace 0.8cm
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+Large
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{center}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+Large
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{tabbing}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset space \hspace*{}
+\length 1em
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+=
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset space \hspace*{}
+\length 8em
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+=
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+kill
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+% set the tabbings
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+>
+\end_layout
+
+\end_inset
+
+ Autori: 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+>
+\end_layout
+
+\end_inset
+
+ 
+\series bold
+Di Agostino Manuel
+\series default
+, 
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+>
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+>
+\end_layout
+
+\end_inset
+
+
+\series bold
+Colli Simone
+\series default
+, 
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+>
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+>
+\end_layout
+
+\end_inset
+
+
+\series bold
+Merenda Saverio Mattia
+\series default
+ 
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+>
+\end_layout
+
+\end_inset
+
+ Insegnamento:
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+>
+\end_layout
+
+\end_inset
+
+ Ingegneria del Software 
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+>
+\end_layout
+
+\end_inset
+
+ Anno: 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+>
+\end_layout
+
+\end_inset
+
+ 2023/2024 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{tabbing}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{titlepage}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+
+\lang italian
+Design patterns
+\end_layout
+
+\begin_layout Subsection
+
+\lang italian
+Composite pattern
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{Exercise}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "composite:ex1"
+
+\end_inset
+
+ Si vuole modellare la mappa di un videogioco 
+\shape italic
+open-world
+\shape default
+ utilizzando una struttura dati ad albero; a seconda del livello di zoom dell'interfaccia Ã¨ infatti possibile osservare una versione piÃ¹ dettagliata della mappa, corrispondente ad un particolare nodo dell'albero. Esistono quattro categorie di nodi: 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{itemize}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+foglia
+\series default
+: non ulteriormente espandibile, corrisponde ad un preciso punto fisso sulla mappa, importante per la logica del gioco; 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+distretto
+\series default
+: identifica zone piÃ¹ ampie, ad esempio un quartiere cittadino formato dalla composizione di nodi foglie; 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+regione
+\series default
+: aggrega piÃ¹ distretti contigui; 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+stato
+\series default
+: il livello piÃ¹ alto nella gerarchia considerata. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{itemize}
+\end_layout
+
+\end_inset
+
+ Ad ogni nodo sono inoltre sempre associati un 
+\shape italic
+nome
+\shape default
+ e una 
+\shape italic
+tipologia
+\shape default
+ conforme alla seguente interfaccia: 
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+public enum NodeType {
+\end_layout
+
+\begin_layout Plain Layout
+        LEAF,
+\end_layout
+
+\begin_layout Plain Layout
+        DISTRICT,
+\end_layout
+
+\begin_layout Plain Layout
+        REGION,
+\end_layout
+
+\begin_layout Plain Layout
+        COUNTRY
+\end_layout
+
+\begin_layout Plain Layout
+    }
+\end_layout
+
+\begin_layout Plain Layout
+        
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+Realizzare un class diagram UML che descriva la struttura della soluzione e fornire un'implementazione in Java che ne soddisfi i requisiti. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{Exercise}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{Exercise}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "composite:ex2"
+
+\end_inset
+
+ Si vuole realizzare un 
+\series bold
+FileSystem
+\series default
+ composto da: 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{itemize}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+Cartelle
+\series default
+: aggregano file o altre cartelle; 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+File
+\series default
+: corrisponde ad un contenuto preciso del FileSystem. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{itemize}
+\end_layout
+
+\end_inset
+
+ Realizzare un class diagram UML che descriva la struttura della soluzione e fornirne un'implementazione in Java. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{Exercise}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%% END COMPOSITE SECTION
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+\lang italian
+Iterator pattern
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{Exercise}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+small
+\end_layout
+
+\end_inset
+
+
+\series bold
+[Richiede 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+hyperlink{composite:ex1}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "composite:ex1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+]
+\series default
+ 
+\begin_inset Newline newline
+\end_inset
+
+ Ã necessario implementare una serie di attraversamenti della struttura dati descritta nell'esercizio 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+hyperlink{composite:ex1}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "composite:ex1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+; in particolare si vogliono fornire degli 
+\shape italic
+Iteratori
+\shape default
+ che, dato un 
+\shape italic
+Nodo
+\shape default
+, permettano di consultare gli elementi del sottoalbero da esso identificato secondo un determinato criterio. Tutti gli iteratori in questione devono essere conformi alla seguente interfaccia: 
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+public interface Iterator {
+\end_layout
+
+\begin_layout Plain Layout
+        public Object first();
+\end_layout
+
+\begin_layout Plain Layout
+        public Object next();
+\end_layout
+
+\begin_layout Plain Layout
+        public Object currentItem();
+\end_layout
+
+\begin_layout Plain Layout
+        public boolean isDone();
+\end_layout
+
+\begin_layout Plain Layout
+    }
+\end_layout
+
+\begin_layout Plain Layout
+        
+\end_layout
+
+\end_inset
+
+Si richiede l'implementazione dei seguenti iteratori: 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{itemize}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+visita in 
+\series bold
+profonditÃ 
+\series default
+ 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+visita in 
+\series bold
+ampiezza
+\series default
+ 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+visita dei soli nodi del 
+\series bold
+tipo specificato
+\series default
+ in fase di costruzione dell'iteratore (
+\family typewriter
+NodeType
+\family default
+) 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+visita in 
+\series bold
+ampiezza
+\series default
+ per livelli, a partire da un determinato nodo e 
+\series bold
+con una profonditÃ  massima
+\series default
+, utile al motore di rendering della mappa 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{itemize}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{Exercise}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%% END ITERATOR SECTION
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+\lang italian
+Decorator pattern
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{Exercise}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+
+origin=
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+Ispirato ad un esempio del libro GoF
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\end_inset
+
+ I flussi sono un'astrazione fondamentale nella maggior parte delle strutture di I/O. Un flusso puÃ² fornire un'interfaccia per convertire oggetti in una sequenza di byte o caratteri. Questo ci consente di trascrivere un oggetto su un file o su una stringa in memoria per il recupero successivo. Un modo diretto per farlo Ã¨ definire una classe astratta 
+\family typewriter
+Stream
+\family default
+ con le sottoclassi 
+\family typewriter
+MemoryStream
+\family default
+ e 
+\family typewriter
+FileStream
+\family default
+. Il corpo della classe 
+\family typewriter
+Stream
+\family default
+ Ã¨ il seguente: 
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+public abstract class Stream {
+\end_layout
+
+\begin_layout Plain Layout
+        // private data section
+\end_layout
+
+\begin_layout Plain Layout
+        
+\end_layout
+
+\begin_layout Plain Layout
+        public void PutInt() {
+\end_layout
+
+\begin_layout Plain Layout
+            // impl
+\end_layout
+
+\begin_layout Plain Layout
+        }
+\end_layout
+
+\begin_layout Plain Layout
+        public void PutString() {
+\end_layout
+
+\begin_layout Plain Layout
+            // impl
+\end_layout
+
+\begin_layout Plain Layout
+        }
+\end_layout
+
+\begin_layout Plain Layout
+        public abstract void HandleBufferFull();
+\end_layout
+
+\begin_layout Plain Layout
+    }
+\end_layout
+
+\begin_layout Plain Layout
+        
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+Le classi 
+\family typewriter
+MemoryStream
+\family default
+ e 
+\family typewriter
+FileStream
+\family default
+ ridefiniscono il metodo 
+\family typewriter
+HandleBufferFull()
+\family default
+ per scrivere direttamente sulla memoria RAM e rispettivamente su file.
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+Supponiamo che la classe astratta 
+\family typewriter
+Stream
+\family default
+ manipoli il buffer di caratteri del flusso tramite codifica 
+\family typewriter
+UTF-8
+\family default
+; si aggiunga la funzionalitÃ  di conversione di codifica del testo in 
+\family typewriter
+ASCII
+\family default
+ standard a 
+\family typewriter
+7 bit
+\family default
+ senza intaccare le classi/interfacce sopra citate, utilizzando dunque il 
+\shape italic
+Decorator pattern
+\shape default
+.
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+Fornire anche un class diagram UML della soluzione. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{Exercise}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%% END DECORATOR SECTION
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+\lang italian
+Command pattern
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset CommandInset label
+LatexCommand label
+name "patter:command"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{Exercise}
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "command:ex1"
+
+\end_inset
+
+ Si vuole realizzare la logica applicativa di un editor di testo che permetta di manipolare file testuali in codifica 
+\family typewriter
+ASCII
+\family default
+ standard a 
+\family typewriter
+7 bit
+\family default
+. Ã previsto che l'interfaccia 
+\family typewriter
+EditableFile
+\family default
+ esponga una serie di funzionalitÃ : 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{itemize}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+creazione
+\series default
+ del file, a partire da un nome scelto dall'utente 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+eliminazione
+\series default
+ del file 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+lettura
+\series default
+ completa del file 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+lettura
+\series default
+ parziale del file, specificando punto di inizio e fine (numeri riga) 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+concatenamento
+\series default
+ di testo alla fine del file 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+modifica
+\series default
+ parziale del file, specificando punto di inizio e fine (numeri riga) 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+ridenominazione
+\series default
+ del file 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+salvataggio
+\series default
+ del file 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{itemize}
+\end_layout
+
+\end_inset
+
+ Bisogna inoltre prevedere la possibilitÃ  di annullare fino a 
+\shape italic
+256 modifiche
+\shape default
+ effettuate dall'utente.
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+Scrivere un'implementazione in Java del sistema descritto fornendone una descrizione tramite class diagram UML. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{Exercise}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{Exercise}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+
+label=command-ex2
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\end_inset
+
+ Si consideri la seguente interfaccia Java che descrive una struttura dati 
+\shape italic
+queue
+\shape default
+: 
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+public interface Queue<T> {
+\end_layout
+
+\begin_layout Plain Layout
+                public void enqueue(T elem);
+\end_layout
+
+\begin_layout Plain Layout
+                public T dequeue();
+\end_layout
+
+\begin_layout Plain Layout
+                public void clear();
+\end_layout
+
+\begin_layout Plain Layout
+                public boolean isEmpty();
+\end_layout
+
+\begin_layout Plain Layout
+            }
+\end_layout
+
+\begin_layout Plain Layout
+        
+\end_layout
+
+\end_inset
+
+L'interfaccia in questione deve essere migliorata attraverso l'interfaccia 
+\series bold
+UndoQueue
+\series default
+, aggiungendo la funzionalitÃ  di undo per l'ultima modifica effettuata. Fornire un implementazione della suddetta usando la classe 
+\series bold
+SimpleQueue
+\series default
+, che offre un costruttore senza paramentri per la creazione di una coda vuota. Descrivere la struttura mediante un class diagram UML e fornirne un implementazione in Java. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{Exercise}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{Exercise}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+[
+\end_layout
+
+\end_inset
+
+label=command:ex3
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+]
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+small
+\end_layout
+
+\end_inset
+
+
+\series bold
+[Richiede 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+hyperlink{composite:ex2}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "composite:ex2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+]
+\series default
+ 
+\begin_inset Newline newline
+\end_inset
+
+ Si vuole realizzare un 
+\series bold
+FileManager
+\series default
+ che permette all'utente di interagire con il 
+\series bold
+FileSystem(esercizio 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+hyperlink{composite:ex2}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "composite:ex2"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+)
+\series default
+: 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{itemize}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+Cercare
+\series default
+ all'interno del FileSystem: la ricerca avviene mediante nome del file desiderato a partire dalla posizione corrente; 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+Cancellare un file
+\series default
+: la cancellazione avviene nella posizione corrente utilizzando il nome del file; 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+Cancellare una cartella
+\series default
+: la cancellazione avviene nella posizione corrente utilizzando il nome della cartella, la cancellazione deve essere ricorsiva (bisogna eliminare anche i file contenuti all'interno); 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+Creare un file
+\series default
+: la creazione permette di creare un file dato il nome; 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+Creare una cartella
+\series default
+: la creazione permette di creare una cartella dato il nome. 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\series bold
+Annullare l'ultima modifica
+\series default
+: 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{itemize}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{Exercise}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%% END COMMAND SECTION
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+\lang italian
+Visitor pattern
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset CommandInset label
+LatexCommand label
+name "pattern:visitors"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{Exercise}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+small
+\end_layout
+
+\end_inset
+
+
+\series bold
+[Richiede 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+hyperlink{composite:ex1}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "composite:ex1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+]
+\series default
+ 
+\begin_inset Newline newline
+\end_inset
+
+ A partire dalla struttura dati implementata in 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+hyperlink{composite:ex1}{
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "composite:ex1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ Ã¨ richiesta l'aggiunta delle seguenti azioni: 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{itemize}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+possibilitÃ  di creare elenchi dei nodi suddivisi per categoria (
+\family typewriter
+LEAF
+\family default
+, 
+\family typewriter
+DISTRICT
+\family default
+, 
+\family typewriter
+REGION
+\family default
+, 
+\family typewriter
+COUNTRY
+\family default
+) 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+stampa del nodo specializzata per tipo, nel formato 
+\family typewriter
+[NodeType] NodeName
+\family default
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{itemize}
+\end_layout
+
+\end_inset
+
+ Non Ã¨ possibile modificare il codice originario, se non aggiungendo il metodo 
+\family typewriter
+accept(Visitor v)
+\family default
+ alle classi di tipo 
+\family typewriter
+Node
+\family default
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{Exercise}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%% END VISITOR SECTION
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+\lang italian
+Abstract factory pattern
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset CommandInset label
+LatexCommand label
+name "pattern:abstractFactory"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{Exercise}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+small
+\end_layout
+
+\end_inset
+
+
+\series bold
+[Richiede l'
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+hyperref{[}{c}{
+\end_layout
+
+\end_inset
+
+o
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+mposite:ex1]
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+esercizio 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "composite:ex1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+]
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+ Sulla struttura dati implementata in 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+hyperref{[}{c}{
+\end_layout
+
+\end_inset
+
+o
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+mposite:ex1]
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "composite:ex1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ Ã¨ richiesto di delegare la creazione dei vari nodi (
+\family typewriter
+LEAF
+\family default
+, 
+\family typewriter
+DISTRICT
+\family default
+, 
+\family typewriter
+REGION
+\family default
+, 
+\family typewriter
+COUNTRY
+\family default
+) ad un'abstract factory. Ipotizzando che i nodi implementino un interfaccia Component (o estendano una classe base con lo stesso nome), implementare un 
+\series bold
+ConcreteComponetFactory
+\series default
+ che deve implementare la seguente interfaccia: 
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+public interface ComponentAbstractFactory {
+\end_layout
+
+\begin_layout Plain Layout
+        public Component createLeaf();
+\end_layout
+
+\begin_layout Plain Layout
+        public Component createDistrict();
+\end_layout
+
+\begin_layout Plain Layout
+        public Component createRegion();
+\end_layout
+
+\begin_layout Plain Layout
+        public Component createCountry();
+\end_layout
+
+\begin_layout Plain Layout
+    }
+\end_layout
+
+\begin_layout Plain Layout
+    
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{Exercise}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%% END ABSTRACT FACTORY
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+\lang italian
+Proxy pattern
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset CommandInset label
+LatexCommand label
+name "pattern:proxy"
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{Exercise}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+small
+\end_layout
+
+\end_inset
+
+
+\series bold
+[Richiede l'
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+hyperref{[}{c}{
+\end_layout
+
+\end_inset
+
+o
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+mmand:ex1]
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+esercizio 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "command:ex1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+]
+\series default
+
+\begin_inset Newline newline
+\end_inset
+
+ A partire dalla logica applicativa dell'editor di testo in 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+hyperref{[}{c}{
+\end_layout
+
+\end_inset
+
+o
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+mmand:ex1]
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+{
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "command:ex1"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+}
+\end_layout
+
+\end_inset
+
+ Ã¨ richiesto di ottimizzare l'utilizzo limitando gli accessi in lettura e scrittura sul file utilizzando un proxy. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{Exercise}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+%% END PROXY
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+\lang italian
+Interpreter pattern
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset CommandInset label
+LatexCommand label
+name "pattern:interpreter"
+
+\end_inset
+
+ 
+\begin_inset FormulaMacro
+\newcommand{\alt}[0]{{\;|\;}}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{Exercise}
+\end_layout
+
+\end_inset
+
+ Si prenda in considerazione la seguente grammatica BNF:
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula \begin{align*}
+	Formula \:\longrightarrow\: &(Formula) \alt \,\texttt{not}\, Fomula \alt\\
+			 & Formula \,\texttt{and}\, Formula \alt Formula \,\texttt{or}\, Formula \alt\\
+			 & Formula \,\texttt{->}\, Formula \alt Formula \,\texttt{<->}\, Formula \alt\\
+			 & Atom \\
+	Atom \:\longrightarrow\: &\text{\{an alphanumeric string, except \texttt{and}, \texttt{or}, \texttt{not}\}} \alt \bot \alt \top
+	\end{align*}
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+modellante il linguaggio 
+\begin_inset Formula $\mathcal{L}_{lp}$
+\end_inset
+
+ della 
+\shape italic
+logica proposizionale
+\shape default
+.
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+Nellâipotesi di disporre di un modulo 
+\begin_inset Formula $\mathcal{P}_{lp}$
+\end_inset
+
+ in grado di costruire una struttura ad oggetti partendo dal testo di uno script (analizzatore lessicale, analizzatore sintattico e analizzatore semantico), rispondere alle seguenti domande eventualmente utilizzando i package 
+\family typewriter
+java.lang
+\family default
+, 
+\family typewriter
+java.util
+\family default
+ e 
+\family typewriter
+java.io
+\family default
+:
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{enumerate}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "bnf:lp"
+
+\end_inset
+
+ Scrivere le interfacce Java del package 
+\family typewriter
+it.unipr.informatica.exercise.l8.model
+\family default
+ necessarie a 
+\begin_inset Formula $\mathcal{P}_{lp}$
+\end_inset
+
+ per descrivere uno script scritto in L8 sapendo giÃ  che verrÃ  utilizzato il design pattern visitor con queste interfacce.
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+Scrivere una classe Java 
+\family typewriter
+it.unipr.informatica.exercise.lp.LPInterpreter
+\family default
+ che utilizzi il design pattern visitor per interpretare uno script del linguaggio 
+\begin_inset Formula $\mathcal{L}_{lp}$
+\end_inset
+
+ ricevuto mediante oggetti che implementano le interfacce realizzate al punto 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "bnf:lp"
+plural "false"
+caps "false"
+noprefix "false"
+
+\end_inset
+
+. 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{enumerate}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+par 
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{Exercise}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset Newpage clearpage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+
+\lang italian
+Tableaux
+\end_layout
+
+\begin_layout Subsection
+
+\lang italian
+Tableaux proposizionali
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{Exercise}
+\end_layout
+
+\end_inset
+
+ Svolgere i seguenti tableaux: 
+\begin_inset Float figure
+placement h!
+wide false
+sideways false
+status open
+
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+centering
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Graphics 
+	filename images/esTableaux.jpeg
+	width 60text%
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:esTableaux1"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{Exercise}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+
+\lang italian
+Tableaux LTL
+\end_layout
+
+\begin_layout Standard
+
+\lang italian
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{Exercise}
+\end_layout
+
+\end_inset
+
+ Svolgere i seguenti tableaux LTL: 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+begin{enumerate}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset Box Frameless
+position "c"
+hor_pos "l"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "49line%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+
+\begin_layout Plain Layout
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula \(p \land GF \neg p\)
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $\neg p \land X \neg p \land (q \cup p)$
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula \(G p \land F \neg q\)
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula \(G F p\)
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Box Frameless
+position "c"
+hor_pos "l"
+has_inner_box 1
+inner_pos "c"
+use_parbox 0
+use_makebox 0
+width "49line%"
+special "none"
+height "1in"
+height_special "totalheight"
+thickness "0.4pt"
+separation "3pt"
+shadowsize "4pt"
+framecolor "black"
+backgroundcolor "none"
+status open
+
+
+\begin_layout Plain Layout
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula \(p \lor G q\)
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula \(G F(p \land X \neg p)\)
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula \(G \neg p \land q U p\)
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Plain Layout
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+item 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $p \lor F(q \lor \neg p)$
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{enumerate}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+\backslash
+end{Exercise}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

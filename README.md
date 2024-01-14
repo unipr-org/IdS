@@ -60,10 +60,8 @@ Il titolo della pull request sarà: `"@{tuo_username}: Appunti lezione 26-02-202
 
 
 ## Link utili
-- [Repository Ingegneria del Software DennisTurco](https://github.com/DennisTurco/Ingegneria-del-Software)
 - [Design Patterns GoF di netpawn](https://github.com/netpawn/GoF_DPs_Java_Examples)
 - [Concorrenza in Java di netpawn](https://github.com/netpawn/ISW_Java_Concurrency)
-- Altri appunti: _[merendamattia.com/uni](https://www.merendamattia.com/uni.html)_
 
 
 ## Contributors
